@@ -1,1 +1,3 @@
-# my_site_with_code_igniter_framework
+# here is my first web site created with code iginter framework.
+
+CREATION IN PROGRESS........
