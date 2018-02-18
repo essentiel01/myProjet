@@ -1,0 +1,131 @@
+//font variables
+//default font
+$body-font: 'Open Sans', sans-serif;
+//all title font
+$title-font: 'Rajdhani', sans-serif;
+//h1 title font
+$h1-font: 'Shadows Into Light', cursive;
+
+html {
+	font-size: 62.5%;
+}
+* {
+	box-sizing: border-box;
+}
+img {
+	max-width: 100%;
+}
+ul {
+	padding: 0;
+}
+body {
+	font-family: $body-font;
+	font-size: 1.6rem;
+}
+
+// header
+header {
+	//background image of header
+	background: {
+		image: url("../images/journaux-pele-mele.jpg");
+		repeat: no-repeat;
+		size: cover;
+		position: center;
+	}
+	//top bar
+	.topBar {
+		background-color: #000000;
+		color: #ffffff;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 5px;
+	}
+	//social icons size
+	.socialIcons .fa {
+		font-size: 2rem;
+		margin: 0 1rem;
+	}
+	// suscribe and sign in buttons
+	.buttons > button {
+		margin: 0 1rem;
+	}
+	//live infos panel
+	.flashInfos {
+		background-color: red;
+		color: #fff;
+		p {
+			margin: 0;
+		}
+	}
+	.titleWrapper {
+		background-color: #907e7e;
+		color: #fff;
+		//h1 font-style
+		h1 {
+			font: {
+				family: $h1-font;
+				weight: bold;
+				size:5rem ;
+			}
+			margin-bottom: 0;
+		}
+		text-align: center;
+		//paragraph below h1
+		.subTitle {
+			font-style: italic;
+			margin-bottom: 0;
+		}
+	}
+	//nav
+	.navWrapper{
+		margin: auto;
+		text-align: center;
+		background-color: lightblue;
+		nav {
+			width: 70%;
+			display: inline-block;
+			vertical-align: middle;
+			//nav link
+			a {
+				font-family: $title-font;
+				font-size: 2rem;
+			}
+		}
+		//search form
+		.search {
+			display: inline-block;
+			width: 20%;
+			vertical-align: baseline;
+			//search submit button
+			.btn-search {
+				display: inline;
+			}
+			//search input
+			input {
+				display: inline;
+			}
+		}
+	}
+}
+
+/*main*/
+.mainWrapper {
+	display: inline-block;
+	width: 63%;
+	vertical-align: top;
+	margin: 0 1%;
+}
+/*aside*/
+.asideWrapper {
+	display: inline-block;
+	width: 33%;
+	vertical-align: top;
+	margin: 0 1%;
+}
+/*footer*/
+footer {
+	background-color: #907e7e;
+	color: #fff;
+	text-align: center;
+}
