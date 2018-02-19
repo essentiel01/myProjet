@@ -56,6 +56,8 @@ $route['culture/(:num)'] = 'culture/index/$1'; // navigation entre les pages de 
 $route['inscription/formulaire'] = 'userregister/index'; //formulaire d'inscription
 $route['inscription/succes'] = 'userregister/register';
 
+$route['connexion/formulaire'] = 'userslog/index';
+
 $route['culture/publication/(:num)/(:any)'] = 'culture/singleView/$1/$2'; // article seul
 $route['culture/chronique/(:num)/(:any)'] = 'culture/chronicView/$1/$2'; //chronic seul
 
@@ -63,4 +65,4 @@ $route['culture/chronique/(:num)/(:any)'] = 'culture/chronicView/$1/$2'; //chron
 // $route['culture/(:any)'] = 'culture?per_page=$1';
 // $route['news'] = 'news';
 // $route['(:any)'] = 'pages/view/$1';
-$route['default_controller'] = 'pages/view';
+$route['default_controller'] = 'welcome';
