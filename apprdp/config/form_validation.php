@@ -40,6 +40,18 @@ $config = array(
 			'label'	=> 'Pays',
 			'rules'	=> 'required'
 		)
+	),
+	'userslog/login' => array(
+		array(
+			'field' => 'email',
+			'label'	=> 'Email',
+			'rules'	=> 'required|valid_email'
+		),
+		array(
+			'field' => 'password',
+			'label'	=> 'Mot de passe',
+			'rules'	=> 'required|min_length[8]|max_length[20]'
+		),
 	)
 );
  ?>
