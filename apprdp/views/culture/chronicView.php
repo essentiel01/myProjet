@@ -6,9 +6,10 @@
 			<p>Rubrique: <?= $row->categoryName ?></p>
 			<h2><?= $row->chronicTitle ?></h2>
 			<p>Publié par:</p>
-			<p><img width="8%" src=<?= '/myProjet/webroot/images/usersAvatar/' . $row->writerAvatar ?> alt="avatar"></p>
+			<p><img width="8%" src=<?= base_url('webroot/images/usersAvatar/' . $row->writerAvatar) ?> alt="avatar"></p>
 			<p><?= $row->writerFirstName .' '. $row->writerLastName ?> le <?= $row->chronicDate ?></p>
 			<p><?= $row->chronicContent ?></p>
+			<!-- formulaire d'ajout de commentaire -->
 			<h3>Ajouter un commentaire</h3>
 			<form class="" action="" method="post">
 				<textarea name="name" rows="2" cols="60"></textarea>
