@@ -11,7 +11,7 @@
 						<p>Rubrique: <?= $row->categoryName ?></p>
 						<p>Titre: <?= $row->postTitle ?></p>
 						<p>Publié par:</p>
-						<img width="8%" src=<?= '/myProjet/webroot/images/usersAvatar/' . $row->writerAvatar ?>  alt="avatar">
+						<img width="8%" src=<?= base_url('webroot/images/usersAvatar/' . $row->writerAvatar) ?>  alt="avatar">
 						<p><?= $row->writerFirstName . " " . $row->writerLastName ?></p>
 						<p>le <strong><?= $row->postPublishingDate ?></strong></p>
 						<a href=<?= base_url('culture/publication/' . $row->postId . '/' . $row->postSlug); ?> class="btn btn-success btn-lg " role="button" aria-pressed="true">Lire</a>
@@ -31,10 +31,10 @@
 		<?php foreach ($chronic as $row) : ?>
 			<h2><span><?= $row->countryName ?>: </span><?= $row->chronicTitle ?></h2>
 			<p>Auteur</p>
-			<img src=<?= '/myProjet/webroot/images/usersAvatar/' . $row->writerAvatar ?> alt="avatar">
+			<img src=<?= base_url('webroot/images/usersAvatar/' . $row->writerAvatar) ?> alt="avatar">
 			<p><?= $row->writerFirstName. ' ' .$row->writerLastName ?></p>
 			<p>Le <?= $row->chronicDate ?></p>
-			<p><?= substr($row->chronicContent, 0, 500); ?><a href=<?= '/myProjet/culture/chronique/' . $row->chronicId . '/' . $row->chronicSlug ?>>...Lire plus</a></p>
+			<p><?= substr($row->chronicContent, 0, 500); ?><a href=<?= base_url('culture/chronique/' . $row->chronicId . '/' . $row->chronicSlug) ?>>...Lire plus</a></p>
 		<?php endforeach; ?>
 		</section>
 		<!-- /chronique -->
