@@ -39,7 +39,7 @@ class Users_model extends CI_Model {
 				$hashPassword = $this->db->query($sql)->row()->userPassword; // on récupère le mot de passe hashé déjà stocké dans la base de donnée lors de la création de compte.
 				// on vérifie ensuite avec la fonction password_verify() que le mot de passe saisi correspond au hash présent dans la base. si c'est le cas on retourne le résultat de la requête.
 				if (password_verify($params['password'], $hashPassword) == TRUE) {
-					return $this->db->query($sql)->result_array();
+					return $this->db->query($sql)->row();
 				} else { //on informe l'utilisateur que le mot de passe qu'il a saisi est incorrecte.
 					return 'Mot de passe incorrecte. Veuilez réessayer.';
 				}
