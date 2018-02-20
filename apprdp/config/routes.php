@@ -50,16 +50,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 
-$route['culture'] = 'culture/index'; // accueil de la page culture
-$route['culture/(:num)'] = 'culture/index/$1'; // navigation entre les pages de la rubrique culture
+// deconnexion
+$route['deconnexion'] = 'userslog/logout';
 
-$route['inscription/formulaire'] = 'userregister/index'; //formulaire d'inscription
+// accueil de la page culture
+$route['culture'] = 'culture/index';
+// navigation entre les pages de la rubrique culture
+$route['culture/(:num)'] = 'culture/index/$1';
+
+//formulaire d'inscription
+$route['inscription/formulaire'] = 'userregister/index';
+//page de succès pour création de compte
 $route['inscription/succes'] = 'userregister/register';
 
+// formulaire de connexion
 $route['connexion/formulaire'] = 'userslog/index';
+// affiche l'accueil de l'espace personnel après une connexion réussie
+$route['connexion-reussie'] = 'userslog/login';
 
-$route['culture/publication/(:num)/(:any)'] = 'culture/singleView/$1/$2'; // article seul
-$route['culture/chronique/(:num)/(:any)'] = 'culture/chronicView/$1/$2'; //chronic seul
+//affiche l'accueil de l'espace personnel depuis le user menu
+$route['espace-personnel'] = 'userslog/userDashboard';
+
+// article seul
+$route['culture/publication/(:num)/(:any)'] = 'culture/singleView/$1/$2';
+//chronic seul
+$route['culture/chronique/(:num)/(:any)'] = 'culture/chronicView/$1/$2';
 
 
 // $route['culture/(:any)'] = 'culture?per_page=$1';
