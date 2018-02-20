@@ -18,7 +18,8 @@ class Culture extends CI_Controller
 	 */
 	public function index()
 	{
-		$start = $this->uri->segment(2,0); // offset de la close limit
+		// offset de la close limit
+		$start = $this->uri->segment(2,0);
 
 		//param^tres de la requête permettant de retourner le
 		$queryParams1 = array(
@@ -31,13 +32,17 @@ class Culture extends CI_Controller
 		);
 
 		//configuration de la pagination avec bootstrap
-		$config['base_url'] =  base_url('culture/')  ; // url de base auquel va être ajouté le numero de la page
+		// url de base auquel va être ajouté le numero de la page
+		$config['base_url'] =  base_url('culture/')  ;
 
-		$config['total_rows'] = $this->posts_model->count_posts($queryParams1, 'posts'); // nombre total de de ligne retourné par la requête
+		// nombre total de de ligne retourné par la requête
+		$config['total_rows'] = $this->posts_model->count_posts($queryParams1, 'posts');
 
-		$config['per_page'] = 4; // nombre d'articles par page
+		// nombre d'articles par page
+		$config['per_page'] = 4;
 
-		$config['uri_segment'] = 2; // pour signifier que c'est le deuxième segment de l'url qui correspond au numéro dela page
+		// pour signifier que c'est le deuxième segment de l'url qui correspond au numéro dela page
+		$config['uri_segment'] = 2;
 
 		$config['full_tag_open'] = '<nav aria-label="..."><ul class="pagination pagination-lg">';
 		$config['full_tag_close'] = '</ul></nav>';
@@ -59,7 +64,8 @@ class Culture extends CI_Controller
 		$config['next_link'] = 'Suivant';
 		$config['next_tag_close'] = '</li>';
 
-		$this->pagination->initialize($config); // initialisation de la pagination
+		// initialisation de la pagination
+		$this->pagination->initialize($config);
 
 		// les paramêtres de la requ^te sql permetant de sélectionner les articles pour chaque catégorie
 		$queryParams2 = array(
@@ -111,15 +117,27 @@ class Culture extends CI_Controller
 
 		//les variables à transmettre à la vue
 		$data['postsList'] = array(
-			'headerTitle' => 'Rubrique ' . get_class(), // affiche dynamiquement la catégorie dans l'entête
+			// affiche dynamiquement la catégorie dans l'entête
+			'headerTitle' => 'Rubrique ' . get_class(),
 			'mainTitle'=> 'Nos dernières revues publiées sur la culture',
 			'result'=>  $this->posts_model->get_posts($queryParams2)->result(),
+			//extrait de la chronique à afficher sur l'index de la page
 			'chronic'=> $this->posts_model->get_chronic($queryParams3)->result()
 		);
 
 		//chargement des vues
-		$this->load->view('templates/header', $data['postsList']);
+		if (isset($_SESSION['userData'])){
+			//headerLogged
+			$this->load->view('templates/headerLogged', $data['postsList']);
+
+		} else {
+			// header
+			$this->load->view('templates/header', $data['postsList']);
+
+		}
+		//vue de l'index de la page
 		$this->load->view('culture/index', $data['postsList']);
+		//footer
 		$this->load->view('templates/footer');
 	}
 
@@ -129,7 +147,8 @@ class Culture extends CI_Controller
 	*/
 	public function singleView()
 	{
-		$uriSegment = explode('/', uri_string()); // decoupe l'url en segment sur la base du séparateur '/'
+		// decoupe l'url en segment sur la base du séparateur '/'
+		$uriSegment = explode('/', uri_string());
 		// les paramêtres de la requête sql permetant d'afficher un article tout seul
 		$queryParams = array(
 			'select' => 'postId, postTitle, postContent, postSource, countryName, categoryName, postPublishingDate, writerFirstName, writerLastName, writerAvatar',
@@ -153,13 +172,22 @@ class Culture extends CI_Controller
 
 		// variables à transmettre à la vue
 		$data['post'] = array(
-			'headerTitle' => $uriSegment[3] . ' / Rubrique ' . get_class(), //affiche dynamiquement le titre de la revue de presse dans l'entête.
+			//affiche dynamiquement le titre de la revue de presse dans l'entête.
+			'headerTitle' => $uriSegment[3] . ' / Rubrique ' . get_class(),
 			'post'=> $this->posts_model->get_single_post($queryParams)->result()
 		);
 
 		// chargement des vues
-		$this->load->view('templates/header', $data['post']);
+		if (isset($_SESSION['userData'])) {
+			//headerLogged
+			$this->load->view('templates/headerLogged', $data['post']);
+		} else {
+			//header
+			$this->load->view('templates/header', $data['post']);
+		}
+		//vue d'un article tout seul
 		$this->load->view('culture/singleView', $data['post']);
+		//footer
 		$this->load->view('templates/footer');
 	}
 
@@ -168,7 +196,8 @@ class Culture extends CI_Controller
 	*/
 	public function chronicView()
 	{
-		$uriSegment = explode('/', uri_string()); // decoupe l'url en segment sur la base du séparateur '/'
+		// decoupe l'url en segment sur la base du séparateur '/'
+		$uriSegment = explode('/', uri_string());
 
 		// les paramêtres de la requête sql permetant d'afficher une chronique toute seule
 		$queryParams = array(
@@ -194,12 +223,21 @@ class Culture extends CI_Controller
 
 		//variables à transmetre à la vue
 		$data['chronic'] = array(
-			'headerTitle' => $uriSegment[3] . ' / Rubrique ' . get_class(), //affiche dynamiquement le titre de la chronique dans l'entête.
+			//affiche dynamiquement le titre de la chronique dans l'entête.
+			'headerTitle' => $uriSegment[3] . ' / Rubrique ' . get_class(),
+			//texte intégrale de la chronique affichée à l'index de la page
 			'chronic'=> $this->posts_model->get_chronic($queryParams)->result()
 		);
 
 		//chargement des vues
-		$this->load->view('templates/header', $data['chronic']);
+		if (isset($_SESSION['userData'])) {
+			//headerLogged
+			$this->load->view('templates/headerLogged', $data['chronic']);
+		} else {
+			//header
+			$this->load->view('templates/header', $data['chronic']);
+		}
+		//vue de la chronique toute seule
 		$this->load->view('culture/chronicView', $data['chronic']);
 		$this->load->view('templates/footer');
 	}
