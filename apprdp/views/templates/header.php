@@ -69,7 +69,7 @@
 							<a class="nav-link" href="" >Sport</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="/myProjet/culture">Culture</a>
+							<a class="nav-link" href="<?= base_url('culture') ?>">Culture</a>
 						</li>
 					</ul>
 				</nav>
