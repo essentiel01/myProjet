@@ -1,5 +1,6 @@
 <div class="container">
 	<main>
+		<!-- formulaire de création de compte -->
 		<form class="registerForm" action=<?= base_url('inscription/succes') ?> method="post">
 			<div class="form-group row">
 				<label for="firstName" class="col-lg-2 col-sm-2 col-form-label">Prénom</label>
