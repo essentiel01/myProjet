@@ -24,12 +24,15 @@ class Favorites extends CI_Controller
 		if (isset($_SESSION['userData'])) {
 			//headerLogged
 			$this->load->view('templates/headerLogged', $data['favoris']);
+			//liste des favoris
+			$this->load->view('favorites/index', $data['favoris']);
 		} else {
 			//header
 			$this->load->view('templates/header', $data['favoris']);
+			//page d'erreur
+			show_error('Vous n\'êtes pas connecté. Pour accéder à vos favoris veuillez vous connecter à votre espace personnel. Merci', 500, 'Accès refusé');
 		}
-		//liste des favoris
-		$this->load->view('favorites/index', $data['favoris']);
+
 		//footer
 		$this->load->view('templates/footer');
 	}
@@ -58,22 +61,28 @@ class Favorites extends CI_Controller
 			'where' => array('userId' => $_SESSION['userData']->userId)
 		);
 
+
+
 		//données à envoyer à la vue
 		$data['favoris'] = array(
 			'headerTitle' => 'Favoris',
 			'mainTitle' => 'Ma sélection de revue de presse',
-			'favoritesList' => $this->posts_model->getFavorites('posts_favorites', $queryParams)->result()
+			'favoritesList' => $this->posts_model->getFavorites('posts_favorites', $queryParams)->result(),
+			'emptyFavoritesList' => 'Votre liste de favorisest vide'
 		);
 
+		//chargement des vues
 		if (isset($_SESSION['userData'])) {
 			//headerLogged
 			$this->load->view('templates/headerLogged', $data['favoris']);
+			//liste des favoris
+			$this->load->view('favorites/postsFavoritesView', $data['favoris']);
 		} else {
 			//header
 			$this->load->view('templates/header', $data['favoris']);
+			//page d'erreur
+			show_error('Vous n\'êtes pas connecté. Pour accéder à vos favoris veuillez vous connecter à votre espace personnel. Merci', 500, 'Accès refusé');
 		}
-		//liste des favoris
-		$this->load->view('favorites/postsFavoritesView', $data['favoris']);
 		//footer
 		$this->load->view('templates/footer');
 	}
@@ -91,6 +100,21 @@ class Favorites extends CI_Controller
 			);
 			//insertion des données dans la table
 			$this->posts_model->addFavorite('posts_favorites',  $dataToSave );
+	}
+
+	/**
+	 * Supprime une revue de la liste des favoris
+	 */
+	public function deletePost()
+	{
+		$dataToDelete = array(
+			'postId' => $_POST['postId'],
+			'userId' => $_SESSION['userData']->userId
+		);
+
+		$this->posts_model->deleteFavorite('posts_favorites', $dataToDelete);
+		//redirige sur la même page.
+		redirect('espace-personnel/mes-revues-de-presse-favoris');
 	}
 }
 
