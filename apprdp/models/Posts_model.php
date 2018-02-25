@@ -65,58 +65,58 @@ class Posts_model extends CI_Model {
 		/**
 		 * compte le nombre de lignes retourné par la requête
 		 * @param Array $params tableau associatif contenant les différentes clauses de la requête sql
-		 * @param String $tableName le nom de la table sur laquelle la requête est exécutée
+		 * @param String $table le nom de la table sur laquelle la requête est exécutée
 		 * @return Integer le nombre de résultat renvoyé par la requête
 		*/
-		public function count_posts(Array $params, String $tableName)
+		public function count_posts(Array $params, String $table)
 		{
 			$this->db->join($params['join1'], $params['on1'], $params['inner1']);
 			$this->db->where($params['where']);
 
-			return count($this->db->get($tableName)->result());
+			return count($this->db->get($table)->result());
 		}
 
 		/**
 		 * Insère un nouvel enregistrement dans une table
-		 * @param  String $tableName nom de la table
+		 * @param  String $table nom de la table
 		 * @param Array   $params tableau associatif contenant les données à enregistrer
 		 */
-		public function saveNew(String $tableName, Array $params)
+		public function saveNew(String $table, Array $params)
 		{
 			foreach ($params as $key => $value) {
 				$this->db->set($key, $value);
 			}
-			$this->db->insert($tableName);
+			$this->db->insert($table);
 		}
 
 		/**
 		 * Insère une revue dans la table posts_favoris
-		 * @param String $tableName Nom de la table
+		 * @param String $table Nom de la table
 		 * @param Array  $params    paramêtres de la requête
 		 */
-		public function addFavorite(String $tableName, Array $params)
+		public function addFavorite(String $table, Array $params)
 		{
 			$sql = $this->db->where($params)
-					->get_compiled_select($tableName);
+					->get_compiled_select($table);
 			if ($this->db->query($sql)->num_rows() == 0) {
-				$this->db->insert($tableName, $params);
+				$this->db->insert($table, $params);
 			}
 		}
 
 		/**
 		 * Selectionne toutes les revues favoris pour un utilisateur donné.
-		 * @param  String $tableName nom de la table
+		 * @param  String $table nom de la table
 		 * @param  Array  $params    paramètres de la requête
 		 * @return Objet            un objet
 		 */
-		public function getFavorites(String $tableName, Array $params)
+		public function getFavorites(String $table, Array $params)
 		{
 			$sql = $this->db->select($params['select'])
 							->join($params['join1'], $params['on1'], $params['inner1'])
 							->join($params['join2'], $params['on2'], $params['inner2'])
 							->join($params['join3'], $params['on3'], $params['inner3'])
 							->where($params['where'])
-							->get_compiled_select($tableName);
+							->get_compiled_select($table);
 			return	$this->db->query($sql);
 
 		}
@@ -124,19 +124,27 @@ class Posts_model extends CI_Model {
 
 		/**
 		 * Selectionne tous les postId de la table posts_favorites pour un utilisateur donné.
-		 * @param  String $tableName nom de la table
+		 * @param  String $table nom de la table
 		 * @param  Array  $params    paramêtres de la requête sql
 		 * @return Objet            un objet
 		 */
-		public function getPostIdFromFavorites(String $tableName, Array $params)
+		public function getPostIdFromFavorites(String $table, Array $params)
 		{
 			$sql = $this->db->select($params['select'])
 							->where($params['where'])
-						->get_compiled_select($tableName);
+						->get_compiled_select($table);
 			return $this->db->query($sql);
 		}
 
-
+		/**
+		 * Supprime de la table un enregistrement
+		 * @param  String $table  nom de la table
+		 * @param  Array  $params paramètres de la requête sql
+		 */
+		public function deleteFavorite(String $table, Array $params)
+		{
+			$this->db->delete($table, $params);
+		}
 
 
 }
