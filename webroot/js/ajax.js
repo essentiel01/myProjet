@@ -8,7 +8,7 @@ function addFavorite(e)
 
 		e.preventDefault();
 		$.post(
-			"/myProjet/favorites/addPosts",
+			"/myProjet/favorites/addPost",
 			{
 				postId : $(this).attr('data-postId'),
 				userId : $(this).attr('data-userId')
