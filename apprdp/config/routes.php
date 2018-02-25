@@ -70,6 +70,10 @@ $route['connexion-reussie'] = 'userslog/login';
 
 //affiche l'accueil de l'espace personnel depuis le user menu
 $route['espace-personnel'] = 'userslog/userDashboard';
+//affiche la page index des favoris
+$route['espace-personnel/mes-favoris'] = 'favorites/index';
+//affiche la liste revues favoris
+$route['espace-personnel/mes-revues-de-presse-favoris'] = 'favorites/postsfavorites';
 
 // article seul
 $route['culture/publication/(:num)/(:any)'] = 'culture/singleView/$1/$2';
