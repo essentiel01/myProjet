@@ -91,7 +91,7 @@ class Favorites extends CI_Controller
 	/**
 	 * Traitement des données envoyées par la requête ajax
 	 */
-	public function addPosts()
+	public function addPost()
 	{
 			//données à insérer dans la table des favoris
 			$dataToSave = array(
