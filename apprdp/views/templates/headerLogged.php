@@ -8,7 +8,7 @@
 		<!-- jquerry ui css -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
 		<!-- jquery cdn -->
-		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
 		<!-- jquerry ui js -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 		<!-- popper.js cdn -->
@@ -41,7 +41,7 @@
 					</button>
 					<div class="dropdown-menu">
 						<a href="<?= base_url('espace-personnel') ?>">Mon compte</a>
-						<a href="#">Mes favoris</a>
+						<a href="<?= base_url('espace-personnel/mes-favoris') ?>">Mes favoris</a>
 						<a href="#">Réinitialiser mon mot de passe</a>
 						<a href="#">Supprimer mon compte</a>
 						<a href="<?= base_url('deconnexion') ?>">Déconnexion</a>
