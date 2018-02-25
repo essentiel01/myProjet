@@ -5,7 +5,8 @@ class Posts_model extends CI_Model {
 
         public function __construct()
         {
-                $this->load->database();
+			parent::__construct();
+			$this->load->database();
         }
 
 		/**
@@ -16,14 +17,14 @@ class Posts_model extends CI_Model {
 		public function get_posts(Array $params)
 		{
 			$query = $this->db->select($params['select'])
-					->from($params['from'])
-					->join($params['join1'], $params['on1'], $params['inner1'])
-					->join($params['join2'], $params['on2'], $params['inner2'])
-					->join($params['join3'], $params['on3'], $params['inner3'])
-					->where($params['where'])
-					->limit($params['limit'], $params['offset'])
-					->order_by($params['order'])
-					->get();
+								->from($params['from'])
+								->join($params['join1'], $params['on1'], $params['inner1'])
+								->join($params['join2'], $params['on2'], $params['inner2'])
+								->join($params['join3'], $params['on3'], $params['inner3'])
+								->where($params['where'])
+								->limit($params['limit'], $params['offset'])
+								->order_by($params['order'])
+								->get();
 			  return $query;
 		}
 
@@ -88,7 +89,52 @@ class Posts_model extends CI_Model {
 			$this->db->insert($tableName);
 		}
 
+		/**
+		 * Insère une revue dans la table posts_favoris
+		 * @param String $tableName Nom de la table
+		 * @param Array  $params    paramêtres de la requête
+		 */
+		public function addFavorite(String $tableName, Array $params)
+		{
+			$sql = $this->db->where($params)
+					->get_compiled_select($tableName);
+			if ($this->db->query($sql)->num_rows() == 0) {
+				$this->db->insert($tableName, $params);
+			}
+		}
 
+		/**
+		 * Selectionne toutes les revues favoris pour un utilisateur donné.
+		 * @param  String $tableName nom de la table
+		 * @param  Array  $params    paramètres de la requête
+		 * @return Objet            un objet
+		 */
+		public function getFavorites(String $tableName, Array $params)
+		{
+			$sql = $this->db->select($params['select'])
+							->join($params['join1'], $params['on1'], $params['inner1'])
+							->join($params['join2'], $params['on2'], $params['inner2'])
+							->join($params['join3'], $params['on3'], $params['inner3'])
+							->where($params['where'])
+							->get_compiled_select($tableName);
+			return	$this->db->query($sql);
+
+		}
+
+
+		/**
+		 * Selectionne tous les postId de la table posts_favorites pour un utilisateur donné.
+		 * @param  String $tableName nom de la table
+		 * @param  Array  $params    paramêtres de la requête sql
+		 * @return Objet            un objet
+		 */
+		public function getPostIdFromFavorites(String $tableName, Array $params)
+		{
+			$sql = $this->db->select($params['select'])
+							->where($params['where'])
+						->get_compiled_select($tableName);
+			return $this->db->query($sql);
+		}
 
 
 
