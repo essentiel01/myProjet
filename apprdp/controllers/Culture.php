@@ -115,28 +115,36 @@ class Culture extends CI_Controller
 			'order' => 'chronicDate DESC'
 		);
 
+		// les paramêtres de la requête sql permetant de sélectionner le postId dans la table posts_favorites
+		$queryParams4 = array(
+			'select' => 'postId',
+			'where' => array('userId' => $_SESSION['userData']->userId)
+		);
+
 		//les variables à transmettre à la vue
-		$data['postsList'] = array(
+		$data['culturePage'] = array(
 			// affiche dynamiquement la catégorie dans l'entête
 			'headerTitle' => 'Rubrique ' . get_class(),
 			'mainTitle'=> 'Nos dernières revues publiées sur la culture',
 			'result'=>  $this->posts_model->get_posts($queryParams2)->result(),
 			//extrait de la chronique à afficher sur l'index de la page
-			'chronic'=> $this->posts_model->get_chronic($queryParams3)->result()
+			'chronic'=> $this->posts_model->get_chronic($queryParams3)->result(),
+			//les id de toutes les revues ajoutées aux favoris par un utilisateur donné. Ces id sont utilisés dans la page index de chaque catégorie pour identifier les revues favorites de l'utilisateur
+			'favoritesList' => $this->posts_model->getPostIdFromFavorites('posts_favorites', $queryParams4)->result()
 		);
 
 		//chargement des vues
 		if (isset($_SESSION['userData'])){
 			//headerLogged
-			$this->load->view('templates/headerLogged', $data['postsList']);
+			$this->load->view('templates/headerLogged', $data['culturePage']);
 
 		} else {
 			// header
-			$this->load->view('templates/header', $data['postsList']);
+			$this->load->view('templates/header', $data['culturePage']);
 
 		}
 		//vue de l'index de la page
-		$this->load->view('culture/index', $data['postsList']);
+		$this->load->view('culture/index', $data['culturePage']);
 		//footer
 		$this->load->view('templates/footer');
 	}
@@ -150,7 +158,7 @@ class Culture extends CI_Controller
 		// decoupe l'url en segment sur la base du séparateur '/'
 		$uriSegment = explode('/', uri_string());
 		// les paramêtres de la requête sql permetant d'afficher un article tout seul
-		$queryParams = array(
+		$queryParams1 = array(
 			'select' => 'postId, postTitle, postContent, postSource, countryName, categoryName, postPublishingDate, writerFirstName, writerLastName, writerAvatar',
 
 			'from' => 'posts',
@@ -170,23 +178,31 @@ class Culture extends CI_Controller
 			'where' => array('postId' => $uriSegment[2]),
 		);
 
+		// les paramêtres de la requête sql permetant de sélectionner le postId dans la table posts_favorites
+		$queryParams2 = array(
+			'select' => 'postId',
+			'where' => array('userId' => $_SESSION['userData']->userId)
+		);
+
 		// variables à transmettre à la vue
-		$data['post'] = array(
+		$data['singleView'] = array(
 			//affiche dynamiquement le titre de la revue de presse dans l'entête.
 			'headerTitle' => $uriSegment[3] . ' / Rubrique ' . get_class(),
-			'post'=> $this->posts_model->get_single_post($queryParams)->result()
+			'post'=> $this->posts_model->get_single_post($queryParams1)->result(),
+			//les id de toutes les revues ajoutées aux favoris par un utilisateur donné. Ces id sont utilisés dans la page singleView ajouter un petit coeur aux revues favorites de l'utilisateur
+			'favoritesList' => $this->posts_model->getPostIdFromFavorites('posts_favorites', $queryParams2)->result()
 		);
 
 		// chargement des vues
 		if (isset($_SESSION['userData'])) {
 			//headerLogged
-			$this->load->view('templates/headerLogged', $data['post']);
+			$this->load->view('templates/headerLogged', $data['singleView']);
 		} else {
 			//header
-			$this->load->view('templates/header', $data['post']);
+			$this->load->view('templates/header', $data['singleView']);
 		}
 		//vue d'un article tout seul
-		$this->load->view('culture/singleView', $data['post']);
+		$this->load->view('culture/singleView', $data['singleView']);
 		//footer
 		$this->load->view('templates/footer');
 	}
