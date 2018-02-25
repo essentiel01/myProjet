@@ -34,11 +34,13 @@
 				<p>Rubrique: <?= $row->categoryName ?></p>
 				<h2><?= $row->postTitle ?></h2>
 				<!-- compare le postId à chaque postId de la liste des revues qui sont dans les favoris. s'il y a un qui correspond alors on ajoute un petit coeur pour signifier que cet article fait déjà partie des favoris  -->
-				<?php foreach ($favoritesList as $row1):
-					if ($row->postId == $row1->postId) : ?>
-						<i class="fa fa-heart"></i>
-					<?php endIf; ?>
-				<?php endforeach; ?>
+				<?php if (isset($favoritesList)) {
+					 foreach ($favoritesList as $row1):
+						if ($row->postId == $row1->postId) : ?>
+							<i class="fa fa-heart"></i>
+						<?php endIf; ?>
+					<?php endforeach;
+				} ?>
 				<p>Publié par:</p>
 				<p><img width="8%" src=<?= '/myProjet/webroot/images/usersAvatar/' . $row->writerAvatar ?> alt="avatar"></p>
 				<p><?= $row->writerFirstName." ".$row->writerLastName ?> le <?= $row->postPublishingDate ?></p>
