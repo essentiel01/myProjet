@@ -10,6 +10,12 @@
 						<p><?= $row->countryName ?></p>
 						<p>Rubrique: <?= $row->categoryName ?></p>
 						<p>Titre: <?= $row->postTitle ?></p>
+						<!-- compare le postId à chaque postId de la liste des revues qui sont dans les favoris. s'il y a un qui correspond alors on ajoute un petit coeur pour signifier que cet article fait déjà partie des favoris  -->
+						<?php foreach ($favoritesList as $row1):
+							if ($row->postId == $row1->postId) : ?>
+								<i class="fa fa-heart"></i>
+							<?php endIf; ?>
+						<?php endforeach; ?>
 						<p>Publié par:</p>
 						<img width="8%" src=<?= base_url('webroot/images/usersAvatar/' . $row->writerAvatar) ?>  alt="avatar">
 						<p><?= $row->writerFirstName . " " . $row->writerLastName ?></p>
