@@ -115,11 +115,7 @@ class Culture extends CI_Controller
 			'order' => 'chronicDate DESC'
 		);
 
-		// les paramêtres de la requête sql permetant de sélectionner le postId dans la table posts_favorites
-		$queryParams4 = array(
-			'select' => 'postId',
-			'where' => array('userId' => $_SESSION['userData']->userId)
-		);
+
 
 		//les variables à transmettre à la vue
 		$data['culturePage'] = array(
@@ -128,13 +124,24 @@ class Culture extends CI_Controller
 			'mainTitle'=> 'Nos dernières revues publiées sur la culture',
 			'result'=>  $this->posts_model->get_posts($queryParams2)->result(),
 			//extrait de la chronique à afficher sur l'index de la page
-			'chronic'=> $this->posts_model->get_chronic($queryParams3)->result(),
-			//les id de toutes les revues ajoutées aux favoris par un utilisateur donné. Ces id sont utilisés dans la page index de chaque catégorie pour identifier les revues favorites de l'utilisateur
-			'favoritesList' => $this->posts_model->getPostIdFromFavorites('posts_favorites', $queryParams4)->result()
+			'chronic'=> $this->posts_model->get_chronic($queryParams3)->result()
+
 		);
+
+		// si un tutilisateur est connectéon on recupère tous les postId de sa liste de favoris
+		if (isset($_SESSION['userData'])){
+			// les paramêtres de la requête sql permetant de sélectionner le postId dans la table posts_favorites
+			$queryParams4 = array(
+				'select' => 'postId',
+				'where' => array('userId' => $_SESSION['userData']->userId)
+			);
+			// on ajoute à $data['culturePage'] les id de toutes les revues ajoutées aux favoris par un utilisateur donné. Ces id sont utilisés dans la page index de chaque catégorie pour identifier les revues favorites de l'utilisateur
+			$data['culturePage']['favoritesList'] = $this->posts_model->getPostIdFromFavorites('posts_favorites', $queryParams4)->result();
+		}
 
 		//chargement des vues
 		if (isset($_SESSION['userData'])){
+
 			//headerLogged
 			$this->load->view('templates/headerLogged', $data['culturePage']);
 
@@ -178,20 +185,24 @@ class Culture extends CI_Controller
 			'where' => array('postId' => $uriSegment[2]),
 		);
 
-		// les paramêtres de la requête sql permetant de sélectionner le postId dans la table posts_favorites
-		$queryParams2 = array(
-			'select' => 'postId',
-			'where' => array('userId' => $_SESSION['userData']->userId)
-		);
 
 		// variables à transmettre à la vue
 		$data['singleView'] = array(
 			//affiche dynamiquement le titre de la revue de presse dans l'entête.
 			'headerTitle' => $uriSegment[3] . ' / Rubrique ' . get_class(),
-			'post'=> $this->posts_model->get_single_post($queryParams1)->result(),
-			//les id de toutes les revues ajoutées aux favoris par un utilisateur donné. Ces id sont utilisés dans la page singleView ajouter un petit coeur aux revues favorites de l'utilisateur
-			'favoritesList' => $this->posts_model->getPostIdFromFavorites('posts_favorites', $queryParams2)->result()
+			'post'=> $this->posts_model->get_single_post($queryParams1)->result()
 		);
+
+		// si un tutilisateur est connectéon on recupère tous les postId de sa liste de favoris
+		if (isset($_SESSION['userData'])){
+			// les paramêtres de la requête sql permetant de sélectionner le postId dans la table posts_favorites
+			$queryParams2 = array(
+				'select' => 'postId',
+				'where' => array('userId' => $_SESSION['userData']->userId)
+			);
+			// on ajoute à $data['culturePage'] les id de toutes les revues ajoutées aux favoris par un utilisateur donné. Ces id sont utilisés dans la page singleView ajouter un petit coeur aux revues favorites de l'utilisateur
+			$data['singleView']['favoritesList'] = $this->posts_model->getPostIdFromFavorites('posts_favorites', $queryParams2)->result();
+		}
 
 		// chargement des vues
 		if (isset($_SESSION['userData'])) {
