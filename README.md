@@ -1,3 +1,3 @@
-# here is my first web site created with code igniter framework.
+# here is a web site created with code igniter framework.
 
 CREATION IN PROGRESS........
