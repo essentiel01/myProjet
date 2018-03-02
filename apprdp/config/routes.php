@@ -72,14 +72,16 @@ $route['connexion-reussie'] = 'userslog/login';
 $route['espace-personnel'] = 'userslog/userDashboard';
 //affiche la page index des favoris
 $route['espace-personnel/mes-favoris'] = 'favorites/index';
+
 //affiche la liste revues favoris
 $route['espace-personnel/mes-revues-de-presse-favoris'] = 'favorites/postsfavorites';
+// navigation entre les pages de la rubrique favoris
+$route['espace-personnel/mes-revues-de-presse-favoris/(:num)'] = 'favorites/postsfavorites/$1';
 
 // article seul
 $route['culture/publication/(:num)/(:any)'] = 'culture/singleView/$1/$2';
 //chronic seul
 $route['culture/chronique/(:num)/(:any)'] = 'culture/chronicView/$1/$2';
-
 
 // $route['culture/(:any)'] = 'culture?per_page=$1';
 // $route['news'] = 'news';
