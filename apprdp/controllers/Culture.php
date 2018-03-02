@@ -36,7 +36,7 @@ class Culture extends CI_Controller
 		$config['base_url'] =  base_url('culture/')  ;
 
 		// nombre total de de ligne retourné par la requête
-		$config['total_rows'] = $this->posts_model->count_posts($queryParams1, 'posts');
+		$config['total_rows'] = $this->posts_model->countPosts('posts', $queryParams1);
 
 		// nombre d'articles par page
 		$config['per_page'] = 4;
@@ -69,7 +69,8 @@ class Culture extends CI_Controller
 
 		// les paramêtres de la requ^te sql permetant de sélectionner les articles pour chaque catégorie
 		$queryParams2 = array(
-			'select' => 'postId, postTitle, postSlug, countryName, categoryName, postPublishingDate, 	  writerFirstName, writerLastName, writerAvatar',
+			'select' => 'postId, postTitle, postSlug, postAudio, countryName, categoryName, postPublishingDate, writerFirstName, writerLastName, writerAvatar',
+
 			'from' => 'posts',
 
 			'join1' => 'categories',
@@ -116,13 +117,12 @@ class Culture extends CI_Controller
 		);
 
 
-
 		//les variables à transmettre à la vue
 		$data['culturePage'] = array(
 			// affiche dynamiquement la catégorie dans l'entête
 			'headerTitle' => 'Rubrique ' . get_class(),
 			'mainTitle'=> 'Nos dernières revues publiées sur la culture',
-			'result'=>  $this->posts_model->get_posts($queryParams2)->result(),
+			'result'=>  $this->posts_model->getPosts($queryParams2)->result(),
 			//extrait de la chronique à afficher sur l'index de la page
 			'chronic'=> $this->posts_model->get_chronic($queryParams3)->result()
 
