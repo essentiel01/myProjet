@@ -23,8 +23,37 @@
 						<p><?= $row->writerFirstName . " " . $row->writerLastName ?></p>
 						<p>le <strong><?= $row->postPublishingDate ?></strong></p>
 						<a href=<?= base_url('culture/publication/' . $row->postId . '/' . $row->postSlug); ?> class="btn btn-success btn-lg " role="button" aria-pressed="true">Lire</a>
-						<a href="#" class="btn btn-success btn-lg " role="button" aria-pressed="true">Ecouter</a>
-						<audio controls src=""></audio>
+						<!-- Button trigger audioModal -->
+						<a href="#" class="btn btn-success btn-lg " role="button" data-toggle="modal" data-target="#audioModal<?= $row->postId ?>" aria-pressed="true">Ecouter</a>
+
+
+						<!-- audioModal -->
+						<div class="modal fade" id="audioModal<?= $row->postId ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						  <div class="modal-dialog" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="exampleModalLabel">Ecouter la revue</h5>
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						          <span aria-hidden="true">&times;</span>
+						        </button>
+						      </div>
+						      <div class="modal-body">
+								  <audio controls preload="metadata" src="<?= base_url('webroot/audio/' . $row->postAudio . '.ogg'); ?>"></audio>
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+						        <a <?php if(!isset($_SESSION['userData']->userId)) {
+												echo 'href=' . base_url('connexion/formulaire');
+											} else {
+												echo 'href=' . base_url('webroot/audio/' . $row->postAudio . '.ogg') . ' download=' . $row->postAudio;
+											}
+									?> role="button" class="btn btn-primary" >
+									Télécharger
+								</a>
+						      </div>
+						    </div>
+						  </div>
+						</div>
 					</div>
 					<!-- /infos de chaque post -->
 				<?php endforeach ?>
