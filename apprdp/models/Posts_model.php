@@ -2,7 +2,6 @@
 class Posts_model extends CI_Model {
 
 
-
         public function __construct()
         {
 			parent::__construct();
@@ -14,9 +13,9 @@ class Posts_model extends CI_Model {
 		 * @param Array $params tableau associatif contenant les différentes clauses de la requête
 		 * @return Objet   objet  représentant la requête non exécutée
 		 */
-		public function get_posts(Array $params)
+		public function getPosts(Array $params)
 		{
-			$query = $this->db->select($params['select'])
+			$sql = $this->db->select($params['select'])
 								->from($params['from'])
 								->join($params['join1'], $params['on1'], $params['inner1'])
 								->join($params['join2'], $params['on2'], $params['inner2'])
@@ -24,8 +23,8 @@ class Posts_model extends CI_Model {
 								->where($params['where'])
 								->limit($params['limit'], $params['offset'])
 								->order_by($params['order'])
-								->get();
-			  return $query;
+								->get_compiled_select();
+			  return $this->db->query($sql);
 		}
 
 		/**
@@ -68,14 +67,28 @@ class Posts_model extends CI_Model {
 		 * @param String $table le nom de la table sur laquelle la requête est exécutée
 		 * @return Integer le nombre de résultat renvoyé par la requête
 		*/
-		public function count_posts(Array $params, String $table)
+		public function countPosts(String $table, Array $params)
 		{
-			$this->db->join($params['join1'], $params['on1'], $params['inner1']);
-			$this->db->where($params['where']);
+			$sql = $this->db->join($params['join1'], $params['on1'], $params['inner1'])
+								->where($params['where'])
+								->get_compiled_select($table);
 
-			return count($this->db->get($table)->result());
+			return $this->db->query($sql)->num_rows();
 		}
 
+		/**
+		 * Compte le nombre de ligne retourné par la requête
+		 * @param  String $table  nom dela table
+		 * @param  Array  $params paramêtres de la requête sql
+		 * @return Int         nombre de resultat retourné par la requête
+		 */
+		public function countFavorites(String $table, Array $params)
+		{
+			$sql = $this->db->where($params['where'])
+					->get_compiled_select($table);
+			return $this->db->query($sql)->num_rows();
+		}
+		
 		/**
 		 * Insère un nouvel enregistrement dans une table
 		 * @param  String $table nom de la table
