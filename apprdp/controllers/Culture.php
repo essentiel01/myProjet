@@ -162,6 +162,11 @@ class Culture extends CI_Controller
 	*/
 	public function singleView()
 	{
+		// on stocke dans $session l'url de la page lorsque aucun utilisateur n'est connecté. Cette valeur sera utilisée plus tard pour rediriger l'utilisateur vers cette même page après sa connexion.
+		if (!isset($_SESSION['userData'])) {
+			$_SESSION['urlRedirect'] = $_SERVER['PATH_INFO'];
+		}
+
 		// decoupe l'url en segment sur la base du séparateur '/'
 		$uriSegment = explode('/', uri_string());
 		// les paramêtres de la requête sql permetant d'afficher un article tout seul
@@ -268,6 +273,8 @@ class Culture extends CI_Controller
 		$this->load->view('culture/chronicView', $data['chronic']);
 		$this->load->view('templates/footer');
 	}
+
+	
 }
 
 
