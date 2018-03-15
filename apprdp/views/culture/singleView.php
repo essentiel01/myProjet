@@ -48,13 +48,19 @@
 				<p><?= $row->postContent ?></p>
 				<h2>Sources de la revue</h2>
 				<p><?= $row->postSource ?></p>
-				<h3>Ajouter un commentaire</h3>
 				<form class="" action="" method="post">
-					<textarea name="name" rows="2" cols="70"></textarea>
-					<input class="btn-primary" type="submit" value="Commenter">
+					<label for="comment">Ajouter un commentaire</label>
+					<textarea id="comment" name="comment" rows="2" cols="70"></textarea>
+					<input type="hidden" id="parentCommentId" name="parentCommentId" value="0">
 				</form>
+				<a id="btnComment" class="btn btn-lg btn-primary" href="<?= base_url('connexion/formulaire') ?>" data-postId="<?= $row->postId ?>" data-userId="<?php if(isset($_SESSION['userData']->userId)) {echo $_SESSION['userData']->userId;} ?>">Valider</a>
+				<!-- liste des commentaires -->
+				<div id="displayComments" class="displayComments">
+
+				</div>
 			<?php endforeach;
-		} else {
+		} else //si la requête renvoie aucun article on redirige vers la liste des articles
+		{
 			redirect('culture');
 		} ?>
 	</main><!--
