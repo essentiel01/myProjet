@@ -9,7 +9,7 @@ class Favorites extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('posts_model');
-		$this->load->library('pagination');
+		//$this->load->library('pagination');
 
 	}
 
@@ -37,7 +37,7 @@ class Favorites extends CI_Controller
 			//header
 			$this->load->view('templates/header', $data['error']);
 			//page d'erreur
-			show_error('Vous n\'êtes pas connecté. Pour accéder à vos favoris veuillez vous connecter à votre espace personnel. Merci', 500, 'Accès refusé');
+			show_error('Vous n\'êtes pas connecté. Pour accéder à vos favoris veuillez vous connecter à votre compte. Merci', 500, 'Accès refusé');
 		}
 
 		//footer
@@ -144,7 +144,7 @@ class Favorites extends CI_Controller
 			//header
 			$this->load->view('templates/header', $data['error']);
 			//page d'erreur
-			show_error('Vous n\'êtes pas connecté. Pour accéder à vos favoris veuillez vous connecter à votre espace personnel. Merci', 500, 'Accès refusé');
+			show_error('Vous n\'êtes pas connecté. Pour accéder à vos favoris veuillez vous connecter à votre compte. Merci', 500, 'Accès refusé');
 		}
 		//footer
 		$this->load->view('templates/footer');
