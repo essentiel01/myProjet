@@ -9,8 +9,8 @@ class UsersLog extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('users_model');
-		$this->load->helper('url');
-		$this->load->library(array('form_validation'));
+		// $this->load->helper('url');
+		// $this->load->library(array('form_validation'));
 	}
 
 	/**
@@ -122,17 +122,22 @@ class UsersLog extends CI_Controller
 	*/
 	public function userDashboard()
 	{
-		// variable à transmettre à la vue
-		$data['user'] = array(
-			'headerTitle' => 'Espace personnel',
-		);
+		if (isset($_SESSION['userData'])) {
+			// variable à transmettre à la vue
+			$data['user'] = array(
+				'headerTitle' => 'Espace personnel',
+			);
 
-		//headerLogged
-		$this->load->view('templates/headerLogged', $data['user']);
-		//vue de l'espace personnel
-		$this->load->view('userslog/espacePersonnelView');
-		//footer
-		$this->load->view('templates/footer');
+			//headerLogged
+			$this->load->view('templates/headerLogged', $data['user']);
+			//vue de l'espace personnel
+			$this->load->view('userslog/espacePersonnelView');
+			//footer
+			$this->load->view('templates/footer');
+		} else {
+			//page d'erreur
+			show_error('Vous n\'êtes pas connecté. Pour accéder à votre espace personnel veuillez vous connecter à votre compte. Merci', 500, 'Accès refusé');
+		}
 	}
 }
 
