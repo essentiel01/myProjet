@@ -77,13 +77,19 @@ class UsersLog extends CI_Controller
 
 				// variable à transmettre à la vue
 				$data['user'] = array(
-					'headerTitle' => 'Connexion rèussie'
+					'headerTitle' => 'Connexion réussie'
 				);
 
 				//headerLogged
 				$this->load->view('templates/headerLogged', $data['user']);
-				//page de succès de connexion
-				$this->load->view('userslog/success');
+
+				//affiche la page précédente si elle existe ou sinon une page de succès de connexion
+				if (isset($_SESSION['urlRedirect'])) {
+					redirect($_SESSION['urlRedirect']);
+				} else {
+					$this->load->view('userslog/success');
+				}
+
 				//footer
 				$this->load->view('templates/footer');
 
