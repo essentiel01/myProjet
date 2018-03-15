@@ -88,7 +88,7 @@ class Posts_model extends CI_Model {
 					->get_compiled_select($table);
 			return $this->db->query($sql)->num_rows();
 		}
-		
+
 		/**
 		 * Insère un nouvel enregistrement dans une table
 		 * @param  String $table nom de la table
@@ -159,5 +159,40 @@ class Posts_model extends CI_Model {
 			$this->db->delete($table, $params);
 		}
 
+		/**
+		 * selectione les commentaires parents
+		 * @param  String $table  nom de la table
+		 * @param  Array  $params paramètres de la requête sql
+		 * @return Objet         [description]
+		 */
+		public function getComments(String $table, Array $params)
+		{
+			$sql = $this->db->select($params['select'])
+							->join($params['join1'], $params['on1'], $params['inner1'])
+							->where($params['where'])
+							->order_by($params['order'])
+							->get_compiled_select($table);
+							//die($sql);
+
+			return $this->db->query($sql);
+		}
+
+		/**
+		 * sélectionne les réponses des commentaires
+		 * @param  String $table           nom de la table
+		 * @param  Array  $params          paramètre de la requête sql
+		 * @param  Int    $parentCommentId l'id du commentaire parent
+		 * @return Objet                  [description]
+		 */
+		public function getCommentsReply(String $table, Array $params, Int $parentCommentId)
+		{
+			$sql = $this->db->select($params['select'])
+							->join($params['join1'], $params['on1'], $params['inner1'])
+							->where(array('parentCommentId' => $parentCommentId))
+							->order_by($params['order'])
+							->get_compiled_select($table);
+			//die($sql);
+			return $this->db->query($sql);
+		}
 
 }
