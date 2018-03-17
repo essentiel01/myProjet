@@ -18,6 +18,11 @@ class Culture extends CI_Controller
 	 */
 	public function index()
 	{
+		// on stocke dans $session l'url de la page lorsque aucun utilisateur n'est connecté. Cette valeur sera utilisée plus tard pour rediriger l'utilisateur vers cette même page après sa connexion.
+		if (!isset($_SESSION['userData'])) {
+			$_SESSION['urlRedirect'] = $_SERVER['PATH_INFO'];
+		}
+		
 		// offset de la close limit
 		$start = $this->uri->segment(2,0);
 
@@ -228,6 +233,11 @@ class Culture extends CI_Controller
 	*/
 	public function chronicView()
 	{
+		// on stocke dans $session l'url de la page lorsque aucun utilisateur n'est connecté. Cette valeur sera utilisée plus tard pour rediriger l'utilisateur vers cette même page après sa connexion.
+		if (!isset($_SESSION['userData'])) {
+			$_SESSION['urlRedirect'] = $_SERVER['PATH_INFO'];
+		}
+
 		// decoupe l'url en segment sur la base du séparateur '/'
 		$uriSegment = explode('/', uri_string());
 
@@ -261,6 +271,17 @@ class Culture extends CI_Controller
 			'chronic'=> $this->posts_model->get_chronic($queryParams)->result()
 		);
 
+		// si un utilisateur est connecté  on recupère tous les chronicId de sa liste de favoris
+		if (isset($_SESSION['userData'])){
+			// les paramêtres de la requête sql permetant de sélectionner le postId dans la table posts_favorites
+			$queryParams2 = array(
+				'select' => 'chronicId',
+				'where' => array('userId' => $_SESSION['userData']->userId)
+			);
+			// on ajoute à $data['culturePage'] les id de toutes les chroniques ajoutées aux favoris par un utilisateur donné. Ces id sont utilisés dans la page chronicView pour ajouter un petit coeur aux revues favorites de l'utilisateur
+			$data['chronic']['favoritesList'] = $this->posts_model->getPostIdFromFavorites('chronics_favorites', $queryParams2)->result();
+		}
+
 		//chargement des vues
 		if (isset($_SESSION['userData'])) {
 			//headerLogged
@@ -274,7 +295,7 @@ class Culture extends CI_Controller
 		$this->load->view('templates/footer');
 	}
 
-	
+
 }
 
 
