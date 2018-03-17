@@ -1,6 +1,6 @@
 <div class="container">
 	<main class="mainWrapper">
-		<?php if (!empty($chronic) {
+		<?php if (!empty($chronic)) {
 			foreach ($chronic as $row) : ?>
 			<!-- Button trigger favorisModal -->
 			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#favorisModal<?= $row->chronicId ?>">
@@ -60,9 +60,9 @@
 			<div id="displayChronicComments" class="displayComments">
 
 			</div>
-		<?php endforeach
-		else {
-			redirect('culture'); 
+		<?php endforeach;
+		} else {
+			redirect('culture');
 		}?>
 	</main><!--
 	--><aside class="asideWrapper">
