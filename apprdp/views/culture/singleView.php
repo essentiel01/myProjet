@@ -23,8 +23,8 @@
 								<h2><?= $row->postTitle ?></h2>
 							</div>
 							<div class="modal-footer">
-								<button type="button" id="modalCancel" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-								<a  id="favorite" class="btn btn-success btn-lg " role="button" aria-pressed="true" href="<?= base_url('connexion/formulaire') ?>" data-postId="<?= $row->postId ?>" data-userId="<?php if(isset($_SESSION['userData']->userId)) {echo $_SESSION['userData']->userId;} ?>">Ajouter</a>
+								<button type="button" id="modalCancel" class="btn btn-secondary btn-lg" data-dismiss="modal">Annuler</button>
+								<a  id="addPostFavorite" class="btn btn-success btn-lg " role="button" aria-pressed="true" href="<?= base_url('connexion/formulaire') ?>" data-postId="<?= $row->postId ?>" data-userId="<?php if(isset($_SESSION['userData']->userId)) {echo $_SESSION['userData']->userId;} ?>">Ajouter</a>
 							</div>
 						</div>
 					</div>
@@ -48,14 +48,16 @@
 				<p><?= $row->postContent ?></p>
 				<h2>Sources de la revue</h2>
 				<p><?= $row->postSource ?></p>
+
+				<!-- formulaire de commentaire -->
 				<form class="" action="" method="post">
 					<label for="comment">Ajouter un commentaire</label>
 					<textarea id="comment" name="comment" rows="2" cols="70"></textarea>
 					<input type="hidden" id="parentCommentId" name="parentCommentId" value="0">
 				</form>
-				<a id="btnComment" class="btn btn-lg btn-primary" href="<?= base_url('connexion/formulaire') ?>" data-postId="<?= $row->postId ?>" data-userId="<?php if(isset($_SESSION['userData']->userId)) {echo $_SESSION['userData']->userId;} ?>">Valider</a>
+				<a id="addPostComment" class="btn btn-lg btn-primary" href="<?= base_url('connexion/formulaire') ?>" data-postId="<?= $row->postId ?>" data-userId="<?php if(isset($_SESSION['userData']->userId)) {echo $_SESSION['userData']->userId;} ?>">Valider</a>
 				<!-- liste des commentaires -->
-				<div id="displayComments" class="displayComments">
+				<div id="displayPostComments" class="displayComments">
 
 				</div>
 			<?php endforeach;
