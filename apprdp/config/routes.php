@@ -78,6 +78,11 @@ $route['espace-personnel/mes-revues-de-presse-favoris'] = 'favorites/postsfavori
 // navigation entre les pages de la rubrique favoris
 $route['espace-personnel/mes-revues-de-presse-favoris/(:num)'] = 'favorites/postsfavorites/$1';
 
+//affiche la liste des chroniques favoris
+$route['espace-personnel/mes-chroniques-favoris'] = 'favorites/chronicsfavorites';
+// navigation entre les pages de la rubrique favoris
+$route['espace-personnel/mes-chroniques-favoris/(:num)'] = 'favorites/chronicsfavorites/$1';
+
 // article seul
 $route['culture/publication/(:num)/(:any)'] = 'culture/singleView/$1/$2';
 //chronic seul
