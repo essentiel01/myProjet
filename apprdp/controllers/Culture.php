@@ -4,13 +4,12 @@
  */
 class Culture extends CI_Controller
 {
-
 	function __construct()
 	{
 		parent::__construct();
 		$this->load->model('posts_model');
-		$this->load->library('pagination');
-		$this->load->helper('url');
+		// $this->load->library('pagination');
+		// $this->load->helper('url');
 	}
 
 	/**
@@ -22,7 +21,7 @@ class Culture extends CI_Controller
 		if (!isset($_SESSION['userData'])) {
 			$_SESSION['urlRedirect'] = $_SERVER['PATH_INFO'];
 		}
-		
+
 		// offset de la close limit
 		$start = $this->uri->segment(2,0);
 
@@ -38,7 +37,7 @@ class Culture extends CI_Controller
 
 		//configuration de la pagination avec bootstrap
 		// url de base auquel va être ajouté le numero de la page
-		$config['base_url'] =  base_url('culture/')  ;
+		$config['base_url'] =  base_url(strToLower(get_class()) . '/')  ;
 
 		// nombre total de de ligne retourné par la requête
 		$config['total_rows'] = $this->posts_model->countPosts('posts', $queryParams1);
@@ -129,11 +128,15 @@ class Culture extends CI_Controller
 			'mainTitle'=> 'Nos dernières revues publiées sur la culture',
 			'result'=>  $this->posts_model->getPosts($queryParams2)->result(),
 			//extrait de la chronique à afficher sur l'index de la page
-			'chronic'=> $this->posts_model->get_chronic($queryParams3)->result()
-
+			'chronic'=> $this->posts_model->get_chronic($queryParams3)->result(),
+			'slides' => $this->posts_model->getCarousel('carousel')->result(),
+			//le nombre total de revues de presse et de chronique. ces valeurs sont retournées par les functions postsArchives et chronicsArchive
+			//'allPostsCount' => $this->test
+			// 'allChronicsCount' => $this->chronicsArchive()
 		);
 
-		// si un tutilisateur est connectéon on recupère tous les postId de sa liste de favoris
+
+		// si un utilisateur est connecté on recupère tous les postId de sa liste de favoris
 		if (isset($_SESSION['userData'])){
 			// les paramêtres de la requête sql permetant de sélectionner le postId dans la table posts_favorites
 			$queryParams4 = array(
@@ -156,7 +159,104 @@ class Culture extends CI_Controller
 
 		}
 		//vue de l'index de la page
-		$this->load->view('culture/index', $data['culturePage']);
+		$this->load->view(strToLower(get_class()) . '/index', $data['culturePage']);
+		//footer
+		$this->load->view('templates/footer');
+	}
+
+
+	/**
+	 * sélectionne toutes les revues de presse de la table posts
+	 */
+	public function postsArchive()
+	{
+		//paramêtre de la requête permettant de sélectionner toutes les revues
+		$queryParams = array(
+			'select' => 'postId, postTitle, postSlug, countryName, categoryName, postPublishingDate, writerFirstName, writerLastName',
+
+			'join1' => 'categories',
+			'on1' => 'categories.categoryId = posts.postCategory',
+			'inner1' => 'inner',
+
+			'join2' => 'countries',
+			'on2' => 'countries.countryId = posts.postCountry',
+			'inner2' => 'inner',
+
+			'join3' => 'writers',
+			'on3' => 'writers.writerId = posts.postWriter',
+			'inner3' => 'inner',
+
+			'order' => 'postPublishingDate DESC'
+		);
+
+		$data['postArchive'] = array(
+			'headerTitle' => 'Archives',
+			'mainTitle'=> 'Toutes nos revues de presse',
+			'allPosts' => $this->posts_model->getAllPosts($queryParams, 'posts')->result()
+		);
+
+		//chargement des vues
+		if (isset($_SESSION['userData'])){
+
+			//headerLogged
+			$this->load->view('templates/headerLogged', $data['postArchive']);
+
+		} else {
+
+			// header
+			$this->load->view('templates/header', $data['postArchive']);
+
+		}
+		//vue de l'index de la page
+		$this->load->view(strToLower(get_class()) . '/postsArchiveView', $data['postArchive']);
+		//footer
+		$this->load->view('templates/footer');
+	}
+
+	/**
+	 * sélectionne toutes les chroniques de la table chronics
+	 */
+	public function chronicsArchive()
+	{
+		//paramêtre de la requête permettant de sélectionner toutes les revues
+		$queryParams = array(
+			'select' => 'chronicId, chronicTitle, chronicSlug, countryName, categoryName, chronicDate, writerFirstName, writerLastName',
+
+			'join1' => 'categories',
+			'on1' => 'categories.categoryId = chronics.chronicCategory',
+			'inner1' => 'inner',
+
+			'join2' => 'countries',
+			'on2' => 'countries.countryId = chronics.chronicCountry',
+			'inner2' => 'inner',
+
+			'join3' => 'writers',
+			'on3' => 'writers.writerId = chronics.chronicWriter',
+			'inner3' => 'inner',
+
+			'order' => 'chronicDate DESC'
+		);
+
+		$data['chronicArchive'] = array(
+			'headerTitle' => 'Archives',
+			'mainTitle'=> 'Toutes nos chroniques',
+			'allChronics' => $this->posts_model->getAllPosts($queryParams, 'chronics')->result()
+		);
+
+		//chargement des vues
+		if (isset($_SESSION['userData'])){
+
+			//headerLogged
+			$this->load->view('templates/headerLogged', $data['chronicArchive']);
+
+		} else {
+
+			// header
+			$this->load->view('templates/header', $data['chronicArchive']);
+
+		}
+		//vue de l'index de la page
+		$this->load->view(strToLower(get_class()) . '/chronicsArchiveView', $data['chronicArchive']);
 		//footer
 		$this->load->view('templates/footer');
 	}
@@ -223,7 +323,7 @@ class Culture extends CI_Controller
 			$this->load->view('templates/header', $data['singleView']);
 		}
 		//vue d'un article tout seul
-		$this->load->view('culture/singleView', $data['singleView']);
+		$this->load->view(strToLower(get_class()) . '/singleView', $data['singleView']);
 		//footer
 		$this->load->view('templates/footer');
 	}
@@ -291,7 +391,7 @@ class Culture extends CI_Controller
 			$this->load->view('templates/header', $data['chronic']);
 		}
 		//vue de la chronique toute seule
-		$this->load->view('culture/chronicView', $data['chronic']);
+		$this->load->view(strToLower(get_class()) . '/chronicView', $data['chronic']);
 		$this->load->view('templates/footer');
 	}
 
