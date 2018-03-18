@@ -26,6 +26,35 @@ class Posts_model extends CI_Model {
 								->get_compiled_select();
 			  return $this->db->query($sql);
 		}
+		/**
+		 * sélectionne tous les articles d'une table et les classe par date de publication décroissante
+		 * @param  Array  $params paramètre de la requête sql
+		 * @param  String $table  nom de la table cible de la requête
+		 * @return Objet         [description]
+		 */
+		public function getAllPosts(Array $params, String $table)
+		{
+			$sql = $this->db->select($params['select'])
+							->join($params['join1'], $params['on1'], $params['inner1'])
+							->join($params['join2'], $params['on2'], $params['inner2'])
+							->join($params['join3'], $params['on3'], $params['inner3'])
+							->order_by($params['order'])
+							->get_compiled_select($table);
+			return $this->db->query($sql);
+		}
+
+		
+		/**
+		 * permet de selectionner les infos de chaque slide
+		 * @param  String $table nom de la table
+		 * @return Objet        [description]
+		 */
+		public function getCarousel(String $table)
+		{
+			$sql = $this->db->get_compiled_select($table);
+			return $this->db->query($sql);
+		}
+
 
 		/**
 		 * sélectionne la dernière chronique de la rubrique
