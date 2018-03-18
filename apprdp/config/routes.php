@@ -68,6 +68,10 @@ $route['connexion/formulaire'] = 'userslog/index';
 // affiche l'accueil de l'espace personnel après une connexion réussie
 $route['connexion-reussie'] = 'userslog/login';
 
+//page des archives de revues de presse
+$route['revues-de-presse/archive'] = 'culture/postsArchive';
+$route['chroniques/archive'] = 'culture/chronicsArchive';
+
 //affiche l'accueil de l'espace personnel depuis le user menu
 $route['espace-personnel'] = 'userslog/userDashboard';
 //affiche la page index des favoris
