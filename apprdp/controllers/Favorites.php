@@ -99,7 +99,7 @@ class Favorites extends CI_Controller
 
 			//paramêtres de la requête permettant de selectioner toutes les revues de presse faavoris d'un utilisateur
 			$queryParams2 = array(
-				'select' => 'posts.postId, postTitle, postSlug, postAudio, countryName, categoryName, postPublishingDate',
+				'select' => 'posts.postId, postTitle, postSlug, postAudio, countryName, categoryName, postDate',
 
 				'from' => 'posts_favorites',
 
