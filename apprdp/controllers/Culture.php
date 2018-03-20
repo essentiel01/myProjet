@@ -71,68 +71,19 @@ class Culture extends CI_Controller
 		// initialisation de la pagination
 		$this->pagination->initialize($config);
 
-		// les paramêtres de la requ^te sql permetant de sélectionner les articles pour chaque catégorie
-		$queryParams2 = array(
-			'select' => 'postId, postTitle, postSlug, postAudio, countryName, categoryName, postPublishingDate, writerFirstName, writerLastName, writerAvatar',
-
-			'from' => 'posts',
-
-			'join1' => 'categories',
-			'on1' => 'categories.categoryId = posts.postCategory',
-			'inner1' => 'inner',
-
-			'join2' => 'countries',
-			'on2' => 'countries.countryId = posts.postCountry',
-			'inner2' => 'inner',
-
-			'join3' => 'writers',
-			'on3' => 'writers.writerId = posts.postWriter',
-			'inner3' => 'inner',
-
-			// le nom de la catégorie correspond au nom de la class
-			'where' => array('categoryName' => get_class()),
-
-			'limit' =>  $config['per_page'],
-			'offset' => $start,
-
-			'order' => 'postPublishingDate DESC'
-		);
-
-		// les paramêtres de la requête sql permetant de sélectionner la chronique pour une catégorie
-		$queryParams3 = array(
-			'from' => 'chronics',
-			'join1' => 'categories',
-			'on1' => 'categories.categoryId = chronics.chronicCategory',
-			'inner1' => 'inner',
-
-			'join2' => 'countries',
-			'on2' => 'countries.countryId = chronics.chronicCountry',
-			'inner2' => 'inner',
-
-			'join3' => 'writers',
-			'on3' => 'writers.writerId = chronics.chronicWriter',
-			'inner3' => 'inner',
-			// le nom de la catégorie correspond au nom de la class
-			'where' => array('categoryName' => get_class()),
-
-			'limit' => 1,
-
-			'order' => 'chronicDate DESC'
-		);
-
 
 		//les variables à transmettre à la vue
 		$data['culturePage'] = array(
 			// affiche dynamiquement la catégorie dans l'entête
 			'headerTitle' => 'Rubrique ' . get_class(),
 			'mainTitle'=> 'Nos dernières revues publiées sur la culture',
-			'result'=>  $this->posts_model->getPosts($queryParams2)->result(),
+			'result'=>  $this->posts_model->getPosts($this->postQueryParams($config['per_page'], $start))->result(),
 			//extrait de la chronique à afficher sur l'index de la page
-			'chronic'=> $this->posts_model->get_chronic($queryParams3)->result(),
+			'chronic'=> $this->posts_model->get_chronic($this->chronicQueryParams(array('categoryName' => get_class())))->result(),
 			'slides' => $this->posts_model->getCarousel('carousel')->result(),
 			//le nombre total de revues de presse et de chronique. ces valeurs sont retournées par les functions postsArchives et chronicsArchive
-			//'allPostsCount' => $this->test
-			// 'allChronicsCount' => $this->chronicsArchive()
+			'allPostsCount' => $this->postsArchiveCount(),
+			'allChronicsCount' => $this->chronicsArchiveCount(),
 		);
 
 
@@ -166,13 +117,17 @@ class Culture extends CI_Controller
 
 
 	/**
-	 * sélectionne toutes les revues de presse de la table posts
+	 * retourne un tableau assoc représentant les paramètres de la requête sql permettant dafficher la liste des revues de presse sur chaque page. Cette function est utilisée comme argument de la function getPosts() exécutée dans la méthode index() de la présente class.
+	 * @param  Int    $limit  le nombre de revues à afficher par page paginéé
+	 * @param  Int    $offset offset de la clause limit
+	 * @return Array         paramètres de la requête sql
 	 */
-	public function postsArchive()
+	private function postQueryParams(Int $limit, Int $offset)
 	{
-		//paramêtre de la requête permettant de sélectionner toutes les revues
-		$queryParams = array(
-			'select' => 'postId, postTitle, postSlug, countryName, categoryName, postPublishingDate, writerFirstName, writerLastName',
+		return array(
+			'select' => 'postId, postTitle, postSlug, postAudio, countryName, categoryName, postDate, writerFirstName, writerLastName, writerAvatar',
+
+			'from' => 'posts',
 
 			'join1' => 'categories',
 			'on1' => 'categories.categoryId = posts.postCategory',
@@ -186,41 +141,54 @@ class Culture extends CI_Controller
 			'on3' => 'writers.writerId = posts.postWriter',
 			'inner3' => 'inner',
 
-			'order' => 'postPublishingDate DESC'
+			// le nom de la catégorie correspond au nom de la class
+			'where' => array('categoryName' => get_class()),
+
+			'limit' =>  $limit,
+			'offset' => $offset,
+
+			'order' => 'postDate DESC'
 		);
 
-		$data['postArchive'] = array(
-			'headerTitle' => 'Archives',
-			'mainTitle'=> 'Toutes nos revues de presse',
-			'allPosts' => $this->posts_model->getAllPosts($queryParams, 'posts')->result()
-		);
-
-		//chargement des vues
-		if (isset($_SESSION['userData'])){
-
-			//headerLogged
-			$this->load->view('templates/headerLogged', $data['postArchive']);
-
-		} else {
-
-			// header
-			$this->load->view('templates/header', $data['postArchive']);
-
-		}
-		//vue de l'index de la page
-		$this->load->view(strToLower(get_class()) . '/postsArchiveView', $data['postArchive']);
-		//footer
-		$this->load->view('templates/footer');
 	}
 
+
 	/**
-	 * sélectionne toutes les chroniques de la table chronics
+	 * retourne un tableau associatif représentant les paramètres de la requête sql permettant de sélectionner toutes les revues de presse de la table posts ou toutes les chroniques de la table chronics
+	 * @param  String $type le type de données à selectionner au singulier (soit post ou soit chronic)
+	 * @return Array      paramètres de la requête sql
 	 */
-	public function chronicsArchive()
+	private function archiveQueryParams(String $type)
 	{
-		//paramêtre de la requête permettant de sélectionner toutes les revues
-		$queryParams = array(
-			'select' => 'chronicId, chronicTitle, chronicSlug, countryName, categoryName, chronicDate, writerFirstName, writerLastName',
+		return array(
+			'select' => $type.'Id, ' . $type.'Title, ' . $type.'Slug, countryName, categoryName, ' . $type.'Date,  writerFirstName, writerLastName',
+
+			'join1' => 'categories',
+			'on1' => 'categories.categoryId =' . $type.'s.' . $type.'Category',
+			'inner1' => 'inner',
+
+			'join2' => 'countries',
+			'on2' => 'countries.countryId =' . $type.'s.' . $type.'Country',
+			'inner2' => 'inner',
+
+			'join3' => 'writers',
+			'on3' => 'writers.writerId =' . $type.'s.'. $type.'Writer',
+			'inner3' => 'inner',
+
+			'order' => $type.'Date  DESC'
+		);
+	}
+
+
+	/**
+	 * retourne un tableau associatif représentant les paramètres de la requête sql permettant de sélectionner la chronique à afficher sur la page index de chaque catégorie et sur la page chronicView. Cette function est utilisée comme argument de la function get_chronic() exécutée dans les méthodes index() et chronicView() de la présente classe
+	 * @param  Array  $where tableau assoc représentant la valeur de la clé 'where'
+	 * @return Array        paramètres de la requête sql
+	 */
+	private function chronicQueryParams(Array $where)
+	{
+		return array(
+			'from' => 'chronics',
 
 			'join1' => 'categories',
 			'on1' => 'categories.categoryId = chronics.chronicCategory',
@@ -234,13 +202,65 @@ class Culture extends CI_Controller
 			'on3' => 'writers.writerId = chronics.chronicWriter',
 			'inner3' => 'inner',
 
+
+			'where' => $where,
+
+			'limit' => 1,
+
 			'order' => 'chronicDate DESC'
 		);
+	}
+
+
+	/**
+	 * sélectionne toutes les revues de presse de la table posts
+	 */
+	 public function postsArchive()
+	 {
+
+		 $data['postArchive'] = array(
+			 'headerTitle' => 'Archives',
+			 'mainTitle'=> 'Toutes nos revues de presse',
+			 'allPosts' => $this->posts_model->getAllPosts($this->archiveQueryParams('post'), 'posts')->result()
+		 );
+
+		 //chargement des vues
+		 if (isset($_SESSION['userData'])){
+
+			 //headerLogged
+			 $this->load->view('templates/headerLogged', $data['postArchive']);
+
+		 } else {
+
+			 // header
+			 $this->load->view('templates/header', $data['postArchive']);
+
+		 }
+		 //vue de l'index de la page
+		 $this->load->view(strToLower(get_class()) . '/postsArchiveView', $data['postArchive']);
+		 //footer
+		 $this->load->view('templates/footer');
+	 }
+
+	/**
+	 * compte et retourne le nombre total de revues de presse dans la table posts. cette function est utilisée dans la méthode index() de la présente class pour renvoyer à la vue le nombre de revues
+	 * @return Int nombre de revues de presse
+	 */
+	 public function postsArchiveCount():Int
+	 {
+		 return $this->posts_model->getAllPosts($this->archiveQueryParams('post'), 'posts')->num_rows();
+	 }
+
+	/**
+	 * sélectionne toutes les chroniques de la table chronics
+	 */
+	public function chronicsArchive()
+	{
 
 		$data['chronicArchive'] = array(
 			'headerTitle' => 'Archives',
 			'mainTitle'=> 'Toutes nos chroniques',
-			'allChronics' => $this->posts_model->getAllPosts($queryParams, 'chronics')->result()
+			'allChronics' => $this->posts_model->getAllPosts($this->archiveQueryParams('chronic'), 'chronics')->result()
 		);
 
 		//chargement des vues
@@ -263,6 +283,16 @@ class Culture extends CI_Controller
 
 
 	/**
+	 * compte et retourne le nombre total de chroniques dans la table chronics. cette function est utilisée dans la méthode index() de la présente class pour renvoyer à la vue le nombre de chroniques
+	 * @return Int nombre de chroniques
+	 */
+	public function chronicsArchiveCount():Int
+	{
+		return $this->posts_model->getAllPosts($this->archiveQueryParams('chronic'), 'chronics')->num_rows();
+	}
+
+
+	/**
 	 * affiche un article tout seul
 	*/
 	public function singleView()
@@ -276,7 +306,7 @@ class Culture extends CI_Controller
 		$uriSegment = explode('/', uri_string());
 		// les paramêtres de la requête sql permetant d'afficher un article tout seul
 		$queryParams1 = array(
-			'select' => 'postId, postTitle, postContent, postSource, countryName, categoryName, postPublishingDate, writerFirstName, writerLastName, writerAvatar',
+			'select' => 'postId, postTitle, postContent, postSource, countryName, categoryName, postDate, writerFirstName, writerLastName, writerAvatar',
 
 			'from' => 'posts',
 
@@ -341,34 +371,12 @@ class Culture extends CI_Controller
 		// decoupe l'url en segment sur la base du séparateur '/'
 		$uriSegment = explode('/', uri_string());
 
-		// les paramêtres de la requête sql permetant d'afficher une chronique toute seule
-		$queryParams = array(
-			'from' => 'chronics',
-			'join1' => 'categories',
-			'on1' => 'categories.categoryId = chronics.chronicCategory',
-			'inner1' => 'inner',
-
-			'join2' => 'countries',
-			'on2' => 'countries.countryId = chronics.chronicCountry',
-			'inner2' => 'inner',
-
-			'join3' => 'writers',
-			'on3' => 'writers.writerId = chronics.chronicWriter',
-			'inner3' => 'inner',
-			// on passe le troisième segment de l'url (qui représente l'id de la chronique) à la clause where
-			'where' => array('chronicId' => $uriSegment[2]),
-
-			'limit' => 1,
-
-			'order' => 'chronicDate DESC'
-		);
-
 		//variables à transmetre à la vue
 		$data['chronic'] = array(
 			//affiche dynamiquement le titre de la chronique dans l'entête.
 			'headerTitle' => $uriSegment[3] . ' / Rubrique ' . get_class(),
 			//texte intégrale de la chronique affichée à l'index de la page
-			'chronic'=> $this->posts_model->get_chronic($queryParams)->result()
+			'chronic'=> $this->posts_model->get_chronic($this->chronicQueryParams(array('chronicId' => $uriSegment[2])))->result()
 		);
 
 		// si un utilisateur est connecté  on recupère tous les chronicId de sa liste de favoris
