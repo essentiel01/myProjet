@@ -74,7 +74,7 @@ CREATE TABLE `posts` (
   `postSlug` varchar(255) NOT NULL,
   `postContent` text NOT NULL,
   `postSource` text NOT NULL,
-  `postPublishingDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `postDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `postCreatingDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `postUpdatingDate` datetime DEFAULT NULL,
   `postCategory` int(11) NOT NULL,
