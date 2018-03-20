@@ -44,7 +44,7 @@
 				} ?>
 				<p>Publié par:</p>
 				<p><img width="8%" src=<?= '/myProjet/webroot/images/usersAvatar/' . $row->writerAvatar ?> alt="avatar"></p>
-				<p><?= $row->writerFirstName." ".$row->writerLastName ?> le <?= $row->postPublishingDate ?></p>
+				<p><?= $row->writerFirstName." ".$row->writerLastName ?> le <?= $row->postDate ?></p>
 				<p><?= $row->postContent ?></p>
 				<h2>Sources de la revue</h2>
 				<p><?= $row->postSource ?></p>
