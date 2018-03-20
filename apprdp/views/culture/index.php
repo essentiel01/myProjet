@@ -21,7 +21,7 @@
 					<p>Publié par:</p>
 					<img width="8%" src="<?= base_url('webroot/images/usersAvatar/' . $row->writerAvatar) ?>"  alt="avatar">
 					<p><?= $row->writerFirstName . " " . $row->writerLastName ?></p>
-					<p>le <strong><?= $row->postPublishingDate ?></strong></p>
+					<p>le <strong><?= $row->postDate ?></strong></p>
 					<a href=<?= base_url('culture/publication/' . $row->postId . '/' . $row->postSlug); ?> class="btn btn-success btn-lg " role="button" aria-pressed="true">Lire</a>
 					<!-- Button trigger audioModal -->
 					<a href="#" class="btn btn-success btn-lg " role="button" data-toggle="modal" data-target="#audioModal<?= $row->postId ?>" aria-pressed="true">Ecouter</a>
@@ -103,6 +103,7 @@
 				<span class="carousel-control-next-icon" aria-hidden="true"></span>
 				<span class="sr-only">Next</span>
 			</a>
+		</div>
 	</div>
 </section>
 <!-- archive -->
@@ -113,13 +114,13 @@
 			<a href="<?= base_url('revues-de-presse/archive') ?>">
 				<li class="list-group-item d-flex justify-content-between align-items-center">
 					Toutes nos revues de presse
-					<!-- <span class="badge badge-primary badge-pill"><?= $allPostsCount ?></span> -->
+					<span class="badge badge-primary badge-pill"><?= $allPostsCount ?></span>
 				</li>
 			</a>
 			<a href="<?= base_url('chroniques/archive') ?>">
 				<li class="list-group-item d-flex justify-content-between align-items-center">
 					Toutes nos chroniques
-					<!-- <span class="badge badge-primary badge-pill"><?= $allChronicsCount ?></span> -->
+					<span class="badge badge-primary badge-pill"><?= $allChronicsCount ?></span>
 				</li>
 			</a>
 		</ul>
