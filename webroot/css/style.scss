@@ -5,6 +5,10 @@ $body-font: 'Open Sans', sans-serif;
 $title-font: 'Rajdhani', sans-serif;
 //h1 title font
 $h1-font: 'Shadows Into Light', cursive;
+//footer color
+$footerColor: #101038;
+//header color
+$headerColor: #9c031f;
 
 html {
 	font-size: 62.5%;
@@ -22,51 +26,97 @@ body {
 	font-family: $body-font;
 	font-size: 1.6rem;
 }
+.content {
+	width: 90%;
+	margin: auto;
+}
+.hide {
+	display: none;
+}
 
 // header
 header {
+	position: relative;
 	//background image of header
 	background: {
-		image: url("../images/journaux-pele-mele.jpg");
-		repeat: no-repeat;
-		size: cover;
-		position: center;
+		color: $headerColor;
 	}
 	//top bar
 	.topBar {
-		background-color: #000000;
-		color: #ffffff;
+		background-color: $footerColor;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 5px;
-	}
-	//social icons size
-	.socialIcons .fa {
-		font-size: 2rem;
-		margin: 0 1rem;
-	}
-	// suscribe and sign in buttons
-	.buttons > button {
-		margin: 0 1rem;
-	}
-	//live infos panel
-	.flashInfos {
-		background-color: red;
-		color: #fff;
-		p {
-			margin: 0;
+		padding: 0;
+		//social icons size
+		.socialIcons .fa {
+			font-size: 1.6rem;
+			margin: 0 1rem;
+			color: #ffffff;
+		}
+		// suscribe and sign in buttons
+		.buttons > a {
+			margin: 0 1rem;
+			background-color: $footerColor;
+			color: rgba(255,255,255,0.6);
+			border: 1px solid rgba(255,255,255,0.6);
+		}
+		//effet au survol des bouttons s'inscrire et se connecter
+		.buttons > a:hover {
+			background-color: rgba(255,255,255,0.6);
+			color: #000;
+			border: 1px solid rgba(255,255,255,0.6);
+		}
+		//user menu
+		.userMenu {
+			width: 50%;
+			display: flex;
+			justify-content: flex-end;
+			//boutton d'affichage de l'utilisateur connecté
+			.user {
+				max-width: 100%;
+				overflow: auto;
+				margin-right: 0.3rem;
+				position: relative;
+			}
+			//liste des items du menu utilisateur. ce bloc est déja mis en position absolute par le css de twitter bootstrap. j'ai ajouté à la balise html la propriété css left pour mieux le positionner.
+			.userMenuItems {
+				width: 25rem;
+				background-color: $footerColor;
+				//chaque item du userMenu
+				li {
+					border-bottom: 1px solid rgba(255,255,255,0.1);
+					padding: 1rem;
+					//chaque link du ser menu
+					a {
+						display: inline-block;
+						vertical-align: middle;
+						width: 100%;
+						font-size: 1.6rem;
+						color: #fff;
+					}
+					//effet au survole des liens
+					a:hover {
+						text-decoration: none;
+					}
+					//effet au click des liens
+					a:active {
+						background-color: #fff;
+					}
+				}
+			}
 		}
 	}
-	.titleWrapper {
-		background-color: #907e7e;
-		color: #fff;
+	//titre h1 du site et le sous titre
+	.titleAndSubtitle {
+		background-color: #fff;
+		color: #000;
 		//h1 font-style
 		h1 {
 			font: {
 				family: $h1-font;
 				weight: bold;
-				size:5rem ;
+				size:3rem ;
 			}
 			margin-bottom: 0;
 		}
@@ -77,33 +127,110 @@ header {
 			margin-bottom: 0;
 		}
 	}
+	//live infos panel
+	.flashInfos {
+		background-color: $footerColor;
+		color: #fff;
+		padding: 0.5rem;
+		p {
+			margin: 0;
+		}
+	}
 	//nav
-	.navWrapper{
-		margin: auto;
+	.navParent{
 		text-align: center;
-		background-color: lightblue;
-		nav {
-			width: 70%;
-			display: inline-block;
-			vertical-align: middle;
-			//nav link
-			a {
-				font-family: $title-font;
-				font-size: 2rem;
+		background-color: #fff;
+		//bouton hamburger + loop + formulaire de recherche
+		.menuBtnMobile {
+			display: flex;
+			justify-content: space-between;
+			padding: 2rem;
+			border-bottom: 1px solid rgba(0,0,0,0.4);
+			//hamburger
+			.hamburger {
+				color: rgba(0,0,0,0.4);
+				font-size: 1.6rem;
+			}
+			//formulaire de recherche sur les mobiles
+			.searchMobile {
+				//champ text de recherche
+				input {
+					display: inline-block;
+					vertical-align: middle;
+					width: 85%;
+					outline: .1rem solid rgba(0,0,0,0.4);
+					border: none;
+				}
+				//parent de l'input submit
+				div {
+					margin-top: .2rem;
+					margin-left: .5rem;
+					width: 3rem;
+					//l'input submit
+					input {
+						outline-width: 0;
+						margin-bottom: .3rem;
+					}
+				}
+			}
+			//l'icone search
+			.loop {
+				color: rgba(0,0,0,0.4);
+				font-size: 1.6rem;
+				width: 3rem;
+				height: 1.8rem;
+				margin-top: 0.2rem;
+				border-radius: 0.3rem;
 			}
 		}
-		//search form
-		.search {
-			display: inline-block;
-			width: 20%;
-			vertical-align: baseline;
-			//search submit button
-			.btn-search {
-				display: inline;
+		//barre de navigation
+		nav {
+			width: 100%;
+			text-align: left;
+			//liste du menu
+			ul {
+				position: absolute;
+				width: 90%;
+				list-style: none;
+				text-align: left;
+				background-color: $footerColor;
+				//items de la liste du menu
+				li {
+					border-bottom: 1px solid rgba(255,255,255,0.1);
+					// liens de la liste du menu
+					a {
+						font-family: $title-font;
+						font-size: 2rem;
+						padding: 1rem;
+						display: inline-block;
+						vertical-align: middle;
+						width: 100%
+					}
+				}
 			}
-			//search input
+		}
+		//formulaire de recherche sur les pc et écrans larges
+		.search {
+			padding-left: 2rem;
+			display: none;
+			//champ text de recherche
 			input {
-				display: inline;
+				display: inline-block;
+				vertical-align: middle;
+				width: 85%;
+				outline: .1rem solid rgba(0,0,0,0.4);
+				border: none;
+			}
+			//parent de l'input submit
+			div {
+				margin-top: .2rem;
+				margin-left: .5rem;
+				width: 3rem;
+				//l'input submit
+				input {
+					outline-width: 0;
+					margin-bottom: .3rem;
+				}
 			}
 		}
 	}
