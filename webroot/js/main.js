@@ -20,4 +20,9 @@ $(document).ready(function () {
 	//met le focus sur le champ commentaire lorsqu'on clique sur repondre
 	$('main').on('click', '.reply', replyComment);
 
+	//event click pour afficher ou masquer la nav sur les mobiles et de changer l'icone hamburger en croix
+	$('#hamburger').on('click', showNav);
+
+	//event click pour afficher le formulaire de recherche sur les mobile
+	$('#loop').on('click', showSearch);
 });
