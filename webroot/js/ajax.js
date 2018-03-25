@@ -125,3 +125,20 @@ function replyComment()
 	//puis on met le focus sur le textarea du commentaire
 	$('#comment').focus();
 }
+
+
+/**
+ * showMenu affiche le menu avec une animation de type slide du haut vers le bas à l'affichage puis une animation slide du bas vers le haut quand on le masque
+ * @param  event e
+ */
+function showNav(e) {
+	$("nav > ul").slideToggle(200);
+	$(this).toggleClass("fa-times").toggleClass("fa-bars");
+}
+
+
+function showSearch() {
+	$('#hamburger').toggleClass('hide');
+	$('#searchMobile').toggleClass('hide');
+	$(this).toggleClass("fa-times").toggleClass("fa-search");
+}
