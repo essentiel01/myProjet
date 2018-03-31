@@ -33,16 +33,16 @@
 
 			<p>Pays: <?= $row->countryName ?></p>
 			<p>Rubrique: <?= $row->categoryName ?></p>
-			<h2><?= $row->chronicTitle ?></h2>
-
-			<!-- compare le postId à chaque postId de la liste des revues qui sont dans les favoris. s'il y a un qui correspond alors on ajoute un petit coeur pour signifier que cet article fait déjà partie des favoris  -->
-			<?php if (isset($favoritesList)) {
-				foreach ($favoritesList as $row1):
-					if ($row->chronicId == $row1->chronicId) : ?>
-					<i class="fa fa-heart"></i>
-					<?php endIf; ?>
-				<?php endforeach;
-			} ?>
+			<!-- icone favoris -->
+			<h2><?= $row->chronicTitle ?>
+				<?php if (isset($favoritesList)) {
+					foreach ($favoritesList as $row1):
+						if ($row->chronicId == $row1->chronicId) : ?>
+						<i class="fa fa-heart fa-coeur"></i>
+						<?php endIf; ?>
+					<?php endforeach;
+				} ?>
+			</h2>
 
 			<p>Publié par:</p>
 			<p><img width="8%" src=<?= base_url('webroot/images/usersAvatar/' . $row->writerAvatar) ?> alt="avatar"></p>
