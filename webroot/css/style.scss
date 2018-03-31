@@ -10,6 +10,14 @@ $footerColor: #101038;
 //header color
 $headerColor: #9c031f;
 
+//les mixins
+
+@mixin h2Style($color) {
+	font-weight: 600;
+	border-bottom: 1px solid $color;
+	padding: 1rem 0;
+}
+
 html {
 	font-size: 62.5%;
 }
@@ -26,12 +34,23 @@ body {
 	font-family: $body-font;
 	font-size: 1.6rem;
 }
+// conteneur
 .content {
 	width: 90%;
 	margin: auto;
 }
+// masquer un élément
 .hide {
 	display: none;
+}
+// style pour le nom de l'auteur et la date de publication
+.auteur {
+	font-style: italic;
+	font-size: 1.2rem;
+}
+// icone favoris
+.fa-coeur {
+	color: green;
 }
 
 // header
@@ -145,7 +164,7 @@ header {
 			display: flex;
 			justify-content: space-between;
 			padding: 2rem;
-			border-bottom: 1px solid rgba(0,0,0,0.4);
+			//border-bottom: 1px solid rgba(0,0,0,0.4);
 			//hamburger
 			.hamburger {
 				color: rgba(0,0,0,0.4);
@@ -236,19 +255,84 @@ header {
 	}
 }
 
-/*main*/
-.mainWrapper {
-	display: inline-block;
-	width: 63%;
-	vertical-align: top;
-	margin: 0 1%;
+/*main page index*/
+// .main {
+// 	display: inline-block;
+// 	width: 63%;
+// 	vertical-align: top;
+// 	margin: 0 1%;
+// }
+// /*aside*/
+// .aside {
+// 	display: inline-block;
+// 	width: 33%;
+// 	vertical-align: top;
+// 	margin: 0 1%;
+// }
+
+
+.main {
+	//background-color: #fff;
+	h2 {
+		@include h2Style(#000);
+	}
+	// chaque revue de presse de la lsite
+	.post {
+		padding: 1rem;
+		background-color: rgba(184, 15, 30, 0.43);
+		margin: 1rem 0;
+		.btnLecture {
+			text-align: right;
+		}
+	}
+	// pagination
+	.pagination {
+		justify-content: center;
+		align-items: center
+	}
 }
-/*aside*/
-.asideWrapper {
-	display: inline-block;
-	width: 33%;
-	vertical-align: top;
-	margin: 0 1%;
+//aside
+.aside {
+	background-color: #fff;
+	// chronique
+	.chronic {
+		padding: 1rem;
+		margin: 4rem 0;
+		background-color: #93FAAB;
+		color: #000;
+		// titre de la chronique
+		h2 {
+			@include h2Style(#fff);
+		}
+		// le corps de la chronique
+		.chronicContent {
+    		line-height: 2;
+			.readMore {
+				margin-left: 1rem;
+			}
+		}
+	}
+	// carousel pour pc et écran large
+	.slider {
+		display: none;
+	}
+	// carousel pour mobile
+	.sliderMobile {
+		margin-top: 4rem;
+	}
+	// archives
+	.archive {
+		h2 {
+			@include h2Style(#000);
+		}
+	}
+	// décodeurs
+	.decodeur {
+		margin-top: 4rem;
+		h2 {
+			@include h2Style(#000);
+		}
+	}
 }
 /*footer*/
 footer {
