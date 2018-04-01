@@ -1,9 +1,9 @@
 <div class="content">
 	<!-- main -->
 	<main  class="main">
-		<!-- titre de la page -->
-		<h2><?= $mainTitle ?></h2>
 		<section class="posts">
+			<!-- titre de la section -->
+			<h2><?= $mainTitle ?></h2>
 			<?php foreach ($result as $row):?>
 				<!-- infos de chaque post -->
 				<div class="post">
