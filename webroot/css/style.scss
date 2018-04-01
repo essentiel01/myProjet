@@ -9,13 +9,43 @@ $h1-font: 'Shadows Into Light', cursive;
 $footerColor: #101038;
 //header color
 $headerColor: #9c031f;
+//couleur de fonds pour auteur, sources etc
+$gray: #EBF0EC;
 
 //les mixins
 
 @mixin h2Style($color) {
+	font-family: $title-font;
 	font-weight: 600;
 	border-bottom: 1px solid $color;
 	padding: 1rem 0;
+}
+
+@mixin modal {
+	// modal-header
+	.header {
+		background-color: $headerColor;
+		color: #fff;
+		button {
+			span {
+				color: #fff;
+			}
+		}
+	}
+	// modal-body
+	.body {
+		p {
+			font-style: italic;
+		}
+		h2 {
+			@include h2Style(#000);
+			border-bottom: none;
+		}
+	}
+	// modal-footer
+	.footer {
+		background-color: $footerColor;
+	}
 }
 
 html {
@@ -52,6 +82,8 @@ body {
 .fa-coeur {
 	color: green;
 }
+
+
 
 // header
 header {
@@ -270,25 +302,39 @@ header {
 // 	margin: 0 1%;
 // }
 
-
+// button favoris
+.favoris {
+	text-align: right;
+	margin-top: 4rem;
+	.btn-favoris {
+		background-color: yellow;
+		color: black;
+		border: 1px solid #fff;
+		font-weight: 600;
+		font-size: 1.4rem;
+	}
+}
 .main {
 	//background-color: #fff;
-	h2 {
-		@include h2Style(#000);
-	}
-	// chaque revue de presse de la lsite
-	.post {
-		padding: 1rem;
-		background-color: rgba(184, 15, 30, 0.43);
-		margin: 1rem 0;
-		.btnLecture {
-			text-align: right;
+	//liste des revues de presse
+	.posts {
+		h2 {
+			@include h2Style(#000);
 		}
-	}
-	// pagination
-	.pagination {
-		justify-content: center;
-		align-items: center
+		// chaque revue de presse de la lsite
+		.post {
+			padding: 1rem;
+			background-color: rgba(184, 15, 30, 0.43);
+			margin: 1rem 0;
+			.btnLecture {
+				text-align: right;
+			}
+		}
+		// pagination
+		.pagination {
+			justify-content: center;
+			align-items: center
+		}
 	}
 }
 //aside
@@ -332,6 +378,88 @@ header {
 		h2 {
 			@include h2Style(#000);
 		}
+	}
+}
+// main page singleView
+// favoris modal
+.fModal {
+	@include modal ;
+}
+.singlePost {
+	h2 {
+		@include h2Style(#000);
+	}
+	.auteur {
+		background-color: $gray;
+		padding: 0.5rem;
+	}
+	p {
+		.avatar {
+			width: 8%;
+		}
+	}
+	//corps de l'article
+	.postContent {
+		line-height: 1.8;
+	}
+	//les sources de la revue
+	.source {
+		background-color: $gray;
+		padding: 0.5rem;
+		h2 {
+			font-size: 1.2rem;
+		}
+		.sourceItems {
+			font-size: 1.2rem;
+			color: rgba(0,0,0,0.4);
+		}
+	}
+}
+//le formulaire de commentaires
+.comment {
+	margin-top: 4rem;
+	textarea {
+		width: 100%;
+		border: none;
+		outline-style: solid;
+		outline-color: rgba(0,0,0,0.3);
+		background-color: $gray;
+	}
+}
+//titre commentaires
+.commentTitle {
+	margin-top: 1rem;
+}
+//les commentaires
+.displayComments {
+	background-color: #dadada;
+	padding: 0.5rem;
+	margin: 2rem 0;
+	max-height: 100vh;
+	overflow: auto;
+	//commentaire parent
+	.eachComment {
+		background-color: $gray;
+		padding: 0.5rem;
+		margin: 0.5rem;
+		border-radius: 1rem;
+	}
+	//contenu du commentaire
+	.commentContent {
+		background-color: #fff;
+		padding: 1rem;
+		border-radius: 1rem;
+	}
+	//button répondre
+	.btnReply {
+		text-align: right;
+	}
+	//commentaire réponse
+	.eachReply {
+		background-color: $gray;
+		padding: 0.5rem;
+		margin: 2rem 0  2rem 3rem ;
+		border-radius: 1rem;
 	}
 }
 /*footer*/
