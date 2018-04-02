@@ -245,6 +245,7 @@ header {
 				list-style: none;
 				text-align: left;
 				background-color: $footerColor;
+				z-index: 2000;
 				//items de la liste du menu
 				li {
 					border-bottom: 1px solid rgba(255,255,255,0.1);
@@ -312,6 +313,15 @@ header {
 		border: 1px solid #fff;
 		font-weight: 600;
 		font-size: 1.4rem;
+	}
+}
+//erreur de validation de formulaire
+.formError {
+	font-size: 1rem;
+	color: rgb(255, 0, 122);
+	//error message
+	p {
+		margin-left: 1.5rem;
 	}
 }
 .main {
@@ -426,14 +436,9 @@ header {
 		background-color: $gray;
 	}
 }
-//titre commentaires
-.commentTitle {
-	margin-top: 1rem;
-}
+
 //les commentaires
 .displayComments {
-	background-color: #dadada;
-	padding: 0.5rem;
 	margin: 2rem 0;
 	max-height: 100vh;
 	overflow: auto;
@@ -453,6 +458,7 @@ header {
 	//button répondre
 	.btnReply {
 		text-align: right;
+		margin-right: 1rem;
 	}
 	//commentaire réponse
 	.eachReply {
@@ -462,7 +468,7 @@ header {
 		border-radius: 1rem;
 	}
 }
-//style de la page chronicView
+//main page chronicView
 .singleChronic {
 	h2 {
 		@include h2Style(#000);
@@ -473,6 +479,16 @@ header {
 	}
 	.chronicContent {
 		line-height: 1.8;
+	}
+}
+//main page registerView
+.registerForm {
+	background-color: #dadada;
+	padding: 1rem;
+	margin: 2rem 0;
+	border-radius: 1rem;
+	.btnRegister {
+		text-align: right;
 	}
 }
 /*footer*/
