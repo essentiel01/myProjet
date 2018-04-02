@@ -516,6 +516,24 @@ header {
 		padding: 1rem;
 	}
 }
+//main page espacePersonnelView
+.espace {
+	margin: 2rem 0;
+	text-align: center;
+	h2 {
+		@include h2Style(#000);
+		border-bottom: none;
+	}
+	a {
+		display: inline-block;
+		vertical-align: middle;
+		width: 90%;
+		padding: 1rem 4rem;
+		background-color: $headerColor;
+		color: #fff;
+		margin: 1rem 0;
+	}
+}
 /*footer*/
 footer {
 	background-color: #907e7e;
