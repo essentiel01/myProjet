@@ -481,14 +481,26 @@ header {
 		line-height: 1.8;
 	}
 }
-//main page registerView
-.registerForm {
+//main page registerView et loginView
+.form {
 	background-color: #dadada;
 	padding: 1rem;
 	margin: 2rem 0;
 	border-radius: 1rem;
 	.btnRegister {
 		text-align: right;
+	}
+}
+//titre du formulaire
+.formTitle {
+	@include h2Style(#000);
+}
+//les liensmotde passe oublié et j'ai deja un compte
+.formLink {
+	font-size: 1.2rem;
+	a {
+		margin: 0 0.5rem;
+		text-decoration: underline;
 	}
 }
 /*footer*/
