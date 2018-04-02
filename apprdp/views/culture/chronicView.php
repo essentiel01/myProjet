@@ -4,7 +4,7 @@
 			foreach ($chronic as $row) : ?>
 			<!-- Button trigger favorisModal -->
 			<div class="favoris">
-				<button type="button" class="btn btn-favoris" data-toggle="modal" data-target="#favorisModal<?= $row->chronicId ?>">
+				<button type="button" class="btn btn-lg btn-sm btn-favoris" data-toggle="modal" data-target="#favorisModal<?= $row->chronicId ?>">
 					Favoris
 				</button>
 			</div>
@@ -25,8 +25,8 @@
 							<h2><?= $row->chronicTitle ?></h2>
 						</div>
 						<div class="modal-footer footer">
-							<button type="button" id="modalCancel" class="btn btn-secondary btn-lg" data-dismiss="modal">Annuler</button>
-							<a  id="addChronicFavorite" class="btn btn-success btn-lg " role="button" aria-pressed="true" href="<?= base_url('connexion/formulaire') ?>" data-chronicId="<?= $row->chronicId ?>" data-userId="<?php if(isset($_SESSION['userData']->userId)) {echo $_SESSION['userData']->userId;} ?>">Ajouter</a>
+							<button type="button" id="modalCancel" class="btn btn-secondary btn-lg btn-sm" data-dismiss="modal">Annuler</button>
+							<a  id="addChronicFavorite" class="btn btn-success btn-lg  btn-sm" role="button" aria-pressed="true" href="<?= base_url('connexion/formulaire') ?>" data-chronicId="<?= $row->chronicId ?>" data-userId="<?php if(isset($_SESSION['userData']->userId)) {echo $_SESSION['userData']->userId;} ?>">Ajouter</a>
 						</div>
 					</div>
 				</div>
@@ -61,9 +61,8 @@
 				<textarea id="comment" name="comment" rows="2" cols="70"></textarea>
 				<input type="hidden" id="parentCommentId" name="parentCommentId" value="0">
 			</form>
-			<a id="addChronicComment" class="btn btn-lg btn-primary" href="<?= base_url('connexion/formulaire') ?>" data-chronicId="<?= $row->chronicId ?>" data-userId="<?php if(isset($_SESSION['userData']->userId)) {echo $_SESSION['userData']->userId;} ?>">Valider</a>
+			<a id="addChronicComment" class="btn btn-lg btn-sm btn-primary" href="<?= base_url('connexion/formulaire') ?>" data-chronicId="<?= $row->chronicId ?>" data-userId="<?php if(isset($_SESSION['userData']->userId)) {echo $_SESSION['userData']->userId;} ?>">Valider</a>
 			<!-- liste des commentaires -->
-			<h4 class="commentTitle">Commentaires</h4>
 			<div id="displayChronicComments" class="displayComments">
 
 			</div>
