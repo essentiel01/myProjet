@@ -13,14 +13,24 @@ $headerColor: #9c031f;
 $gray: #EBF0EC;
 
 //les mixins
-
+//style des titres h2
 @mixin h2Style($color) {
 	font-family: $title-font;
 	font-weight: 600;
 	border-bottom: 1px solid $color;
 	padding: 1rem 0;
 }
-
+//style des liens dansl'epace personnel
+@mixin linkEspacePersonnel {
+	display: inline-block;
+	vertical-align: middle;
+	width: 90%;
+	padding: 1rem 0;
+	background-color: $headerColor;
+	color: #fff;
+	margin: 1rem 0;
+}
+//style des fenetres modal
 @mixin modal {
 	// modal-header
 	.header {
@@ -525,13 +535,15 @@ header {
 		border-bottom: none;
 	}
 	a {
-		display: inline-block;
-		vertical-align: middle;
-		width: 90%;
-		padding: 1rem 4rem;
-		background-color: $headerColor;
-		color: #fff;
-		margin: 1rem 0;
+		@include linkEspacePersonnel();
+	}
+}
+//main page index de favoris
+.indexFavoris {
+	margin: 2rem 0;
+	text-align: center;
+	a {
+		@include linkEspacePersonnel();
 	}
 }
 /*footer*/
