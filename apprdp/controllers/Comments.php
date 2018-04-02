@@ -48,7 +48,7 @@ class Comments extends CI_Controller
 		//var_dump($comments);
 		$output = '';
 		foreach ($comments as $row) {
-			$output .= '<div class="eachComment"><div class="auteur">' . $row->userFirstName . ' ' . $row->userLastName . ' le ' . $row->commentDate . '</div> <div class="commentContent">' . $row->commentContent . '</div></div><div class="btnReply"><button type="button" class="reply btn btn-lg btn-xs btn-primary" data-commentId=' . $row->commentId . '>Répondre</button></div>';
+			$output .= '<div class="eachComment"><div class="auteur">' . $row->userFirstName . ' ' . $row->userLastName . ' le ' . $row->commentDate . '</div> <div class="commentContent">' . $row->commentContent . '</div></div><div class="btnReply"><button type="button" class="reply btn btn-lg btn-sm btn-primary" data-commentId=' . $row->commentId . '>Répondre</button></div>';
 			if (isset($row->children)) {
 				foreach ($row->children as $row) {
 					$output .= '<div class="eachReply"><div class="auteur">' . $row->userFirstName . ' ' . $row->userLastName . ' le ' . $row->commentDate . '</div> <div class="commentContent">' . $row->commentContent . '</div></div>';
@@ -95,10 +95,10 @@ class Comments extends CI_Controller
 			// var_dump($comments);
 			$output = '';
 			foreach ($comments as $row) {
-				$output .= '<div class="eachComment"><div class="auteur"> Par ' . $row->userFirstName . ' ' . $row->userLastName . ' le ' . $row->commentDate . '</div> <div class="commentContent">' . $row->commentContent . '</div></div><div class="btnReply"><button type="button" class="reply btn btn-lg btn-xs btn-primary" data-commentId=' . $row->commentId . '>Répondre</button></div>';
+				$output .= '<div class="eachComment"><div class="auteur">' . $row->userFirstName . ' ' . $row->userLastName . ' le ' . $row->commentDate . '</div> <div class="commentContent">' . $row->commentContent . '</div></div><div class="btnReply"><button type="button" class="reply btn btn-lg btn-sm btn-primary" data-commentId=' . $row->commentId . '>Répondre</button></div>';
 				if (isset($row->children)) {
 					foreach ($row->children as $row) {
-						$output .= '<div class="eachReply";"><div class="auteur"> Par ' . $row->userFirstName . ' ' . $row->userLastName . ' le ' . $row->commentDate . '</div> <div class="commentContent">' . $row->commentContent . '</div></div>';
+						$output .= '<div class="eachReply";"><div class="auteur">' . $row->userFirstName . ' ' . $row->userLastName . ' le ' . $row->commentDate . '</div> <div class="commentContent">' . $row->commentContent . '</div></div>';
 					}
 				}
 			}
