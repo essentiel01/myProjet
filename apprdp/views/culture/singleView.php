@@ -4,7 +4,7 @@
 			 	foreach ($post as $row) : ?>
 				<!-- Button trigger favorisModal -->
 				<div class="favoris">
-					<button type="button" class="btn btn-favoris" data-toggle="modal" data-target="#favorisModal<?= $row->postId ?>">
+					<button type="button" class="btn btn-lg btn-sm btn-favoris" data-toggle="modal" data-target="#favorisModal<?= $row->postId ?>">
 						Favoris
 					</button>
 				</div>
@@ -25,8 +25,8 @@
 								<h2><?= $row->postTitle ?></h2>
 							</div>
 							<div class="modal-footer footer">
-								<button type="button" id="modalCancel" class="btn btn-secondary btn-lg" data-dismiss="modal">Annuler</button>
-								<a  id="addPostFavorite" class="btn btn-success btn-lg " role="button" aria-pressed="true" href="<?= base_url('connexion/formulaire') ?>" data-postId="<?= $row->postId ?>" data-userId="<?php if(isset($_SESSION['userData']->userId)) {echo $_SESSION['userData']->userId;} ?>">Ajouter</a>
+								<button type="button" id="modalCancel" class="btn btn-secondary btn-lg btn-sm" data-dismiss="modal">Annuler</button>
+								<a  id="addPostFavorite" class="btn btn-success btn-lg btn-sm" role="button" aria-pressed="true" href="<?= base_url('connexion/formulaire') ?>" data-postId="<?= $row->postId ?>" data-userId="<?php if(isset($_SESSION['userData']->userId)) {echo $_SESSION['userData']->userId;} ?>">Ajouter</a>
 							</div>
 						</div>
 					</div>
@@ -65,9 +65,8 @@
 					<textarea id="comment" name="comment" rows="2" cols="70"></textarea>
 					<input type="hidden" id="parentCommentId" name="parentCommentId" value="0">
 				</form>
-				<a id="addPostComment" class="btn btn-lg btn-primary" href="<?= base_url('connexion/formulaire') ?>" data-postId="<?= $row->postId ?>" data-userId="<?php if(isset($_SESSION['userData']->userId)) {echo $_SESSION['userData']->userId;} ?>">Valider</a>
+				<a id="addPostComment" class="btn btn-lg btn-sm btn-primary" href="<?= base_url('connexion/formulaire') ?>" data-postId="<?= $row->postId ?>" data-userId="<?php if(isset($_SESSION['userData']->userId)) {echo $_SESSION['userData']->userId;} ?>">Valider</a>
 				<!-- liste des commentaires -->
-				<h4 class="commentTitle">Commentaires</h4>
 				<div id="displayPostComments" class="displayComments">
 
 				</div>
