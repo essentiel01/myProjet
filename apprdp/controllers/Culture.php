@@ -1,4 +1,4 @@
-<<?php
+<?php
 /**
  * Controller de la page culture
  */
