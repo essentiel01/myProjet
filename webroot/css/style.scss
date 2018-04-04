@@ -382,10 +382,6 @@ header {
 	.slider {
 		display: none;
 	}
-	// carousel pour mobile
-	.sliderMobile {
-		margin-top: 4rem;
-	}
 	// archives
 	.archive {
 		h2 {
@@ -545,6 +541,10 @@ header {
 	a {
 		@include linkEspacePersonnel();
 	}
+}
+//main favorisView
+.aModal {
+	@include modal ;
 }
 /*footer*/
 footer {
