@@ -2,7 +2,7 @@
 /**
  *
  */
-class Economie extends MY_Controller
+class Economie extends Posts_Controller
 {
 
 	function __construct()
