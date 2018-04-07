@@ -13,18 +13,15 @@ class Posts_model extends CI_Model {
 		 * @param Array $params tableau associatif contenant les différentes clauses de la requête
 		 * @return Objet   objet  représentant la requête non exécutée
 		 */
-		public function getPosts(Array $params)
+		public function getPosts(Array $params, $table, $limit = NULL, $offset=NULL)
 		{
-			$sql = $this->db->select($params['select'])
-								->from($params['from'])
-								->join($params['join1'], $params['on1'], $params['inner1'])
-								->join($params['join2'], $params['on2'], $params['inner2'])
-								->join($params['join3'], $params['on3'], $params['inner3'])
-								->where($params['where'])
-								->limit($params['limit'], $params['offset'])
-								->order_by($params['order'])
-								->get_compiled_select();
-			  return $this->db->query($sql);
+			$this->db->select($params['select']);
+			$this->db->join($params['join1'], $params['on1'], $params['inner1']);
+			$this->db->join($params['join2'], $params['on2'], $params['inner2']);
+			$this->db->join($params['join3'], $params['on3'], $params['inner3']);
+			$this->db->where($params['where']);
+			$this->db->order_by($params['order']);
+			return $this->db->get($table, $limit, $offset);
 		}
 		/**
 		 * sélectionne tous les articles d'une table et les classe par date de publication décroissante
@@ -32,15 +29,15 @@ class Posts_model extends CI_Model {
 		 * @param  String $table  nom de la table cible de la requête
 		 * @return Objet         [description]
 		 */
-		public function getAllPosts(Array $params, String $table)
+		public function getArchives(Array $params, String $table)
 		{
 			$sql = $this->db->select($params['select'])
 							->join($params['join1'], $params['on1'], $params['inner1'])
 							->join($params['join2'], $params['on2'], $params['inner2'])
 							->join($params['join3'], $params['on3'], $params['inner3'])
 							->order_by($params['order'])
-							->get_compiled_select($table);
-			return $this->db->query($sql);
+							->get($table);
+			return $sql;
 		}
 
 
@@ -51,8 +48,8 @@ class Posts_model extends CI_Model {
 		 */
 		public function getCarousel(String $table)
 		{
-			$sql = $this->db->get_compiled_select($table);
-			return $this->db->query($sql);
+			$sql = $this->db->get($table);
+			return $sql;
 		}
 
 
@@ -61,15 +58,14 @@ class Posts_model extends CI_Model {
 		 * @param Array $params tableau associatif contenant les différentes clauses de la requête sql
 		 * @return Objet [objet pdo représentant
 		 */
-		public function get_single_post(Array $params)
+		public function getSinglePost(Array $params, string $table)
 		{
 			$query = $this->db->select($params['select'])
-								->from($params['from'])
 								->join($params['join1'], $params['on1'], $params['inner1'])
 								->join($params['join2'], $params['on2'], $params['inner2'])
 								->join($params['join3'], $params['on3'], $params['inner3'])
 								->where($params['where'])
-								->get();
+								->get($table);
 			return  $query;
 		}
 
@@ -78,7 +74,7 @@ class Posts_model extends CI_Model {
 		 * @param Array $params tableau associatif contenant les différentes clauses de la requête sql
 		 * @return Objet [objet pdo représentant
 		 */
-		public function get_chronic(Array $params)
+		public function getChronic(Array $params, string $table)
 		{
 			$query = $this->db->join($params['join1'], $params['on1'], $params['inner1'])
 						->join($params['join2'], $params['on2'], $params['inner2'])
@@ -86,7 +82,7 @@ class Posts_model extends CI_Model {
 						->where($params['where'])
 						->limit($params['limit'])
 						->order_by($params['order'])
-						->get($params['from']);
+						->get($table);
 			return $query;
 		}
 
@@ -96,14 +92,14 @@ class Posts_model extends CI_Model {
 		 * @param String $table le nom de la table sur laquelle la requête est exécutée
 		 * @return Integer le nombre de résultat renvoyé par la requête
 		*/
-		public function countPosts(String $table, Array $params)
-		{
-			$sql = $this->db->join($params['join1'], $params['on1'], $params['inner1'])
-								->where($params['where'])
-								->get_compiled_select($table);
-
-			return $this->db->query($sql)->num_rows();
-		}
+		// public function countPosts(Array $params, String $table)
+		// {
+		// 	$sql = $this->db->join($params['join1'], $params['on1'], $params['inner1'])
+		// 					->where($params['where'])
+		// 					->get_compiled_select($table);
+		//
+		// 	return $this->db->query($sql)->num_rows();
+		// }
 
 		/**
 		 * Compte le nombre de ligne retourné par la requête
@@ -111,11 +107,11 @@ class Posts_model extends CI_Model {
 		 * @param  Array  $params paramêtres de la requête sql
 		 * @return Int         nombre de resultat retourné par la requête
 		 */
-		public function countFavorites(String $table, Array $params)
+		public function countFavorites(Array $params, String $table):int
 		{
 			$sql = $this->db->where($params['where'])
-					->get_compiled_select($table);
-			return $this->db->query($sql)->num_rows();
+							->get($table);
+			return $sql->num_rows();
 		}
 
 		/**
@@ -123,7 +119,7 @@ class Posts_model extends CI_Model {
 		 * @param  String $table nom de la table
 		 * @param Array   $params tableau associatif contenant les données à enregistrer
 		 */
-		public function saveNew(String $table, Array $params)
+		public function saveNew(Array $params, String $table)
 		{
 			foreach ($params as $key => $value) {
 				$this->db->set($key, $value);
@@ -136,41 +132,41 @@ class Posts_model extends CI_Model {
 		 * @param String $table Nom de la table
 		 * @param Array  $params    paramêtres de la requête
 		 */
-		public function addFavorite(String $table, Array $params)
+		public function addFavorite(Array $params, String $table)
 		{
 			$sql = $this->db->where($params)
-					->get_compiled_select($table);
-			if ($this->db->query($sql)->num_rows() == 0) {
+					->get($table);
+			if ($sql->num_rows() == 0) {
 				$this->db->insert($table, $params);
 			}
 		}
 
 		/**
 		 * Selectionne toutes les revues favoris pour un utilisateur donné.
-		 * @param  String $table nom de la table
 		 * @param  Array  $params    paramètres de la requête
+		 * @param  String $table nom de la table
 		 * @return Objet            un objet
 		 */
-		public function getFavorites(String $table, Array $params)
-		{
-			$sql = $this->db->select($params['select'])
-							->join($params['join1'], $params['on1'], $params['inner1'])
-							->join($params['join2'], $params['on2'], $params['inner2'])
-							->join($params['join3'], $params['on3'], $params['inner3'])
-							->where($params['where'])
-							->get_compiled_select($table);
-			return	$this->db->query($sql);
-
-		}
+		// public function getFavorites(Array $params, String $table)
+		// {
+		// 	$sql = $this->db->select($params['select'])
+		// 					->join($params['join1'], $params['on1'], $params['inner1'])
+		// 					->join($params['join2'], $params['on2'], $params['inner2'])
+		// 					->join($params['join3'], $params['on3'], $params['inner3'])
+		// 					->where($params['where'])
+		// 					->get_compiled_select($table);
+		// 	return	$this->db->query($sql);
+		//
+		// }
 
 
 		/**
 		 * Selectionne tous les postId de la table posts_favorites pour un utilisateur donné.
-		 * @param  String $table nom de la table
 		 * @param  Array  $params    paramêtres de la requête sql
+		 * @param  String $table nom de la table
 		 * @return Objet            un objet
 		 */
-		public function getPostIdFromFavorites(String $table, Array $params)
+		public function getPostIdFromFavorites(Array $params, String $table)
 		{
 			$sql = $this->db->select($params['select'])
 							->where($params['where'])
@@ -180,48 +176,48 @@ class Posts_model extends CI_Model {
 
 		/**
 		 * Supprime de la table un enregistrement
-		 * @param  String $table  nom de la table
 		 * @param  Array  $params paramètres de la requête sql
+		 * @param  String $table  nom de la table
 		 */
-		public function deleteFavorite(String $table, Array $params)
+		public function deleteFavorite(Array $params, String $table)
 		{
 			$this->db->delete($table, $params);
 		}
 
 		/**
 		 * selectione les commentaires parents
-		 * @param  String $table  nom de la table
 		 * @param  Array  $params paramètres de la requête sql
+		 * @param  String $table  nom de la table
 		 * @return Objet         [description]
 		 */
-		public function getComments(String $table, Array $params)
+		public function getComments(Array $params, String $table)
 		{
 			$sql = $this->db->select($params['select'])
 							->join($params['join1'], $params['on1'], $params['inner1'])
 							->where($params['where'])
 							->order_by($params['order'])
-							->get_compiled_select($table);
+							->get($table);
 							//die($sql);
 
-			return $this->db->query($sql);
+			return $sql;
 		}
 
 		/**
 		 * sélectionne les réponses des commentaires
-		 * @param  String $table           nom de la table
 		 * @param  Array  $params          paramètre de la requête sql
+		 * @param  String $table           nom de la table
 		 * @param  Int    $parentCommentId l'id du commentaire parent
 		 * @return Objet                  [description]
 		 */
-		public function getCommentsReply(String $table, Array $params, Int $parentCommentId)
-		{
-			$sql = $this->db->select($params['select'])
-							->join($params['join1'], $params['on1'], $params['inner1'])
-							->where(array('parentCommentId' => $parentCommentId))
-							->order_by($params['order'])
-							->get_compiled_select($table);
-			//die($sql);
-			return $this->db->query($sql);
-		}
+		// public function getCommentsReply(Array $params, String $table, Int $parentCommentId)
+		// {
+		// 	$sql = $this->db->select($params['select'])
+		// 					->join($params['join1'], $params['on1'], $params['inner1'])
+		// 					->where(array('parentCommentId' => $parentCommentId))
+		// 					->order_by($params['order'])
+		// 					->get($table);
+		// 	//die($sql);
+		// 	return $sql;
+		// }
 
 }
