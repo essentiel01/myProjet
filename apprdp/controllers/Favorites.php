@@ -66,7 +66,7 @@ class Favorites extends CI_Controller
 			$config['base_url'] =  base_url('espace-personnel/mes-revues-de-presse-favoris/')  ;
 
 			// nombre total de revues de presse favoris pour un utilisateur donné
-			$config['total_rows'] = $this->posts_model->countFavorites('posts_favorites', $queryParams1);
+			$config['total_rows'] = $this->posts_model->countFavorites($queryParams1, 'posts_favorites');
 
 			// nombre d'articles par page
 			$config['per_page'] = 3;
@@ -127,7 +127,7 @@ class Favorites extends CI_Controller
 			$data['favoris'] = array(
 				'headerTitle' => 'Favoris',
 				'mainTitle' => 'Ma sélection de revue de presse',
-				'favoritesList' => $this->posts_model->getPosts($queryParams2)->result(),
+				'favoritesList' => $this->posts_model->getPosts($queryParams2, 'posts_favorites')->result(),
 				'emptyFavoritesList' => 'Votre liste de favoris est vide'
 			);
 
@@ -171,7 +171,7 @@ class Favorites extends CI_Controller
 			$config['base_url'] =  base_url('espace-personnel/mes-chroniques-favoris/')  ;
 
 			// nombre total de revues de presse favoris pour un utilisateur donné
-			$config['total_rows'] = $this->posts_model->countFavorites('chronics_favorites', $queryParams1);
+			$config['total_rows'] = $this->posts_model->countFavorites($queryParams1, 'chronics_favorites');
 
 			// nombre d'articles par page
 			$config['per_page'] = 3;
@@ -232,7 +232,7 @@ class Favorites extends CI_Controller
 			$data['favoris'] = array(
 				'headerTitle' => 'Favoris',
 				'mainTitle' => 'Ma sélection de chroniques',
-				'favoritesList' => $this->posts_model->getPosts($queryParams2)->result(),
+				'favoritesList' => $this->posts_model->getPosts($queryParams2, 'chronics_favorites')->result(),
 				'emptyFavoritesList' => 'Votre liste de favoris est vide'
 			);
 
@@ -267,7 +267,7 @@ class Favorites extends CI_Controller
 				'postId' => $_POST['postId']
 			);
 			//insertion des données dans la table
-			$this->posts_model->addFavorite('posts_favorites',  $dataToSave );
+			$this->posts_model->addFavorite($dataToSave,'posts_favorites');
 	}
 
 
@@ -295,7 +295,7 @@ class Favorites extends CI_Controller
 			'userId' => $_SESSION['userData']->userId
 		);
 
-		$this->posts_model->deleteFavorite('posts_favorites', $dataToDelete);
+		$this->posts_model->deleteFavorite($dataToDelete, 'posts_favorites');
 		//redirige sur la même page.
 		redirect('espace-personnel/mes-revues-de-presse-favoris');
 	}
@@ -310,7 +310,7 @@ class Favorites extends CI_Controller
 			'userId' => $_SESSION['userData']->userId
 		);
 
-		$this->posts_model->deleteFavorite('chronics_favorites', $dataToDelete);
+		$this->posts_model->deleteFavorite($dataToDelete, 'chronics_favorites');
 		//redirige sur la même page.
 		redirect('espace-personnel/mes-chroniques-favoris');
 	}
