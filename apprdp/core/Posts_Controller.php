@@ -5,13 +5,10 @@
 class Posts_Controller extends CI_Controller
 {
 	protected $page;
+
 	function __construct()
 	{
 		parent::__construct();
-		//$this->load->model('posts_model');
-
-		// $this->load->library('pagination');
-		// $this->load->helper('url');
 	}
 
 	/**
@@ -29,11 +26,9 @@ class Posts_Controller extends CI_Controller
 
 		//param^tres de la requête permettant de retourner le
 		$queryParams1 = array(
-			//clause inner join
 			'join1' => 'categories',
 			'on1' => 'categories.categoryId = posts.postCategory',
 			'inner1' => 'inner',
-			//clause where. le nom cette classe correspond u nom de la catégorie
 			'where' => array('categoryName' => $this->page),
 		);
 
@@ -42,7 +37,7 @@ class Posts_Controller extends CI_Controller
 		$config['base_url'] =  base_url(strToLower($this->page) . '/')  ;
 
 		// nombre total de de ligne retourné par la requête
-		$config['total_rows'] = $this->posts_model->countPosts('posts', $queryParams1);
+		$config['total_rows'] = $this->posts_model->getPosts($this->postQueryParams(), 'posts')->num_rows();
 
 		// nombre d'articles par page
 		$config['per_page'] = 4;
@@ -75,8 +70,9 @@ class Posts_Controller extends CI_Controller
 
 
 		//les variables à transmettre à la vue
-		$chronic = $this->posts_model->get_chronic($this->chronicQueryParams(array('categoryName' => $this->page )));
-		$posts = $this->posts_model->getPosts($this->postQueryParams($config['per_page'], $start));
+		$chronic = $this->posts_model->getChronic($this->chronicQueryParams(['categoryName' => $this->page]), "chronics");
+		$posts = $this->posts_model->getPosts($this->postQueryParams(), "posts", $config['per_page'], $start);
+
 		$headerTitle = 'Rubrique ' . $this->page;
 
 		$data['culturePage'] = array(
@@ -94,7 +90,7 @@ class Posts_Controller extends CI_Controller
 		if (isset($_SESSION['userData'])){
 			// on ajoute à $data['culturePage'] les id de toutes les revues ajoutées aux favoris par un utilisateur donné. Ces id sont utilisés dans la page index de chaque catégorie pour identifier les revues favorites de l'utilisateur
 			$userId = $_SESSION['userData']->userId;
-			$favoritesList = $this->posts_model->getPostIdFromFavorites('posts_favorites', $this->postFavorisQuery($userId));
+			$favoritesList = $this->posts_model->getPostIdFromFavorites($this->postFavorisQuery($userId), 'posts_favorites');
 
 			$data['culturePage']['favoritesList'] = $favoritesList->result();
 		}
@@ -115,12 +111,10 @@ class Posts_Controller extends CI_Controller
 	 * @param  Int    $offset offset de la clause limit
 	 * @return Array         paramètres de la requête sql
 	 */
-	private function postQueryParams(Int $limit, Int $offset)
+	private function postQueryParams()
 	{
 		return array(
 			'select' => 'postId, postTitle, postSlug, postAudio, countryName, categoryName, postDate, writerFirstName, writerLastName, writerAvatar',
-
-			'from' => 'posts',
 
 			'join1' => 'categories',
 			'on1' => 'categories.categoryId = posts.postCategory',
@@ -136,9 +130,6 @@ class Posts_Controller extends CI_Controller
 
 			// le nom de la catégorie correspond au nom de la class
 			'where' => array('categoryName' => $this->page),
-
-			'limit' =>  $limit,
-			'offset' => $offset,
 
 			'order' => 'postDate DESC'
 		);
@@ -174,14 +165,13 @@ class Posts_Controller extends CI_Controller
 
 
 	/**
-	 * retourne un tableau associatif représentant les paramètres de la requête sql permettant de sélectionner la chronique à afficher sur la page index de chaque catégorie et sur la page chronicView. Cette function est utilisée comme argument de la function get_chronic() exécutée dans les méthodes index() et chronicView() de la présente classe
+	 * retourne un tableau associatif représentant les paramètres de la requête sql permettant de sélectionner la chronique à afficher sur la page index de chaque catégorie et sur la page chronicView. Cette function est utilisée comme argument de la function getChronic() exécutée dans les méthodes index() et chronicView() de la présente classe
 	 * @param  Array  $where tableau assoc représentant la valeur de la clé 'where'
 	 * @return Array        paramètres de la requête sql
 	 */
 	private function chronicQueryParams(Array $where)
 	{
 		return array(
-			'from' => 'chronics',
 
 			'join1' => 'categories',
 			'on1' => 'categories.categoryId = chronics.chronicCategory',
@@ -194,7 +184,6 @@ class Posts_Controller extends CI_Controller
 			'join3' => 'writers',
 			'on3' => 'writers.writerId = chronics.chronicWriter',
 			'inner3' => 'inner',
-
 
 			'where' => $where,
 
@@ -210,7 +199,7 @@ class Posts_Controller extends CI_Controller
 	 */
 	 public function postsArchive()
 	 {
-		 $allPosts = $this->posts_model->getAllPosts($this->archiveQueryParams('post'), 'posts');
+		 $allPosts = $this->posts_model->getArchives($this->archiveQueryParams('post'), 'posts');
 
 		 $data['postArchive'] = array(
 			 'headerTitle' => 'Archives',
@@ -231,9 +220,9 @@ class Posts_Controller extends CI_Controller
 	 * compte et retourne le nombre total de revues de presse dans la table posts. cette function est utilisée dans la méthode index() de la présente class pour renvoyer à la vue le nombre de revues
 	 * @return Int nombre de revues de presse
 	 */
-	 public function postsArchiveCount():Int
+	 private function postsArchiveCount():Int
 	 {
-		 return $this->posts_model->getAllPosts($this->archiveQueryParams('post'), 'posts')->num_rows();
+		 return $this->posts_model->getArchives($this->archiveQueryParams('post'), 'posts')->num_rows();
 	 }
 
 	/**
@@ -241,7 +230,7 @@ class Posts_Controller extends CI_Controller
 	 */
 	public function chronicsArchive()
 	{
-		$allChronics = $this->posts_model->getAllPosts($this->archiveQueryParams('chronic'), 'chronics');
+		$allChronics = $this->posts_model->getArchives($this->archiveQueryParams('chronic'), 'chronics');
 
 		$data['chronicArchive'] = array(
 			'headerTitle' => 'Archives',
@@ -265,7 +254,7 @@ class Posts_Controller extends CI_Controller
 	 */
 	public function chronicsArchiveCount():Int
 	{
-		return $this->posts_model->getAllPosts($this->archiveQueryParams('chronic'), 'chronics')->num_rows();
+		return $this->posts_model->getArchives($this->archiveQueryParams('chronic'), 'chronics')->num_rows();
 	}
 
 	// les paramêtres de la requête sql permetant d'afficher un article tout seul
@@ -273,8 +262,6 @@ class Posts_Controller extends CI_Controller
 	{
 		return array(
 			'select' => 'postId, postTitle, postContent, postSource, countryName, categoryName, postDate, writerFirstName, writerLastName, writerAvatar',
-
-			'from' => 'posts',
 
 			'join1' => 'categories',
 			'on1' => 'categories.categoryId = posts.postCategory',
@@ -324,7 +311,7 @@ class Posts_Controller extends CI_Controller
 		$uriSegment = explode('/', uri_string());
 
 		// variables à transmettre à la vue
-		$post = $this->posts_model->get_single_post($this->singlePostQuery($uriSegment[2]));
+		$post = $this->posts_model->getSinglePost($this->singlePostQuery($uriSegment[2]), "posts");
 		$headerTitle = $uriSegment[3] . ' / Rubrique ' . $this->page;
 
 		$data['singleView'] = array(
@@ -336,7 +323,7 @@ class Posts_Controller extends CI_Controller
 		if (isset($_SESSION['userData'])){
 			// on ajoute à $data['culturePage'] les id de toutes les revues ajoutées aux favoris par un utilisateur donné. Ces id sont utilisés dans la page singleView ajouter un petit coeur aux revues favorites de l'utilisateur
 			$userId = $_SESSION['userData']->userId;
-			$favoritesList = $this->posts_model->getPostIdFromFavorites('posts_favorites', $this->postFavorisQuery($userId));
+			$favoritesList = $this->posts_model->getPostIdFromFavorites($this->postFavorisQuery($userId), 'posts_favorites');
 
 			$data['singleView']['favoritesList'] = $favoritesList->result();
 		}
@@ -364,7 +351,8 @@ class Posts_Controller extends CI_Controller
 		$uriSegment = explode('/', uri_string());
 
 		//variables à transmetre à la vue
-		$chronic = $this->posts_model->get_chronic($this->chronicQueryParams(array('chronicId' => $uriSegment[2])));
+		$chronic = $this->posts_model->getChronic($this->chronicQueryParams([ 'chronicId' => $uriSegment[2] ]), 'chronics');
+
 		$headerTitle = $uriSegment[3] . ' / Rubrique ' . $this->page;
 
 		$data['chronic'] = array(
@@ -377,7 +365,7 @@ class Posts_Controller extends CI_Controller
 
 			$userId = $_SESSION['userData']->userId;
 
-			$favoritesList = $this->posts_model->getPostIdFromFavorites('chronics_favorites', 						   	$this->chronicFavoriteQuery($userId) );
+			$favoritesList = $this->posts_model->getPostIdFromFavorites(						  $this->chronicFavoriteQuery($userId), 'chronics_favorites');
 
 			$data['chronic']['favoritesList'] = $favoritesList->result();
 		}
