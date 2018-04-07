@@ -2,7 +2,7 @@
 /**
  *
  */
-class Culture extends MY_Controller
+class Culture extends Posts_Controller
 {
 
 	function __construct()
