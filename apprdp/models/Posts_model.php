@@ -43,7 +43,7 @@ class Posts_model extends CI_Model {
 			return $this->db->query($sql);
 		}
 
-		
+
 		/**
 		 * permet de selectionner les infos de chaque slide
 		 * @param  String $table nom de la table
