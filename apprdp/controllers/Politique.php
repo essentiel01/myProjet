@@ -2,7 +2,7 @@
 /**
  *
  */
-class Politique extends MY_Controller
+class Politique extends Posts_Controller
 {
 
 	function __construct()
