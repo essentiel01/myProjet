@@ -11,7 +11,7 @@
 						<p><strong>Rubrique: </strong><?= $row->categoryName ?></p>
 						<p><strong>Titre: </strong><?= $row->chronicTitle ?></p>
 						<div class="btnLecture">
-							<a href="<?= base_url('culture/publication/' . $row->chronicId . '/' . $row->chronicSlug); ?>" class="btn btn-success btn-lg btn-sm">Lire</a>
+							<a href="<?= base_url('culture/chronique/' . $row->chronicId . '/' . $row->chronicSlug); ?>" class="btn btn-success btn-lg btn-sm">Lire</a>
 							<input type="submit"  class="btn btn-danger btn-lg btn-sm" value="Supprimer" />
 						</div>
 					</form>
