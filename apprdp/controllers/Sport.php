@@ -2,7 +2,7 @@
 /**
  *
  */
-class Sport extends MY_Controller
+class Sport extends Posts_Controller
 {
 
 	function __construct()
