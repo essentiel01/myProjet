@@ -73,15 +73,16 @@ class Culture extends CI_Controller
 
 
 		//les variables à transmettre à la vue
+		$chronic = $this->posts_model->get_chronic($this->chronicQueryParams(array('categoryName' => get_class() )));
+		$posts = $this->posts_model->getPosts($this->postQueryParams($config['per_page'], $start));
+		$headerTitle = 'Rubrique ' . get_class();
+
 		$data['culturePage'] = array(
-			// affiche dynamiquement la catégorie dans l'entête
-			'headerTitle' => 'Rubrique ' . get_class(),
+			'headerTitle' => $headerTitle,
 			'mainTitle'=> 'Nos dernières revues publiées sur la culture',
-			'result'=>  $this->posts_model->getPosts($this->postQueryParams($config['per_page'], $start))->result(),
-			//extrait de la chronique à afficher sur l'index de la page
-			'chronic'=> $this->posts_model->get_chronic($this->chronicQueryParams(array('categoryName' => get_class())))->result(),
+			'posts'=>  $posts->result(),
+			'chronic'=> $chronic->result(),
 			'slides' => $this->posts_model->getCarousel('carousel')->result(),
-			//le nombre total de revues de presse et de chronique. ces valeurs sont retournées par les functions postsArchives et chronicsArchive
 			'allPostsCount' => $this->postsArchiveCount(),
 			'allChronicsCount' => $this->chronicsArchiveCount(),
 		);
@@ -89,29 +90,19 @@ class Culture extends CI_Controller
 
 		// si un utilisateur est connecté on recupère tous les postId de sa liste de favoris
 		if (isset($_SESSION['userData'])){
-			// les paramêtres de la requête sql permetant de sélectionner le postId dans la table posts_favorites
-			$queryParams4 = array(
-				'select' => 'postId',
-				'where' => array('userId' => $_SESSION['userData']->userId)
-			);
 			// on ajoute à $data['culturePage'] les id de toutes les revues ajoutées aux favoris par un utilisateur donné. Ces id sont utilisés dans la page index de chaque catégorie pour identifier les revues favorites de l'utilisateur
-			$data['culturePage']['favoritesList'] = $this->posts_model->getPostIdFromFavorites('posts_favorites', $queryParams4)->result();
+			$userId = $_SESSION['userData']->userId;
+			$favoritesList = $this->posts_model->getPostIdFromFavorites('posts_favorites', $this->postFavorisQuery($userId));
+
+			$data['culturePage']['favoritesList'] = $favoritesList->result();
 		}
 
-		//chargement des vues
 		if (isset($_SESSION['userData'])){
-
-			//headerLogged
 			$this->load->view('templates/headerLogged', $data['culturePage']);
-
 		} else {
-			// header
 			$this->load->view('templates/header', $data['culturePage']);
-
 		}
-		//vue de l'index de la page
-		$this->load->view(strToLower(get_class()) . '/index', $data['culturePage']);
-		//footer
+		$this->load->view('templates/index', $data['culturePage']);
 		$this->load->view('templates/footer');
 	}
 
@@ -217,28 +208,20 @@ class Culture extends CI_Controller
 	 */
 	 public function postsArchive()
 	 {
+		 $allPosts = $this->posts_model->getAllPosts($this->archiveQueryParams('post'), 'posts');
 
 		 $data['postArchive'] = array(
 			 'headerTitle' => 'Archives',
 			 'mainTitle'=> 'Toutes nos revues de presse',
-			 'allPosts' => $this->posts_model->getAllPosts($this->archiveQueryParams('post'), 'posts')->result()
+			 'allPosts' => $allPosts->result()
 		 );
 
-		 //chargement des vues
 		 if (isset($_SESSION['userData'])){
-
-			 //headerLogged
 			 $this->load->view('templates/headerLogged', $data['postArchive']);
-
 		 } else {
-
-			 // header
 			 $this->load->view('templates/header', $data['postArchive']);
-
 		 }
-		 //vue de l'index de la page
-		 $this->load->view(strToLower(get_class()) . '/postsArchiveView', $data['postArchive']);
-		 //footer
+		 $this->load->view('templates/postsArchiveView', $data['postArchive']);
 		 $this->load->view('templates/footer');
 	 }
 
@@ -256,28 +239,20 @@ class Culture extends CI_Controller
 	 */
 	public function chronicsArchive()
 	{
+		$allChronics = $this->posts_model->getAllPosts($this->archiveQueryParams('chronic'), 'chronics');
 
 		$data['chronicArchive'] = array(
 			'headerTitle' => 'Archives',
 			'mainTitle'=> 'Toutes nos chroniques',
-			'allChronics' => $this->posts_model->getAllPosts($this->archiveQueryParams('chronic'), 'chronics')->result()
+			'allChronics' => $allChronics->result()
 		);
 
-		//chargement des vues
 		if (isset($_SESSION['userData'])){
-
-			//headerLogged
 			$this->load->view('templates/headerLogged', $data['chronicArchive']);
-
 		} else {
-
-			// header
 			$this->load->view('templates/header', $data['chronicArchive']);
-
 		}
-		//vue de l'index de la page
-		$this->load->view(strToLower(get_class()) . '/chronicsArchiveView', $data['chronicArchive']);
-		//footer
+		$this->load->view('templates/chronicsArchiveView', $data['chronicArchive']);
 		$this->load->view('templates/footer');
 	}
 
@@ -291,21 +266,10 @@ class Culture extends CI_Controller
 		return $this->posts_model->getAllPosts($this->archiveQueryParams('chronic'), 'chronics')->num_rows();
 	}
 
-
-	/**
-	 * affiche un article tout seul
-	*/
-	public function singleView()
+	// les paramêtres de la requête sql permetant d'afficher un article tout seul
+	private function singlePostQuery(int $id)
 	{
-		// on stocke dans $session l'url de la page lorsque aucun utilisateur n'est connecté. Cette valeur sera utilisée plus tard pour rediriger l'utilisateur vers cette même page après sa connexion.
-		if (!isset($_SESSION['userData'])) {
-			$_SESSION['urlRedirect'] = $_SERVER['PATH_INFO'];
-		}
-
-		// decoupe l'url en segment sur la base du séparateur '/'
-		$uriSegment = explode('/', uri_string());
-		// les paramêtres de la requête sql permetant d'afficher un article tout seul
-		$queryParams1 = array(
+		return array(
 			'select' => 'postId, postTitle, postContent, postSource, countryName, categoryName, postDate, writerFirstName, writerLastName, writerAvatar',
 
 			'from' => 'posts',
@@ -321,40 +285,66 @@ class Culture extends CI_Controller
 			'join3' => 'writers',
 			'on3' => 'writers.writerId = posts.postWriter',
 			'inner3' => 'inner',
-			// on passe le troisième segment de l'url(ce qui représente l'id de l'article) à la clause where
-			'where' => array('postId' => $uriSegment[2]),
-		);
 
+			'where' => array('postId' => $id),
+		);
+	}
+
+	// les paramêtres de la requête sql permetant de sélectionner le postId dans la table posts_favorites
+	private function postFavorisQuery(int $id)
+	{
+		return array(
+			'select' => 'postId',
+			'where' => array('userId' => $id)
+		);
+	}
+
+	// les paramêtres de la requête sql permetant de sélectionner le postId dans la table posts_favorites
+	private function chronicFavoriteQuery(int $id)
+	{
+		return array(
+			'select' => 'chronicId',
+			'where' => array('userId' => $id)
+		);
+	}
+
+	/**
+	 * affiche un article tout seul
+	*/
+	public function singleView()
+	{
+		// url de redirection apres login
+		if (!isset($_SESSION['userData'])) {
+			$_SESSION['urlRedirect'] = $_SERVER['PATH_INFO'];
+		}
+
+		// decoupe l'url en segment sur la base du séparateur '/'
+		$uriSegment = explode('/', uri_string());
 
 		// variables à transmettre à la vue
+		$post = $this->posts_model->get_single_post($this->singlePostQuery($uriSegment[2]));
+		$headerTitle = $uriSegment[3] . ' / Rubrique ' . get_class();
+
 		$data['singleView'] = array(
-			//affiche dynamiquement le titre de la revue de presse dans l'entête.
-			'headerTitle' => $uriSegment[3] . ' / Rubrique ' . get_class(),
-			'post'=> $this->posts_model->get_single_post($queryParams1)->result()
+			'headerTitle' => $headerTitle,
+			'post'=> $post->result()
 		);
 
 		// si un tutilisateur est connectéon on recupère tous les postId de sa liste de favoris
 		if (isset($_SESSION['userData'])){
-			// les paramêtres de la requête sql permetant de sélectionner le postId dans la table posts_favorites
-			$queryParams2 = array(
-				'select' => 'postId',
-				'where' => array('userId' => $_SESSION['userData']->userId)
-			);
 			// on ajoute à $data['culturePage'] les id de toutes les revues ajoutées aux favoris par un utilisateur donné. Ces id sont utilisés dans la page singleView ajouter un petit coeur aux revues favorites de l'utilisateur
-			$data['singleView']['favoritesList'] = $this->posts_model->getPostIdFromFavorites('posts_favorites', $queryParams2)->result();
+			$userId = $_SESSION['userData']->userId;
+			$favoritesList = $this->posts_model->getPostIdFromFavorites('posts_favorites', $this->postFavorisQuery($userId));
+
+			$data['singleView']['favoritesList'] = $favoritesList->result();
 		}
 
-		// chargement des vues
 		if (isset($_SESSION['userData'])) {
-			//headerLogged
 			$this->load->view('templates/headerLogged', $data['singleView']);
 		} else {
-			//header
 			$this->load->view('templates/header', $data['singleView']);
 		}
-		//vue d'un article tout seul
-		$this->load->view(strToLower(get_class()) . '/singleView', $data['singleView']);
-		//footer
+		$this->load->view('templates/singleView', $data['singleView']);
 		$this->load->view('templates/footer');
 	}
 
@@ -363,7 +353,7 @@ class Culture extends CI_Controller
 	*/
 	public function chronicView()
 	{
-		// on stocke dans $session l'url de la page lorsque aucun utilisateur n'est connecté. Cette valeur sera utilisée plus tard pour rediriger l'utilisateur vers cette même page après sa connexion.
+		// url de redirection apres login
 		if (!isset($_SESSION['userData'])) {
 			$_SESSION['urlRedirect'] = $_SERVER['PATH_INFO'];
 		}
@@ -372,34 +362,30 @@ class Culture extends CI_Controller
 		$uriSegment = explode('/', uri_string());
 
 		//variables à transmetre à la vue
+		$chronic = $this->posts_model->get_chronic($this->chronicQueryParams(array('chronicId' => $uriSegment[2])));
+		$headerTitle = $uriSegment[3] . ' / Rubrique ' . get_class();
+
 		$data['chronic'] = array(
-			//affiche dynamiquement le titre de la chronique dans l'entête.
-			'headerTitle' => $uriSegment[3] . ' / Rubrique ' . get_class(),
-			//texte intégrale de la chronique affichée à l'index de la page
-			'chronic'=> $this->posts_model->get_chronic($this->chronicQueryParams(array('chronicId' => $uriSegment[2])))->result()
+			'headerTitle' => $headerTitle,
+			'chronic'=> $chronic->result()
 		);
 
 		// si un utilisateur est connecté  on recupère tous les chronicId de sa liste de favoris
 		if (isset($_SESSION['userData'])){
-			// les paramêtres de la requête sql permetant de sélectionner le postId dans la table posts_favorites
-			$queryParams2 = array(
-				'select' => 'chronicId',
-				'where' => array('userId' => $_SESSION['userData']->userId)
-			);
-			// on ajoute à $data['culturePage'] les id de toutes les chroniques ajoutées aux favoris par un utilisateur donné. Ces id sont utilisés dans la page chronicView pour ajouter un petit coeur aux revues favorites de l'utilisateur
-			$data['chronic']['favoritesList'] = $this->posts_model->getPostIdFromFavorites('chronics_favorites', $queryParams2)->result();
+			
+			$userId = $_SESSION['userData']->userId;
+
+			$favoritesList = $this->posts_model->getPostIdFromFavorites('chronics_favorites', 						   	$this->chronicFavoriteQuery($userId) );
+
+			$data['chronic']['favoritesList'] = $favoritesList->result();
 		}
 
-		//chargement des vues
 		if (isset($_SESSION['userData'])) {
-			//headerLogged
 			$this->load->view('templates/headerLogged', $data['chronic']);
 		} else {
-			//header
 			$this->load->view('templates/header', $data['chronic']);
 		}
-		//vue de la chronique toute seule
-		$this->load->view(strToLower(get_class()) . '/chronicView', $data['chronic']);
+		$this->load->view('templates/chronicView', $data['chronic']);
 		$this->load->view('templates/footer');
 	}
 
