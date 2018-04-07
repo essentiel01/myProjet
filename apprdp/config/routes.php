@@ -55,6 +55,7 @@ $route['deconnexion'] = 'userslog/logout';
 
 // accueil de la page culture
 $route['culture'] = 'culture/index';
+$route['politique'] = 'politique/index';
 // navigation entre les pages de la rubrique culture
 $route['culture/(:num)'] = 'culture/index/$1';
 
