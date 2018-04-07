@@ -30,7 +30,7 @@ class Comments extends CI_Controller
 			'order' => 'commentDate DESC'
 		);
 
-		$comments = $this->posts_model->getComments('posts_comments', $queryParams)->result();
+		$comments = $this->posts_model->getComments($queryParams, 'posts_comments')->result();
 
 		$commentById = [];
 
@@ -78,7 +78,7 @@ class Comments extends CI_Controller
 				'order' => 'commentDate DESC'
 			);
 
-			$comments = $this->posts_model->getComments('chronics_comments', $queryParams)->result();
+			$comments = $this->posts_model->getComments($queryParams, 'chronics_comments')->result();
 
 			$commentById = [];
 
