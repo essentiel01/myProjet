@@ -8,7 +8,7 @@ class UsersLog extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('users_model');
+		// $this->load->model('users_model');
 		// $this->load->helper('url');
 		// $this->load->library(array('form_validation'));
 	}
@@ -20,14 +20,11 @@ class UsersLog extends CI_Controller
 	{
 		//variables à transmettre à la vue
 		$data['login'] = array(
-			'headerTitle' => 'Connexion espace personnel'
+			'headerTitle' => 'Formulaire de Connexion'
 		);
 
-		//header
 		$this->load->view('templates/header', $data['login']);
-		//formulaire de connexion
 		$this->load->view('userslog/loginView');
-		//footer
 		$this->load->view('templates/footer');
 	}
 
@@ -46,66 +43,51 @@ class UsersLog extends CI_Controller
 				'headerTitle' => 'Données incorrectes / formulaire de connexion' // titre du header
 			);
 
-			//header
 			$this->load->view('templates/header', $data['registerError']);
-			//formulaire de connexion
 			$this->load->view('userslog/loginView');
-			//footer
 			$this->load->view('templates/footer');
 
 		} else {
 			// les identifiants de l'utilisateur à vérfier dans la base
+			$email = $_POST['email'];
+			$password = $_POST['password'];
 			$queryParams = array(
 				'from' => 'users',
-				'where1' => array('userEmail' => $_POST['email']),
-				'password' => $_POST['password']
+				'where1' => array('userEmail' => trim($email)),
+				'password' => trim($password)
 			);
 
 			// si la requête renvoie un objet on le stocke dans $_SESSION
 			if (is_object($this->users_model->userAuthentificate($queryParams))) {
-
 				$_SESSION['userData'] = $this->users_model->userAuthentificate($queryParams);
-
 			} else { // sinon on affiche le message d'erreur
-
 				$loginError = $this->users_model->userAuthentificate($queryParams);
-
+				$this->session->set_flashdata('loginError', $loginError);
 			}
 
-			// si un utilisateur est connecté on load le headerLogged
 			if (isset($_SESSION['userData'])){
-
 				// variable à transmettre à la vue
 				$data['user'] = array(
 					'headerTitle' => 'Connexion réussie'
 				);
 
-				//headerLogged
 				$this->load->view('templates/headerLogged', $data['user']);
-
-				//affiche la page précédente si elle existe ou sinon une page de succès de connexion
 				if (isset($_SESSION['urlRedirect'])) {
 					redirect($_SESSION['urlRedirect']);
 				} else {
 					$this->load->view('userslog/success');
 				}
-
-				//footer
 				$this->load->view('templates/footer');
 
 			} else { // si personne n'est connectée on load le header et on réaffiche le formulaire de connexion.
 
 				// variable à transmettre à la vue
 				$data['user'] = array(
-					'headerTitle' => 'Données incorrectes / formulaire de connexion',
-					'loginError' => $loginError
+					'headerTitle' => 'Données incorrectes / formulaire de connexion'
 				);
 
-				//header
 				$this->load->view('templates/header', $data['user']);
-				//formulaire de connexion
 				$this->load->view('userslog/loginView');
-				//footer
 				$this->load->view('templates/footer');
 			}
 		}
@@ -118,7 +100,6 @@ class UsersLog extends CI_Controller
 	public function logout()
 	{
 		$this->session->sess_destroy();
-
 		redirect('culture'); // TODO la redirection doit être faite vers l'accueil
 	}
 
@@ -134,11 +115,8 @@ class UsersLog extends CI_Controller
 				'headerTitle' => 'Espace personnel',
 			);
 
-			//headerLogged
 			$this->load->view('templates/headerLogged', $data['user']);
-			//vue de l'espace personnel
 			$this->load->view('userslog/espacePersonnelView');
-			//footer
 			$this->load->view('templates/footer');
 		} else {
 			//page d'erreur
