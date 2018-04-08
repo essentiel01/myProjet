@@ -2,7 +2,10 @@
 	<main>
 		<h2 class="formTitle">Connectez-vous à votre espace personnel</h2>
 		<!-- message d'erreur en cas d'identifiant ou de mot de passe incorrecte -->
-		<p><?php if(isset($loginError)){echo $loginError;} ?></p>
+		<p class="formError"><?php if (isset($_SESSION['loginError'])):
+				echo $_SESSION['loginError'];
+			endif ?>
+		</p>
 		<!-- formulaire de connexion -->
 		<form class="form" action=<?= base_url('connexion-reussie') ?> method="post">
 			<div class="form-group row">
