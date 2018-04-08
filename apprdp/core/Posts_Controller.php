@@ -16,32 +16,58 @@ class Posts_Controller extends CI_Controller
 	 */
 	public function index()
 	{
-		// on stocke dans $session l'url de la page lorsque aucun utilisateur n'est connecté. Cette valeur sera utilisée plus tard pour rediriger l'utilisateur vers cette même page après sa connexion.
+		// url de redirection après sa connexion.
 		if (!isset($_SESSION['userData'])) {
 			$_SESSION['urlRedirect'] = $_SERVER['PATH_INFO'];
 		}
-
 		// offset de la close limit
 		$start = $this->uri->segment(2,0);
+		// initialisation de la pagination
+		$config = $this->configPagination();
+		$this->pagination->initialize($config);
 
-		//param^tres de la requête permettant de retourner le
-		$queryParams1 = array(
-			'join1' => 'categories',
-			'on1' => 'categories.categoryId = posts.postCategory',
-			'inner1' => 'inner',
-			'where' => array('categoryName' => $this->page),
+		//les variables à transmettre à la vue
+		$chronic = $this->posts_model->getChronic($this->chronicQueryParams(['categoryName' => $this->page]), "chronics")->result();
+		$posts = $this->posts_model->getPosts($this->postQueryParams(), "posts", $config['per_page'], $start)->result();
+		$headerTitle = 'Rubrique ' . $this->page;
+
+		$data['culturePage'] = array(
+			'headerTitle' => $headerTitle,
+			'mainTitle'=> 'Nos dernières revues publiées sur la culture',
+			'posts'=>  $posts,
+			'chronic'=> $chronic,
+			'slides' => $this->posts_model->getCarousel('carousel')->result(),
+			'allPostsCount' => $this->postsArchiveCount(),
+			'allChronicsCount' => $this->chronicsArchiveCount(),
 		);
 
-		//configuration de la pagination avec bootstrap
-		// url de base auquel va être ajouté le numero de la page
-		$config['base_url'] =  base_url(strToLower($this->page) . '/')  ;
+		// si un utilisateur est connecté on recupère tous les favoris de sa liste de favoris qu'on renvoie à la vue
+		if (isset($_SESSION['userData'])){
+			$userId = $_SESSION['userData']->userId;
+			$favoritesList = $this->posts_model->getPostIdFromFavorites($this->postFavorisQuery($userId), 'posts_favorites');
+			$data['culturePage']['favoritesList'] = $favoritesList->result();
+		}
 
+		if (isset($_SESSION['userData'])){
+			$this->load->view('templates/headerLogged', $data['culturePage']);
+		} else {
+			$this->load->view('templates/header', $data['culturePage']);
+		}
+		$this->load->view('templates/index', $data['culturePage']);
+		$this->load->view('templates/footer');
+	}
+	/**
+	 * configuration de la pagination
+	 * @return Array tableau $config contenant les paramètres de configuration
+	 */
+	private function configPagination()
+	{
+		//configuration de la pagination avec bootstrap
+		$config['base_url'] =  base_url(strToLower($this->page) . '/')  ;
 		// nombre total de de ligne retourné par la requête
 		$config['total_rows'] = $this->posts_model->getPosts($this->postQueryParams(), 'posts')->num_rows();
-
 		// nombre d'articles par page
 		$config['per_page'] = 4;
-
 		// pour signifier que c'est le deuxième segment de l'url qui correspond au numéro dela page
 		$config['uri_segment'] = 2;
 
@@ -65,45 +91,8 @@ class Posts_Controller extends CI_Controller
 		$config['next_link'] = 'Suivant';
 		$config['next_tag_close'] = '</li>';
 
-		// initialisation de la pagination
-		$this->pagination->initialize($config);
-
-
-		//les variables à transmettre à la vue
-		$chronic = $this->posts_model->getChronic($this->chronicQueryParams(['categoryName' => $this->page]), "chronics");
-		$posts = $this->posts_model->getPosts($this->postQueryParams(), "posts", $config['per_page'], $start);
-
-		$headerTitle = 'Rubrique ' . $this->page;
-
-		$data['culturePage'] = array(
-			'headerTitle' => $headerTitle,
-			'mainTitle'=> 'Nos dernières revues publiées sur la culture',
-			'posts'=>  $posts->result(),
-			'chronic'=> $chronic->result(),
-			'slides' => $this->posts_model->getCarousel('carousel')->result(),
-			'allPostsCount' => $this->postsArchiveCount(),
-			'allChronicsCount' => $this->chronicsArchiveCount(),
-		);
-
-
-		// si un utilisateur est connecté on recupère tous les postId de sa liste de favoris
-		if (isset($_SESSION['userData'])){
-			// on ajoute à $data['culturePage'] les id de toutes les revues ajoutées aux favoris par un utilisateur donné. Ces id sont utilisés dans la page index de chaque catégorie pour identifier les revues favorites de l'utilisateur
-			$userId = $_SESSION['userData']->userId;
-			$favoritesList = $this->posts_model->getPostIdFromFavorites($this->postFavorisQuery($userId), 'posts_favorites');
-
-			$data['culturePage']['favoritesList'] = $favoritesList->result();
-		}
-
-		if (isset($_SESSION['userData'])){
-			$this->load->view('templates/headerLogged', $data['culturePage']);
-		} else {
-			$this->load->view('templates/header', $data['culturePage']);
-		}
-		$this->load->view('templates/index', $data['culturePage']);
-		$this->load->view('templates/footer');
+		return $config;
 	}
-
 
 	/**
 	 * retourne un tableau assoc représentant les paramètres de la requête sql permettant dafficher la liste des revues de presse sur chaque page. Cette function est utilisée comme argument de la function getPosts() exécutée dans la méthode index() de la présente class.
@@ -128,7 +117,7 @@ class Posts_Controller extends CI_Controller
 			'on3' => 'writers.writerId = posts.postWriter',
 			'inner3' => 'inner',
 
-			// le nom de la catégorie correspond au nom de la class
+			// le nom de la catégorie correspond au nom de la page
 			'where' => array('categoryName' => $this->page),
 
 			'order' => 'postDate DESC'
