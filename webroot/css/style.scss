@@ -140,7 +140,7 @@ header {
 				margin-right: 0.3rem;
 				position: relative;
 			}
-			//liste des items du menu utilisateur. ce bloc est déja mis en position absolute par le css de twitter bootstrap. j'ai ajouté à la balise html la propriété css left pour mieux le positionner.
+			//liste des items du menu utilisateur. ce bloc est déja mis en position absolute par le css de twitter bootstrap. j'ai ajouté à l'intérieur de la balise html la propriété css left pour mieux le positionner.
 			.userMenuItems {
 				width: 25rem;
 				background-color: $footerColor;
@@ -354,6 +354,19 @@ header {
 		.pagination {
 			justify-content: center;
 			align-items: center
+		}
+	}
+}
+//main page archives
+.main {
+	.archive {
+		h2 {
+			@include h2Style(#000);
+		}
+		table {
+			tr:nth-of-type(2n) {
+				background-color: #dadada;
+			}
 		}
 	}
 }
