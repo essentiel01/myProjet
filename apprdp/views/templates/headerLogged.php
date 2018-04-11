@@ -74,7 +74,7 @@
 					<i class="fa fa-search loop" id="loop" aria-hidden="true"></i>
 				</div>
 				<!-- nav -->
-				<nav>
+				<nav class="nav-mobile">
 					<ul class="hide">
 						<li class="nav-item">
 							<a class="nav-link" href=""><i class="fa fa-home" aria-hidden="true"></i></a>
@@ -93,12 +93,32 @@
 						</li>
 					</ul>
 				</nav>
-				<!-- search form -->
-				<form class="search input-group mb-3" action="">
-					<input class="form-control-sm" type="text" placeholder="rechercher">
-					<div class="input-group-append btn-search">
-						<button class="btn-primary btn-sm" type="button" name="button">Ok</button>
-					</div>
-				</form>
+				<!-- nav -->
+				<nav class="nav-pc">
+					<ul>
+						<li class="">
+							<a class="" href=""><i class="fa fa-home" aria-hidden="true"></i></a>
+						</li>
+						<li class="">
+							<a class="" href="">Politique</a>
+						</li>
+						<li class="">
+							<a class="" href="">Economie</a>
+						</li>
+						<li class="">
+							<a class="" href="" >Sport</a>
+						</li>
+						<li class="">
+							<a class="" href="<?= base_url('culture') ?>">Culture</a>
+						</li>
+					</ul>
+					<!-- search form -->
+					<form class="search input-group mb-3" action="">
+						<div class="input-group-append btn-search">
+							<input class="form-control-sm-lg search-input" type="text" placeholder="rechercher">
+							<input class="btn-primary btn-lg btn-sm  submit" type="submit" value="Ok" name="button">
+						</div>
+					</form>
+				</nav>
 			</div>
 		</header>
