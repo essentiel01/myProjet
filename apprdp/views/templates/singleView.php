@@ -1,5 +1,5 @@
 <div class="content">
-	<main class="main">
+	<main class="main main-post">
 		<?php if (!empty($post)) {
 			 	foreach ($post as $row) : ?>
 				<!-- Button trigger favorisModal -->
@@ -75,17 +75,5 @@
 		{
 			redirect('culture');
 		} ?>
-	</main><!--
-	--><aside class="asideWrapper">
-
-	<!--  slide -->
-	<section class="slide">
-		<h2>Slide</h2>
-	</section>
-	<!-- partenaires -->
-	<section class="">
-		<h2>Les médias partenaires</h2>
-	</section>
-	<!-- /partenaires -->
-</aside>
+	</main>
 </div>

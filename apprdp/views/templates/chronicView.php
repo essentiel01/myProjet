@@ -1,5 +1,5 @@
 <div class="content">
-	<main class="main">
+	<main class="main main-chronic">
 		<?php if (!empty($chronic)) {
 			foreach ($chronic as $row) : ?>
 			<!-- Button trigger favorisModal -->
