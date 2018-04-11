@@ -133,12 +133,13 @@ header {
 			width: 50%;
 			display: flex;
 			justify-content: flex-end;
+			position: relative;
+
 			//boutton d'affichage de l'utilisateur connecté
 			.user {
 				max-width: 100%;
 				overflow: auto;
 				margin-right: 0.3rem;
-				position: relative;
 			}
 			//liste des items du menu utilisateur. ce bloc est déja mis en position absolute par le css de twitter bootstrap. j'ai ajouté à l'intérieur de la balise html la propriété css left pour mieux le positionner.
 			.userMenuItems {
@@ -245,7 +246,7 @@ header {
 			}
 		}
 		//barre de navigation
-		nav {
+		.nav-mobile {
 			width: 100%;
 			text-align: left;
 			//liste du menu
@@ -271,29 +272,13 @@ header {
 				}
 			}
 		}
+		//nav pour pc et ecran large
+		.nav-pc {
+			display: none;
+		}
 		//formulaire de recherche sur les pc et écrans larges
 		.search {
-			padding-left: 2rem;
 			display: none;
-			//champ text de recherche
-			input {
-				display: inline-block;
-				vertical-align: middle;
-				width: 85%;
-				outline: .1rem solid rgba(0,0,0,0.4);
-				border: none;
-			}
-			//parent de l'input submit
-			div {
-				margin-top: .2rem;
-				margin-left: .5rem;
-				width: 3rem;
-				//l'input submit
-				input {
-					outline-width: 0;
-					margin-bottom: .3rem;
-				}
-			}
 		}
 	}
 }
@@ -359,11 +344,17 @@ header {
 }
 //main page archives
 .main {
+	margin: 2rem 0;
 	.archive {
 		h2 {
 			@include h2Style(#000);
 		}
 		table {
+			margin: auto;
+			width: 100%;
+			td {
+				padding: 1rem;
+			}
 			tr:nth-of-type(2n) {
 				background-color: #dadada;
 			}
@@ -564,4 +555,81 @@ footer {
 	background-color: #907e7e;
 	color: #fff;
 	text-align: center;
+}
+///////////////desktop et ecranlarge////
+@media screen and (min-width: 800px) {
+	//header
+	header {
+		.flashInfos {
+			background-color: black;
+		}
+		.navParent {
+			.menuBtnMobile {
+			display: none;
+			}
+			//barre de navigation
+			.nav-pc {
+				display: block;
+				width: 100%;
+				text-align: left;
+				background-color: $footerColor;
+				//liste du menu
+				ul {
+					position: static;
+					width: 70%;
+					list-style: none;
+					text-align: left;
+					display: inline-block;
+					z-index: 0;
+					//items de la liste du menu
+					li {
+						display: inline-block;
+						border: none;
+						// liens de la liste du menu
+						a {
+							font-family: $title-font;
+							font-size: 2rem;
+							color: $gray;
+							text-decoration: none;
+							padding: 1rem;
+							display: inline-block;
+							vertical-align: middle;
+							width: 100%
+						}
+						
+					}
+					li:hover {
+						border-bottom:2px solid yellow;
+					}
+				}
+			}
+
+			//formulaire de recherche sur les pc et écrans larges
+			.search {
+				padding-left: 2rem;
+				display: inline-block;
+				width: 25%;
+				//parent de l'input submit
+				div {
+					margin-top: .2rem;
+					margin-left: .5rem;
+					width: 100%;
+					//champ text de recherche
+					.search-input {
+						display: inline-block;
+						vertical-align: middle;
+						width: 80%;
+						border: none;
+					}
+					//l'input submit
+					.submit {
+						outline-width: 0;
+						display: inline-block;
+						vertical-align: middle;
+					}
+				}
+			}
+		}
+	}
+
 }
