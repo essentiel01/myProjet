@@ -37,8 +37,8 @@
 			</div>
 			<!-- suscribe and sign in buttons -->
 			<div class="buttons">
-				<a href=<?= base_url('inscription/formulaire'); ?> class="btn btn-lg btn-sm btn-xs">S'inscrire</a>
-				<a href=<?= base_url('connexion/formulaire'); ?> class="btn btn-lg btn-sm btn-xs">Se connecter</a>
+				<a href=<?= base_url('inscription/formulaire'); ?> class="btn">S'inscrire</a>
+				<a href=<?= base_url('connexion/formulaire'); ?> class="btn">Se connecter</a>
 			</div>
 		</div>
 		<!-- page title -->
@@ -86,7 +86,7 @@
 					</li>
 				</ul>
 			</nav>
-			
+
 			<!-- nav -->
 			<nav class="nav-pc">
 				<ul>
