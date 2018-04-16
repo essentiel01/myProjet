@@ -300,12 +300,13 @@ class Posts_Controller extends CI_Controller
 		$uriSegment = explode('/', uri_string());
 
 		// variables à transmettre à la vue
-		$post = $this->posts_model->getSinglePost($this->singlePostQuery($uriSegment[2]), "posts");
+		$post = $this->posts_model->getSinglePost($this->singlePostQuery($uriSegment[2]), "posts")->result();
+	 	$_SESSION['post']['post_id'] = $post['0']->postId;
 		$headerTitle = $uriSegment[3] . ' / Rubrique ' . $this->page;
 
 		$data['singleView'] = array(
 			'headerTitle' => $headerTitle,
-			'post'=> $post->result()
+			'post'=> $post
 		);
 
 		// si un tutilisateur est connectéon on recupère tous les postId de sa liste de favoris
@@ -340,13 +341,13 @@ class Posts_Controller extends CI_Controller
 		$uriSegment = explode('/', uri_string());
 
 		//variables à transmetre à la vue
-		$chronic = $this->posts_model->getChronic($this->chronicQueryParams([ 'chronicId' => $uriSegment[2] ]), 'chronics');
-
+		$chronic = $this->posts_model->getChronic($this->chronicQueryParams([ 'chronicId' => $uriSegment[2] ]), 'chronics')->result();
+		$_SESSION['post']['chronic_id'] = $chronic['0']->chronicId;
 		$headerTitle = $uriSegment[3] . ' / Rubrique ' . $this->page;
 
 		$data['chronic'] = array(
 			'headerTitle' => $headerTitle,
-			'chronic'=> $chronic->result()
+			'chronic'=> $chronic
 		);
 
 		// si un utilisateur est connecté  on recupère tous les chronicId de sa liste de favoris
