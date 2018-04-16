@@ -76,7 +76,7 @@ body {
 }
 // conteneur
 .content {
-	width: 90%;
+	width: 80%;
 	margin: auto;
 }
 // masquer un élément
@@ -445,39 +445,58 @@ header {
 		outline-color: rgba(0,0,0,0.3);
 		background-color: $gray;
 	}
+	.btn-addPostComment, .btn-addChronicComment {
+		text-align: right;
+		width: 100%;
+		margin-top: 2rem;
+	}
 }
 
 //les commentaires
+.avatar-mini-comment {
+	width: 15%;
+	border-radius: 100%;
+	vertical-align: top;
+}
+//contenu du commentaire
+.commentContent {
+	background-color: #fff;
+	padding: 1rem;
+	border-radius: 1rem;
+}
 .displayComments {
 	margin: 2rem 0;
-	max-height: 100vh;
-	overflow: auto;
-	//commentaire parent
-	.eachComment {
-		background-color: $gray;
-		padding: 0.5rem;
-		margin: 0.5rem;
-		border-radius: 1rem;
-	}
-	//contenu du commentaire
-	.commentContent {
-		background-color: #fff;
+	.commentsBlock {
+		background-color: #ececec;
 		padding: 1rem;
-		border-radius: 1rem;
+		//commentaire parent
+		.eachComment {
+			padding: 0.5rem;
+			margin: 1rem 1rem 0 1rem;
+			border-radius: 1rem;
+			display: inline-block;
+			width: 75%;
+			vertical-align: top;
+		}
+		//button répondre
+		.btnReply {
+			text-align: right;
+			margin-right: 3rem;
+			margin-bottom: 2rem;
+		}
+		//commentaire réponse
+		.eachReply {
+			padding: 0.5rem;
+			margin: 1rem;
+			border-radius: 1rem;
+			display: inline-block;
+			width: 75%;
+			vertical-align: top;
+			}
+		}
 	}
-	//button répondre
-	.btnReply {
-		text-align: right;
-		margin-right: 1rem;
-	}
-	//commentaire réponse
-	.eachReply {
-		background-color: $gray;
-		padding: 0.5rem;
-		margin: 2rem 0  2rem 3rem ;
-		border-radius: 1rem;
-	}
-}
+
+
 //main page chronicView
 .singleChronic {
 	h2 {
@@ -497,8 +516,12 @@ header {
 	padding: 1rem;
 	margin: 2rem 0;
 	border-radius: 1rem;
+	.label {
+		width: 100%;
+	}
 	.btnRegister {
 		text-align: right;
+		margin-top: 1rem;
 	}
 }
 //titre du formulaire
@@ -596,7 +619,7 @@ footer {
 							vertical-align: middle;
 							width: 100%
 						}
-						
+
 					}
 					li:hover {
 						border-bottom:2px solid yellow;
@@ -653,5 +676,50 @@ footer {
 		width: 90%;
 		margin: auto;
 	}
-	
+	//les avatars dans les commentaires
+	.avatar-mini-comment {
+		width: 7%;
+	}
+	//le formulaire de commentaires
+	.comment {
+		margin-top: 4rem;
+		textarea {
+			width: 100%;
+			border: none;
+			outline-style: solid;
+			outline-color: rgba(0,0,0,0.3);
+			background-color: $gray;
+		}
+		.btn-addPostComment {
+			text-align: right;
+			width: 100%;
+			margin-top: 2rem;
+		}
+	}
+	//le block de commentaire
+	.displayComments {
+		.moreComments {
+			text-align: right;
+		}
+		.commentsBlock {
+			margin: auto;
+			text-align: center;
+			.eachComment {
+				text-align: left;
+			}
+			.eachReply {
+				text-align: right;
+			}
+			//button répondre
+			.btnReply {
+				text-align: right;
+				margin-right: 10rem;
+			}
+		}
+	}
+	//main page loginView
+	.form {
+	    margin: 2rem auto;
+	    width: 50%;
+	}
 }
