@@ -61,11 +61,16 @@
 
 				<!-- formulaire de commentaire -->
 				<form class="comment" action="" method="post">
-					<label for="comment">Ajouter un commentaire</label>
-					<textarea id="comment" name="comment" rows="2" cols="70"></textarea>
+					<div class="">
+						<label for="comment">Ajouter un commentaire</label>
+					</div>
+					<textarea id="comment" name="comment" rows="4" cols="70"></textarea>
 					<input type="hidden" id="parentCommentId" name="parentCommentId" value="0">
+					<div class="btn-addPostComment">
+						<a id="addPostComment" class="btn btn-lg btn-primary" href="<?= base_url('connexion/formulaire') ?>" data-postId="<?= $row->postId ?>" data-userId="<?php if(isset($_SESSION['userData']->userId)) {echo $_SESSION['userData']->userId;} ?>">Valider</a>
+					</div>
 				</form>
-				<a id="addPostComment" class="btn btn-lg btn-sm btn-primary" href="<?= base_url('connexion/formulaire') ?>" data-postId="<?= $row->postId ?>" data-userId="<?php if(isset($_SESSION['userData']->userId)) {echo $_SESSION['userData']->userId;} ?>">Valider</a>
+
 				<!-- liste des commentaires -->
 				<div id="displayPostComments" class="displayComments">
 
