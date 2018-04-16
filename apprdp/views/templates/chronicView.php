@@ -57,11 +57,15 @@
 			</div>
 			<!-- formulaire de commentaire -->
 			<form class="comment" action="" method="post">
-				<label for="comment">Ajouter un commentaire</label>
-				<textarea id="comment" name="comment" rows="2" cols="70"></textarea>
+				<div class="">
+					<label for="comment">Ajouter un commentaire</label>
+				</div>
+				<textarea id="comment" name="comment" rows="3" cols="70"></textarea>
 				<input type="hidden" id="parentCommentId" name="parentCommentId" value="0">
+				<div class="btn-addChronicComment">
+					<a id="addChronicComment" class="btn btn-lg btn-primary" href="<?= base_url('connexion/formulaire') ?>" data-chronicId="<?= $row->chronicId ?>" data-userId="<?php if(isset($_SESSION['userData']->userId)) {echo $_SESSION['userData']->userId;} ?>">Valider</a>
+				</div>
 			</form>
-			<a id="addChronicComment" class="btn btn-lg btn-sm btn-primary" href="<?= base_url('connexion/formulaire') ?>" data-chronicId="<?= $row->chronicId ?>" data-userId="<?php if(isset($_SESSION['userData']->userId)) {echo $_SESSION['userData']->userId;} ?>">Valider</a>
 			<!-- liste des commentaires -->
 			<div id="displayChronicComments" class="displayComments">
 
@@ -70,17 +74,5 @@
 		} else {
 			redirect('culture');
 		}?>
-	</main><!--
-	--><aside class="asideWrapper">
-
-		<!--  slide -->
-		<section class="slide">
-			<h2>Slide</h2>
-		</section>
-		<!-- partenaires -->
-		<section class="">
-			<h2>Les médias partenaires</h2>
-		</section>
-		<!-- /partenaires -->
-	</aside>
+	</main>
 </div>
