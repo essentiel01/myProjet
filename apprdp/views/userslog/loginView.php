@@ -8,23 +8,27 @@
 		</p>
 		<!-- formulaire de connexion -->
 		<form class="form" action=<?= base_url('connexion-reussie') ?> method="post">
-			<div class="form-group row">
-				<label for="email" class="col-lg-2 col-sm-2 col-form-label">Email</label>
-				<div class="col-lg-5 col-sm-8">
+			<div class="">
+				<div class="label">
+					<label for="email" class="">Email</label>
+				</div>
+				<div class="input">
 					<input type="email" class="form-control" id="email" name="email" value="<?php if(form_error('email') == NULL){echo set_value('email');} ?>" placeholder="Email">
 				</div>
 				<span class="formError"><?= form_error('email'); ?></span>
 			</div>
-			<div class="form-group row">
-				<label for="password" class="col-lg-2 col-sm-2 col-form-label">Mot de passe</label>
-				<div class="col-lg-5 col-sm-8">
+			<div class="">
+				<div class="label">
+					<label for="password" class="">Mot de passe</label>
+				</div>
+				<div class="input">
 					<input type="password" class="form-control" id="password" name="password" placeholder="Mot de passe">
 				</div>
 				<span class="formError"><?= form_error('password'); ?></span>
 			</div>
 
-			<div class="form-group row">
-			    <div class="col-lg-5 col-sm-8 btnRegister">
+			<div class="">
+			    <div class="btnRegister">
 			    	<input type="submit" class="btn btn-primary" value ="Se connecter">
 			    </div>
 		  	</div>
