@@ -190,12 +190,13 @@ class Posts_model extends CI_Model {
 		 * @param  String $table  nom de la table
 		 * @return Objet         [description]
 		 */
-		public function getComments(Array $params, String $table)
+		public function getComments(Array $params, String $table, int $limit=null, int $offset=null)
 		{
 			$sql = $this->db->select($params['select'])
 							->join($params['join1'], $params['on1'], $params['inner1'])
 							->where($params['where'])
 							->order_by($params['order'])
+							->limit($limit, $offset)
 							->get($table);
 							//die($sql);
 
