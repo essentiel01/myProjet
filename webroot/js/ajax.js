@@ -101,18 +101,37 @@ function addChronicComment(e)
  */
 
  function getPostComments() {
- 	$('#displayPostComments').load("/myProjet/comments/postComments", {postId: $('#addPostComment').attr('data-postId')});
+ 	$.get("/myProjet/comments/postComments", function (data)
+	{
+		$('#displayPostComments').append(data);
+	});
  }
 
+ function showMorePostComments(e)
+ {
+	 e.preventDefault();
+    $.get( "/myProjet/comments/morePostComments", function( data ) {
+		$('#postCommentsBlock').append(data);
+    });
+ }
 
 /**
  * requête ajax permetttant d'afficher la liste des commentaires des chroniques
  */
 function getChronicComments() {
-	$('#displayChronicComments').load("/myProjet/comments/chronicComments", {chronicId: $('#addChronicComment').attr('data-chronicId')});
+	$.get("/myProjet/comments/chronicComments", function (data)
+	{
+		$('#displayChronicComments').append(data);
+	});
 }
 
-
+function showMoreChronicComments(e)
+{
+	e.preventDefault();
+   $.get( "/myProjet/comments/moreChronicComments", function( data ) {
+	   $('#chronicCommentsBlock').append(data);
+   });
+}
 /**
  * permet de répondre à un commentaire
  */
