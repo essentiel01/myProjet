@@ -12,12 +12,9 @@ $(document).ready(function () {
 	$('#addChronicComment').on('click', addChronicComment);
 
 	//permet d'afficher les commentaires d'un article et d'actualiser les données chaque seconde
-	// setInterval('getPostComments()', 1500);
 	getPostComments();
-
 	$('#displayPostComments').on('click', '#morePostComments', showMorePostComments);
 	//permet d'afficher les commentaires d'une chronique et d'actualiser les données chaque seconde
-	// setInterval('getChronicComments()', 1500);
 	getChronicComments();
 	$('#displayChronicComments').on('click', '#moreChronicComments', showMoreChronicComments);
 
@@ -29,4 +26,14 @@ $(document).ready(function () {
 
 	//event click pour afficher le formulaire de recherche sur les mobile
 	$('#loop').on('click', showSearch);
+
+	//edit profil form
+	$("#edit-profil").on("click", editProfil);
+	//edit le profil en version mobile
+	$("#icon-edit-profil").on("click", editProfil);
+
+	//edit l'image de profil
+	$("#icon-edit-img").on("click", function (){
+		$("#file-form").toggleClass("hide");
+	});
 });
