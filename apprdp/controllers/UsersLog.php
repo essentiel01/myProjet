@@ -99,7 +99,7 @@ class UsersLog extends CI_Controller
 	*/
 	public function logout()
 	{
-		$this->session->sess_destroy();
+		unset($_SESSION['userData']);
 		redirect('culture'); // TODO la redirection doit être faite vers l'accueil
 	}
 
