@@ -83,6 +83,9 @@ body {
 .hide {
 	display: none;
 }
+.show {
+	display: inline-block;
+}
 // style pour le nom de l'auteur et la date de publication
 .auteur {
 	font-style: italic;
@@ -524,11 +527,64 @@ header {
 		margin-top: 1rem;
 	}
 }
+// formulaire de profil espace espacePersonnelView
+.profil-form {
+	background-color: #fff;
+	width: 100%;
+	margin: auto;
+	margin-bottom: 2rem;
+	//button mal et annuler
+	input[type='submit'] {
+		margin-top: 2rem;
+	}
+	.cancel {
+		margin-top: 2rem;
+	}
+	//alignement
+	.btn-edit-delete {
+		text-align: right;
+		margin: auto;
+		width: 100%;
+		//affichage
+		// .icon-edit, .icon-delete {
+		// 	display: inline-block;
+		// }
+		//masquer
+		.edit-profil, .delete-profil {
+			display: none;
+		}
+	}
+	//couler de fonds des inputs
+	.input {
+		background-color: #fff;
+		border: none;
+		font-size: 1.6rem;
+	}
+}
+//image de profil
+.profil-avatar {
+	//positionnement des icons sur l'image de profil
+	.avatar-container {
+		width: 20rem;
+		padding: 2rem;
+		position: relative;
+		.icon-edit-img {
+			position: absolute;
+			top: 2;
+			left: 13rem;
+		}
+		.icon-delete-img {
+			position: absolute;
+			top: 2;
+			left: 17rem;
+		}
+	}
+}
 //titre du formulaire
 .formTitle {
 	@include h2Style(#000);
 }
-//les liensmotde passe oublié et j'ai deja un compte
+//les liens mot de passe oublié et j'ai deja un compte
 .formLink {
 	font-size: 1.2rem;
 	a {
@@ -721,5 +777,22 @@ footer {
 	.form {
 	    margin: 2rem auto;
 	    width: 50%;
+	}
+	// formulaire de profil espace espacePersonnelView
+	.profil-form {
+		width: 50%;
+		.btn-edit-delete {
+			width: 50%;
+			.edit-profil, .delete-profil {
+				display: inline-block;
+			}
+			.icon-edit-profil , .icon-delete-profil {
+				display: none;
+			}
+		}
+	}
+	.profil-avatar {
+		width: 50%;
+		margin: auto;
 	}
 }
