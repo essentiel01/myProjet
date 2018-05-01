@@ -4,7 +4,7 @@
 
  */
 $config = array(
-	'userregister/register' => array(
+	'users/register' => array(
 		array(
 			'field' => 'firstName',
 			'label'	=> 'Prénom',
@@ -41,7 +41,7 @@ $config = array(
 			'rules'	=> 'required'
 		)
 	),
-	'userslog/login' => array(
+	'users/login' => array(
 		array(
 			'field' => 'email',
 			'label'	=> 'Email',
@@ -51,7 +51,46 @@ $config = array(
 			'field' => 'password',
 			'label'	=> 'Mot de passe',
 			'rules'	=> 'required|min_length[8]|max_length[20]'
+		)
+	),
+	'users/updateProfil' => array(
+		array(
+			'field' => 'firstName',
+			'label'	=> 'Prénom',
+			'rules'	=> 'required'
 		),
+		array(
+			'field' => 'lastName',
+			'label'	=> 'Nom',
+			'rules'	=> 'required'
+		),
+		array(
+			'field' => 'login',
+			'label'	=> 'Identifiant',
+			'rules'	=> 'required'
+		),
+		array(
+			'field' => 'email',
+			'label'	=> 'Email',
+			'rules'	=> 'required|valid_email'
+		),
+		array(
+			'field' => 'country',
+			'label'	=> 'Pays',
+			'rules'	=> 'required'
+		)
+	),
+	'users/resetPassword' => array(
+		array(
+			'field' => 'password',
+			'label'	=> 'Mot de passe',
+			'rules'	=> 'required|min_length[8]|max_length[20]'
+		),
+		array(
+			'field' => 'password_confirm',
+			'label'	=> 'Confirmer le mot de passe',
+			'rules'	=> 'required|min_length[8]|max_length[20]|matches[password]'
+		)
 	)
 );
  ?>
