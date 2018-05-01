@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 // deconnexion
-$route['deconnexion'] = 'userslog/logout';
+$route['deconnexion'] = 'users/logout';
 
 // accueil de la page culture
 $route['culture'] = 'culture/index';
@@ -60,21 +60,23 @@ $route['politique'] = 'politique/index';
 $route['culture/(:num)'] = 'culture/index/$1';
 
 //formulaire d'inscription
-$route['inscription/formulaire'] = 'userregister/index';
+$route['inscription/formulaire'] = 'users/formRegister';
 //page de succès pour création de compte
-$route['inscription/succes'] = 'userregister/register';
+$route['inscription/succes'] = 'users/register';
 
 // formulaire de connexion
-$route['connexion/formulaire'] = 'userslog/index';
+$route['connexion/formulaire'] = 'users/loginForm';
 // affiche l'accueil de l'espace personnel après une connexion réussie
-$route['connexion-reussie'] = 'userslog/login';
+$route['connexion'] = 'users/login';
 
 //page des archives de revues de presse
 $route['revues-de-presse/archive'] = 'culture/postsArchive';
 $route['chroniques/archive'] = 'culture/chronicsArchive';
 
 //affiche l'accueil de l'espace personnel depuis le user menu
-$route['espace-personnel'] = 'userslog/userDashboard';
+$route['espace-personnel'] = 'users/profil';
+$route['profil/mise-a-jour'] = 'users/updateProfil';
+$route['profil/m-a-j-photo-de-profil'] = 'users/do_upload';
 //affiche la page index des favoris
 $route['espace-personnel/mes-favoris'] = 'favorites/index';
 
