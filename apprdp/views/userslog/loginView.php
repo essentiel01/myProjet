@@ -7,7 +7,7 @@
 			endif ?>
 		</p>
 		<!-- formulaire de connexion -->
-		<form class="form" action=<?= base_url('connexion-reussie') ?> method="post">
+		<form class="form" action=<?= base_url('connexion') ?> method="post">
 			<div class="">
 				<div class="label">
 					<label for="email" class="">Email</label>
