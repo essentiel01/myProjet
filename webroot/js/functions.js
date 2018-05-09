@@ -42,6 +42,7 @@ function addChronicFavorite(e)
 		});
 	}
 }
+
 /**
  * ajoute un commentaire
  * @param Event e evennement click
@@ -97,41 +98,149 @@ function addChronicComment(e)
 }
 
 /**
- * requête ajax permetttant d'afficher la liste des commentaires
+ * affiche les commentaires des revues de presse
+ * @return {[type]} [description]
  */
-
- function getPostComments() {
- 	$.get("/myProjet/comments/postComments", function (data)
-	{
-		$('#displayPostComments').append(data);
-	});
- }
-
- function showMorePostComments(e)
+ function getPostComments()
  {
-	 e.preventDefault();
-    $.get( "/myProjet/comments/morePostComments", function( data ) {
-		$('#postCommentsBlock').append(data);
-    });
+	 $.ajax(
+ 		   {
+ 			   "url": "/myProjet/comments/postComments",
+ 			   "type": "GET",
+ 			   "dataType": "json"
+ 		   }
+ 	).done(function (data)
+ 	   {
+			   console.log(data);
+			   var output = '<div id="postCommentsBlock" class="commentsBlock">';
+	   		$.each(data, function(i, value){
+	   			 output +=  ' <img class="avatar-mini-comment" src="/myProjet/webroot/images/usersAvatar/' + value.userAvatar + ' " alt="avatar"> <div class="eachComment"> <div> <div class="auteur"> ' + value.userFirstName + ' ' + value.userLastName + ' le ' + value.commentDate + '</div> <div class="commentContent">' + value.commentContent + '</div></div></div> <div class="btnReply" > <button type="button" class="reply btn btn-lg btn-primary" data-commentId=' + value.commentId + '>Répondre</button></div>';
+	   			 if (value.children != null)
+	   			 {
+	   				 $.each(value.children, function(i, value){
+	   					  output +=  ' <div class="eachReply"> <div> <div class="auteur"> ' + value.userFirstName + ' ' + value.userLastName + ' le ' + value.commentDate + '</div> <div class="commentContent">' + value.commentContent + '</div></div></div><img class="avatar-mini-comment" src="/myProjet/webroot/images/usersAvatar/' + value.userAvatar + ' " alt="avatar"> ';
+	   				 });
+	   			 }
+	   		});
+	   		output += '</div><div id="moreComments" class="moreComments"><a id="morePostComments" href="#">Plus de commentaires</a></div>';
+	   		$('#displayPostComments').append(output);
+ 	   }
+    ).fail(function (error)
+ 	   {
+ 		   console.log(error);// TODO: penser à gererles erreurs avant la mise en prod
+ 	   }
+    );
  }
 
 /**
- * requête ajax permetttant d'afficher la liste des commentaires des chroniques
+ * affiche les commentaires suivants
+ * @param  {[type]} e [description]
+ * @return {[type]}   [description]
  */
-function getChronicComments() {
-	$.get("/myProjet/comments/chronicComments", function (data)
-	{
-		$('#displayChronicComments').append(data);
-	});
+ function showMorePostComments(e)
+ {
+	 e.preventDefault();
+	 $.ajax(
+		 	{
+				"url": "/myProjet/comments/morePostComments",
+				"type": "GET",
+				"dataType": "json"
+			}
+	 ).done(function (data)
+	 	{
+			console.log(data);
+			var output = '<div  class="commentsBlock">';
+			$.each(data, function(i, value){
+				 output +=  ' <img class="avatar-mini-comment" src="/myProjet/webroot/images/usersAvatar/' + value.userAvatar + ' " alt="avatar"> <div class="eachComment"> <div> <div class="auteur"> ' + value.userFirstName + ' ' + value.userLastName + ' le ' + value.commentDate + '</div> <div class="commentContent">' + value.commentContent + '</div></div></div> <div class="btnReply" > <button type="button" class="reply btn btn-lg btn-primary" data-commentId=' + value.commentId + '>Répondre</button></div>';
+				 if (value.children != null)
+				 {
+					 $.each(value.children, function(i, value){
+						  output +=  ' <div class="eachReply"> <div> <div class="auteur"> ' + value.userFirstName + ' ' + value.userLastName + ' le ' + value.commentDate + '</div> <div class="commentContent">' + value.commentContent + '</div></div></div><img class="avatar-mini-comment" src="/myProjet/webroot/images/usersAvatar/' + value.userAvatar + ' " alt="avatar"> ';
+					 });
+				 }
+			});
+			output +='</div>';
+		$('#moreComments').before(output);
+		}
+	).fail(function(error)
+		{
+			console.log(error);// TODO: penser à gererles erreurs avant la mise en prod
+		}
+	);
+ }
+
+/**
+ * affiche les commentaires des chroniques
+ * @return {[type]} [description]
+ */
+function getChronicComments()
+{
+	$.ajax(
+		   {
+			   "url": "/myProjet/comments/chronicComments",
+			   "type": "GET",
+			   "dataType": "json"
+		   }
+	).done(function (data)
+	   {
+			   console.log(data);
+			   var output = '<div id="chronicCommentsBlock" class="commentsBlock">';
+ 	  		$.each(data, function(i, value){
+ 	  			 output +=  ' <img class="avatar-mini-comment" src="/myProjet/webroot/images/usersAvatar/' + value.userAvatar + ' " alt="avatar"> <div class="eachComment"> <div> <div class="auteur"> ' + value.userFirstName + ' ' + value.userLastName + ' le ' + value.commentDate + '</div> <div class="commentContent">' + value.commentContent + '</div></div></div> <div class="btnReply" > <button type="button" class="reply btn btn-lg btn-primary" data-commentId=' + value.commentId + '>Répondre</button></div>';
+ 	  			 if (value.children != null)
+ 	  			 {
+ 	  				 $.each(value.children, function(i, value){
+ 	  					  output +=  ' <div class="eachReply"> <div> <div class="auteur"> ' + value.userFirstName + ' ' + value.userLastName + ' le ' + value.commentDate + '</div> <div class="commentContent">' + value.commentContent + '</div></div></div><img class="avatar-mini-comment" src="/myProjet/webroot/images/usersAvatar/' + value.userAvatar + ' " alt="avatar"> ';
+ 	  				 });
+ 	  			 }
+ 	  		});
+ 	  		output += '</div><div id="moreComments" class="moreComments"><a id="moreChronicComments" href="#">Plus de commentaires</a></div>';
+ 	  		$('#displayChronicComments').append(output);
+	   }
+   ).fail(function (error)
+	   {
+		   console.log(error);// TODO: penser à gererles erreurs avant la mise en prod
+	   }
+   );
 }
 
+/**
+ * affiche les commentaires suivants
+ * @param  {[type]} e [description]
+ * @return {[type]}   [description]
+ */
 function showMoreChronicComments(e)
 {
 	e.preventDefault();
-   $.get( "/myProjet/comments/moreChronicComments", function( data ) {
-	   $('#chronicCommentsBlock').append(data);
-   });
+	$.ajax(
+		   {
+			   "url": "/myProjet/comments/moreChronicComments",
+			   "type": "GET",
+			   "dataType": "json"
+		   }
+	).done(function (data)
+	   {
+			   console.log(data);
+			   var output = '<div  class="commentsBlock">';;
+			   $.each(data, function(i, value){
+					output +=  ' <img class="avatar-mini-comment" src="/myProjet/webroot/images/usersAvatar/' + value.userAvatar + ' " alt="avatar"> <div class="eachComment"> <div> <div class="auteur"> ' + value.userFirstName + ' ' + value.userLastName + ' le ' + value.commentDate + '</div> <div class="commentContent">' + value.commentContent + '</div></div></div> <div class="btnReply" > <button type="button" class="reply btn btn-lg btn-primary" data-commentId=' + value.commentId + '>Répondre</button></div>';
+					if (value.children != null)
+					{
+						$.each(value.children, function(i, value){
+							 output +=  ' <div class="eachReply"> <div> <div class="auteur"> ' + value.userFirstName + ' ' + value.userLastName + ' le ' + value.commentDate + '</div> <div class="commentContent">' + value.commentContent + '</div></div></div><img class="avatar-mini-comment" src="/myProjet/webroot/images/usersAvatar/' + value.userAvatar + ' " alt="avatar"> ';
+						});
+					}
+			   });
+			   output +='</div>';
+		   $('#moreChronicComments').before(output);
+	   }
+   ).fail(function (error)
+	   {
+		   console.log(error);// TODO: penser à gererles erreurs avant la mise en prod
+	   }
+   );
 }
+
 /**
  * permet de répondre à un commentaire
  */
@@ -150,22 +259,93 @@ function replyComment()
  * showMenu affiche le menu avec une animation de type slide du haut vers le bas à l'affichage puis une animation slide du bas vers le haut quand on le masque
  * @param  event e
  */
-function showNav(e) {
+function showNav(e)
+{
 	$("nav > ul").slideToggle(200);
 	$(this).toggleClass("fa-times").toggleClass("fa-bars");
 }
 
-
-function showSearch() {
+/**
+ * affiche le formulaire de recherche
+ * @return {[type]} [description]
+ */
+function showSearch()
+{
 	$('#hamburger').toggleClass('hide');
 	$('#searchMobile').toggleClass('hide');
 	$(this).toggleClass("fa-times").toggleClass("fa-search");
 }
 
+/**
+ * active les champs du formulaire de modification de profil
+ * @param  {[type]} e [description]
+ * @return {[type]}   [description]
+ */
 function editProfil(e)
 {
 	e.preventDefault();
 	$('.input').removeAttr("disabled");
 	$('#submit').removeAttr("disabled");
 	$('#cancel').removeClass("disabled");
+}
+
+/**
+ * affiche les message d'erreur pendant 5sec
+ * @param  {[type]} value le message d'erreur
+ * @return {[type]}       [description]
+ */
+function show_form_error(value)
+{
+	if( $('#error').text() == "") {
+		$('#error').append(value);
+		setTimeout(function () {
+			$('#error').text("");
+		}, 5000);
+	}
+}
+
+/**
+ * enregistre une adresse emaildans la table newsletter
+ * @param {[type]} e [description]
+ */
+function setEmailForNewsletter(e)
+{
+	e.preventDefault();
+	var email = $('#email').val();
+	$.ajax(
+		{
+			"url": '/myProjet/Home/emailForNewsletter',
+			"type": 'POST',
+			"data": {"email": email},
+			"dataType": 'json'
+		}
+	).done(function(data)
+		{
+			//affiche le message d'echec de validation des données saisies
+			if ( data.validation_error != null || data.validation_error != "")
+			{
+				show_form_error(data.validation_error);
+			}
+			//affiche le messagede succès
+			if ( data.success != null || data.success != "")
+			{
+				if( $('#save-success').text() == "") {
+					$('#save-success').append(data.success);
+					setTimeout(function () {
+						$('#save-success').text("");
+					}, 5000);
+				}
+			}
+			//affiche le message d'échec si l'enregistrement dans la base échoue
+			if ( data.fail != null || data.fail != "")
+			{
+				show_form_error(data.fail);
+			}
+			$('#email').val(""); //vide le champ après soumission du form.
+		}
+	).fail(function()
+		{
+			show_form_error("La requête a échouée");
+		}
+	);
 }
