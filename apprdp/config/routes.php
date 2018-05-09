@@ -49,15 +49,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-
+// la page comment ça marche
+$route['comment-ca-marche'] = 'home/howItWork';
+// la page de l'équipe
+$route['notre-equipe'] = 'home/team';
+// la page des partenaires
+$route['nos-partenaires'] = 'home/partners';
+// la page de contact
+$route['nous-contacter'] = 'home/contactForm';
 // deconnexion
 $route['deconnexion'] = 'users/logout';
-
 // accueil de la page culture
-$route['culture'] = 'culture/index';
+ $route['culture'] = 'culture/index';
+ // navigation entre les pages de la rubrique culture
+ $route['culture/(:num)'] = 'culture/index/$1';
+//accueil de la page débat
+$route['debat'] = 'debat/index';
+$route['debat/[0-9]*'] = 'debat/index/$1';
+$route['debat/[a-zA-Z0-9-]+'] = 'debat/showDebat/$1';
+
 $route['politique'] = 'politique/index';
-// navigation entre les pages de la rubrique culture
-$route['culture/(:num)'] = 'culture/index/$1';
+//actualité
+$route['actualites/(:any)'] = 'culture/decodageActualite/$1';
 
 //formulaire d'inscription
 $route['inscription/formulaire'] = 'users/formRegister';
@@ -71,7 +84,9 @@ $route['connexion'] = 'users/login';
 
 //page des archives de revues de presse
 $route['revues-de-presse/archive'] = 'culture/postsArchive';
+$route['revues-de-presse/archive/(:num)'] = 'culture/postsArchive/$1';
 $route['chroniques/archive'] = 'culture/chronicsArchive';
+$route['chroniques/archive/(:num)'] = 'culture/chronicsArchive/$1';
 
 //affiche l'accueil de l'espace personnel depuis le user menu
 $route['espace-personnel'] = 'users/profil';
@@ -98,4 +113,4 @@ $route['culture/chronique/(:num)/(:any)'] = 'culture/chronicView/$1/$2';
 // $route['culture/(:any)'] = 'culture?per_page=$1';
 // $route['news'] = 'news';
 // $route['(:any)'] = 'pages/view/$1';
-$route['default_controller'] = 'welcome';
+$route['default_controller'] = 'home';
