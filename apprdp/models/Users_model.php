@@ -15,12 +15,12 @@ class Users_model extends CI_Model {
 		 * @param  String $tableName nom de la table
 		 * @param Array   $params tableau associatif contenant les données à enregistrer
 		 */
-		public function saveNew(String $table, Array $params)
+		public function saveNew( $table, $params)
 		{
 			foreach ($params as $key => $value) {
 				$this->db->set($key, $value);
 			}
-			$this->db->insert($table);
+			return $this->db->insert($table);
 		}
 
 
@@ -72,17 +72,35 @@ class Users_model extends CI_Model {
 				}
 			}
 		}
+
 		/**
 		 * supprime un utlisateur
 		 * @param  String $table [description]
 		 * @param  Int    $id    [description]
 		 * @return [type]        [description]
 		 */
-		public function deleteUser(String $table, Int $id)
+		public function deleteUser($table, $id)
 		{
 			return $this->db->delete($table, $id);
 		}
 
+		/**
+		 * selectionne la liste des membres de l'équipe
+		 * @return [type] [description]
+		 */
+		public function getWriters()
+		{
+			return $this->db->get("writers");
+		}
+
+		/**
+		 * selectionne tous les partners
+		 * @return [type] [description]
+		 */
+		public function getPartners()
+		{
+			return $this->db->get("partners");
+		}
 
 
 }
