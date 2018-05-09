@@ -91,6 +91,11 @@ $config = array(
 			'label'	=> 'Confirmer le mot de passe',
 			'rules'	=> 'required|min_length[8]|max_length[20]|matches[password]'
 		)
+	),
+	'home/emailForNewsletter' => array(
+			'field' => 'email',
+			'label'	=> 'Email',
+			'rules'	=> 'required|valid_email|is_unique[newsletter.email]'
 	)
 );
  ?>
