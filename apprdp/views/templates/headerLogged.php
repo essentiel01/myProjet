@@ -1,3 +1,6 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -52,7 +55,7 @@
 			<!-- page title -->
 			<div class="titleAndSubtitle content">
 				<!-- title -->
-				<h1>A LA CARTE</h1>
+				<h1>HELLO MEDIA</h1>
 				<!-- subtitle -->
 				<p class="subTitle">Revue de presse écrite et audio</p>
 			</div>
@@ -77,19 +80,22 @@
 				<nav class="nav-mobile">
 					<ul class="hide">
 						<li class="nav-item">
-							<a class="nav-link" href=""><i class="fa fa-home" aria-hidden="true"></i></a>
+							<a class="nav-link" href="<?= base_url('/') ?>"><i class="fa fa-home" aria-hidden="true"></i></a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="">Politique</a>
+							<a class="nav-link" href="<?= base_url('politique') ?>">Politique</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="">Economie</a>
+							<a class="nav-link" href="<?= base_url('economie') ?>">Economie</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="" >Sport</a>
+							<a class="nav-link" href="<?= base_url('sport') ?>" >Sport</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="<?= base_url('culture') ?>">Culture</a>
+						</li>
+						<li class="">
+							<a class="" href="<?= base_url('debat') ?>">Le débat</a>
 						</li>
 					</ul>
 				</nav>
@@ -97,19 +103,22 @@
 				<nav class="nav-pc">
 					<ul>
 						<li class="">
-							<a class="" href=""><i class="fa fa-home" aria-hidden="true"></i></a>
+							<a class="" href="<?= base_url('/') ?>"><i class="fa fa-home" aria-hidden="true"></i></a>
 						</li>
 						<li class="">
-							<a class="" href="">Politique</a>
+							<a class="" href="<?= base_url('politique') ?>">Politique</a>
 						</li>
 						<li class="">
-							<a class="" href="">Economie</a>
+							<a class="" href="<?= base_url('economie') ?>">Economie</a>
 						</li>
 						<li class="">
-							<a class="" href="" >Sport</a>
+							<a class="" href="<?= base_url('sport') ?>" >Sport</a>
 						</li>
 						<li class="">
 							<a class="" href="<?= base_url('culture') ?>">Culture</a>
+						</li>
+						<li class="">
+							<a class="" href="<?= base_url('debat') ?>">Le débat</a>
 						</li>
 					</ul>
 					<!-- search form -->
