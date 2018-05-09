@@ -1,3 +1,6 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+?>
 <!doctype html>
 <html>
 <head>
@@ -24,6 +27,8 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" />
 	<!-- feuille de style -->
 	<link rel="stylesheet" href="/myProjet/webroot/css/style.css"/><?php // TODO: Modifier ls chemin absolu quand le site sera mis en ligne ?>
+	<script>document.write('<script  src="/myProjet/webroot/js/functions.js?dev=' + Math.floor(Math.random()*69) + '"/><\/script>');</script>
+	<script>document.write('<script  src="/myProjet/webroot/js/main.js?dev=' + Math.floor(Math.random()*69) + '"/><\/script>');</script>
 </head>
 <body>
 	<header>
@@ -44,7 +49,7 @@
 		<!-- page title -->
 		<div class="titleAndSubtitle content">
 			<!-- title -->
-			<h1>A LA CARTE</h1>
+			<h1>HELLO MEDIA</h1>
 			<!-- subtitle -->
 			<p class="subTitle">Revue de presse écrite et audio</p>
 		</div>
@@ -70,19 +75,22 @@
 			<nav class="nav-mobile">
 				<ul class="hide">
 					<li class="">
-						<a class="" href=""><i class="fa fa-home" aria-hidden="true"></i></a>
+						<a class="" href="<?= base_url('/') ?>"><i class="fa fa-home" aria-hidden="true"></i></a>
 					</li>
 					<li class="">
-						<a class="" href="">Politique</a>
+						<a class="" href="<?= base_url('politique') ?>">Politique</a>
 					</li>
 					<li class="">
-						<a class="" href="">Economie</a>
+						<a class="" href="<?= base_url('economie') ?>">Economie</a>
 					</li>
 					<li class="">
-						<a class="" href="" >Sport</a>
+						<a class="" href="<?= base_url('sport') ?>" >Sport</a>
 					</li>
 					<li class="">
 						<a class="" href="<?= base_url('culture') ?>">Culture</a>
+					</li>
+					<li class="">
+						<a class="" href="<?= base_url('debat') ?>">Le débat</a>
 					</li>
 				</ul>
 			</nav>
@@ -91,19 +99,22 @@
 			<nav class="nav-pc">
 				<ul>
 					<li class="">
-						<a class="" href=""><i class="fa fa-home" aria-hidden="true"></i></a>
+						<a class="" href="<?= base_url('/') ?>"><i class="fa fa-home" aria-hidden="true"></i></a>
 					</li>
 					<li class="">
-						<a class="" href="">Politique</a>
+						<a class="" href="<?= base_url('politique') ?>">Politique</a>
 					</li>
 					<li class="">
-						<a class="" href="">Economie</a>
+						<a class="" href="<?= base_url('economie') ?>">Economie</a>
 					</li>
 					<li class="">
-						<a class="" href="" >Sport</a>
+						<a class="" href="<?= base_url('sport') ?>" >Sport</a>
 					</li>
 					<li class="">
 						<a class="" href="<?= base_url('culture') ?>">Culture</a>
+					</li>
+					<li class="">
+						<a class="" href="<?= base_url('debat') ?>">Le débat</a>
 					</li>
 				</ul>
 				<!-- search form -->
