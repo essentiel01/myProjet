@@ -36,4 +36,6 @@ $(document).ready(function () {
 	$("#icon-edit-img").on("click", function (){
 		$("#file-form").toggleClass("hide");
 	});
+	//enregistre l'email pour la newsletter
+	$('#email-submit').on('click', setEmailForNewsletter);
 });
