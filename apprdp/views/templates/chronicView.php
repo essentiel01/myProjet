@@ -1,4 +1,14 @@
 <div class="content">
+	<!--breadcrumb --> 
+	<nav class="breadcrumb-nav" aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="<?= base_url('/') ?>">Accueil</a></li>
+			<li class="breadcrumb-item"><a href="<?= base_url($chronic->categoryName) ?>"><?= $chronic->categoryName ?></a></li>
+			<li class="breadcrumb-item active" aria-current="page">
+			<?= $chronic->chronicTitle ?>
+			</li>
+		</ol>
+	</nav>
 	<main class="main main-chronic">
 			<!-- Button trigger favorisModal -->
 			<div class="favoris">
@@ -32,23 +42,22 @@
 			<!-- /modal -->
 
 			<div class="singleChronic">
-				<p><strong>Pays:</strong> <?= $chronic->countryName ?></p>
-				<p><strong>Rubrique:</strong> <?= $chronic->categoryName ?></p>
 				<!-- icone favoris -->
-				<h2><?= $chronic->chronicTitle ?>
-					<?php if (isset($favoritesList)) {
-						foreach ($favoritesList as $row1):
-							if ($chronic->chronicId == $row1->chronicId) : ?>
-							<i class="fa fa-heart fa-coeur"></i>
+				<h1><?= $chronic->chronicTitle ?>
+				<?php if (isset($favoritesList)) {
+					foreach ($favoritesList as $row1):
+						if ($chronic->chronicId == $row1->chronicId) : ?>
+							<i class="fa fa-heart coeur"></i>
 							<?php endIf; ?>
-						<?php endforeach;
+							<?php endforeach;
 					} ?>
-				</h2>
+				</h1>
+				<p><?= strtoupper($chronic->countryName) ?> - <?= $chronic->categoryName ?></p>
 
 				<div class="auteur">
 					<p><strong>Par</strong></p>
-					<p><img width="8%" src=<?= base_url('webroot/images/usersAvatar/' . $chronic->writerAvatar) ?> alt="avatar"></p>
-					<p><?= $chronic->writerFirstName .' '. $chronic->writerLastName ?> <strong>le</strong> <?= $chronic->chronicDate ?></p>
+					<p><img width="8%" src=<?= base_url('webroot/images/usersAvatar/' . $chronic->userAvatar) ?> alt="avatar"></p>
+					<p><?= $chronic->userFirstName .' '. $chronic->userLastName ?> <strong>le</strong> <?= $chronic->chronicDate ?></p>
 				</div>
 				<p class="chronicContent"><?= $chronic->chronicContent ?></p>
 
@@ -68,5 +77,6 @@
 			<div id="displayChronicComments" class="displayComments">
 
 			</div>
+			<div id="moreComments" class="moreComments"><a id="moreChronicComments" href="#">Plus de commentaires</a></div>
 	</main>
 </div>
