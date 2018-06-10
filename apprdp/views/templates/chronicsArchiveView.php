@@ -1,17 +1,39 @@
-<main class="main">
-	<div class="content">
+<div class="content">
+	<!--breadcrumb --> 
+	<nav class="breadcrumb-nav" aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="<?= base_url('/') ?>">Accueil</a></li>
+			<li class="breadcrumb-item active" aria-current="page">Archives chroniques</li>
+		</ol>
+	</nav>
+	<main class="main">
 		<div class="archive">
-			<h2><?= $mainTitle; ?></h2>
+			<h1><?= $mainTitle; ?></h1>
 			<?php if ($allChronics != null) { ?>
-				<table>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th scope="col">Titre</th>
+							<th scope="col">Rubrique</th>
+							<th scope="col">Pays</th>
+							<th scope="col">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
 					<?php foreach ($allChronics as $row): ?>
 						<tr>
-							<td>
-								<a href="<?= base_url('culture/chronique/' . $row->chronicId . '/' . $row->chronicSlug); ?>"><?= $row->countryName ?> <?= $row->chronicTitle ?> <?= $row->categoryName ?> Par <?= $row->writerFirstName . '    ' . $row->writerLastName ?></a>
+							<td scope="row">
+								<p><?= $row->chronicTitle ?></p>
 							</td>
-							<!-- <td></td>
-							<td></td>
-							<td></td> -->
+							<td scope="row">
+								<p><?= $row->categoryName ?></p>
+							</td>
+							<td scope="row">
+								<p><?= strtoupper($row->countryName) ?></p>
+							</td>
+							<td scope="row">
+								<a href="<?= base_url('culture/chronique/' . $row->chronicId . '/' . $row->chronicSlug); ?>" class="btn btn-success btn-lg">Lire</a>
+							</td>
 						</tr>
 					<?php endforeach; ?>
 				</table>
@@ -24,5 +46,5 @@
 		<!-- pagination -->
 		<?= $this->pagination->create_links(); ?>
 		<!-- /pagination -->
-	</div>
-</main>
+	</main>
+</div>
