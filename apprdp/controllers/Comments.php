@@ -17,108 +17,46 @@ class Comments extends CI_Controller
  */
 	public function postComments()
 	{
-		$postId = $_SESSION["post"]["post_id"];
-		$_SESSION['comment']['offset'] = 0;
-		$_SESSION['comment']['count'] = count($this->posts_model->getPostsComments($postId)->result());
+		$postId = $_SESSION["post_id"];
+		
+		$limit = 3;
+		$offset = ($_POST['page']-1) * $limit;
 
-		$comments = $this->posts_model->getPostsComments($postId, 2, 0)->result();
+		$comments = $this->posts_model->getPostsComments($postId, $limit, $offset)->result();
 
-		$commentById = [];
 
 		foreach ($comments as  $comment) {
-			$commentById[$comment->commentId] = $comment;
-		}
-
-		foreach ($comments as $key=>$comment) {
-			if ($comment->parentCommentId != 0){
-				$commentById[$comment->parentCommentId]->children[] = $comment;
-				unset($comments[$key]);
+			//$commentById[$comment->commentId] = $comment;
+			$comment_child = $this->posts_model->getPostsCommentsChild($postId, $comment->commentId)->result();
+			foreach ($comment_child as $child) {
+				$comment->children[] = $child;
 			}
 		}
+		
 		echo json_encode($comments);
 	}
 
-	/**
-	 * affiche les commentaires par lot
-	 * @return [type] [description]
-	 */
-	public function morePostComments()
-    {
-		$postId = $_SESSION["post"]["post_id"];
-		$count = $_SESSION['comment']['count'];
-		$offset = $_SESSION['comment']['offset']+=2;
-		// var_dump($_SESSION['comment']);
-		if ($_SESSION['comment']['offset'] >= ($_SESSION['comment']['count'] - 2)) {
-			exit;
-		}
-    	$comments = $this->posts_model->getPostsComments($postId, 2, $offset)->result();
-
-		$commentById = [];
-
-		foreach ($comments as  $comment) {
-			$commentById[$comment->commentId] = $comment;
-		}
-
-		foreach ($comments as $key=>$comment) {
-			if ($comment->parentCommentId != 0){
-				$commentById[$comment->parentCommentId]->children[] = $comment;
-				unset($comments[$key]);
-			}
-		}
-		echo json_encode($comments);
-    }
 
 
-	/**
-	 * Affiche les commentaires des chroniques par lot
-	 * @return [type] [description]
-	 */
-	public function moreChronicComments()
-	{
-		$chronicId = $_SESSION["post"]["chronic_id"];
-		if ($_SESSION['comment']['offset'] >= ($_SESSION['comment']['count'] - 2)) {
-			exit;
-		}
-		$offset = $_SESSION['comment']['offset']+=2;
-		$comments = $this->posts_model->getChronicsComments($chronicId, 2, $offset)->result();
-
-		$commentById = [];
-
-		foreach ($comments as  $comment) {
-			$commentById[$comment->commentId] = $comment;
-		}
-		foreach ($comments as $key=>$comment) {
-			if ($comment->parentCommentId != 0){
-				$commentById[$comment->parentCommentId]->children[] = $comment;
-				unset($comments[$key]);
-			}
-		}
-		echo json_encode($comments);
-	}
+	
 	/**
 	 * permet d'afficher tous les commentaires d'une chronique via une requête ajax.
 	 */
 		public function chronicComments()
 		{
-			$chronicId = $_SESSION["post"]["chronic_id"];
-			$_SESSION['comment']['offset'] = 0;
-			$_SESSION['comment']['count'] = count($this->posts_model->getChronicsComments($chronicId)->result());
+			$chronicId = $_SESSION["chronic_id"];
+			$limit = 3;
+			$offset = ($_POST['page']-1) * $limit;
 
-			$comments = $this->posts_model->getChronicsComments($chronicId, 2, 0)->result();
-
-			$commentById = [];
+			$comments = $this->posts_model->getChronicsComments($chronicId, $limit, $offset)->result();
 
 			foreach ($comments as  $comment) {
-				$commentById[$comment->commentId] = $comment;
-			}
-			foreach ($comments as $key=>$comment) {
-				if ($comment->parentCommentId != 0){
-					$commentById[$comment->parentCommentId]->children[] = $comment;
-					unset($comments[$key]);
+				$comment_child = $this->posts_model->getChronicsCommentsChild($chronicId, $comment->commentId)->result();
+				foreach ($comment_child as $child) {
+					$comment->children[] = $child;
 				}
 			}
 			echo json_encode($comments);
-
 		}
 
 	/**
