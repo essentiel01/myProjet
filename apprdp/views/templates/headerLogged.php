@@ -32,102 +32,107 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<header>
 			<!-- top pannel -->
 			<div class="topBar">
-				<!-- social icons -->
-				<div class="socialIcons">
-					<i class="fa fa-twitter-square twitter" aria-hidden="true"></i>
-					<i class="fa fa-facebook-official facebook" aria-hidden="true"></i>
-					<i class="fa fa-envelope enveloppe" aria-hidden="true"></i>
+				<!-- page title pc -->
+				<div class="titleAndSubtitlePc">
+					<h1>HELLO MEDIA</h1>
+					<p class="subTitle">Revue de presse écrite et audio</p>
 				</div>
 				<!-- user menu -->
-				<div class="btn-group userMenu">
+				<!-- <div class="btn-group userMenu">
 					<button class="btn btn-secondary btn-lg dropdown-toggle user" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					 <?= $_SESSION['userData']->userFirstName . ' ' . $_SESSION['userData']->userLastName ?>
 					</button>
-					<ul class="dropdown-menu userMenuItems" style="left: -7rem;">
-						<li><a href="<?= base_url('espace-personnel') ?>">Mon compte</a></li>
-						<li><a href="<?= base_url('espace-personnel/mes-favoris') ?>">Mes favoris</a></li>
-						<li><a href="#">Réinitialiser mon mot de passe</a></li>
-						<li><a href="#">Supprimer mon compte</a></li>
-						<li><a href="<?= base_url('deconnexion') ?>">Déconnexion</a></li>
-					</ul>
+					<div class="dropdown-menu userMenuItems" style="left: -7rem;">
+						<a href="<?= base_url('espace-personnel/profil') ?>">Mon compte</a>
+						<a href="<?= base_url('espace-personnel/mes-favoris') ?>">Mes favoris</a>
+						<a href="<?= base_url('deconnexion') ?>">Déconnexion</a>
+					</div>
 				</div>
+			</div> -->
+			<div class="dropdown show userMenu">
+			  <a class="btn btn-lg btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			     <?= $_SESSION['userData']->userFirstName . ' ' . $_SESSION['userData']->userLastName ?>
+			  </a>
+
+			  <div class="dropdown-menu userMenuItems" style="left:-5px;" aria-labelledby="dropdownMenuLink">
+			    <a class="dropdown-item" href="<?= base_url('espace-personnel/profil') ?>">Mon compte</a>
+			    <a class="dropdown-item" href="<?= base_url('espace-personnel/mes-favoris') ?>">Mes favoris</a>
+			    <a class="dropdown-item" href="<?= base_url('deconnexion') ?>">Déconnexion</a>
+			  </div>
 			</div>
-			<!-- page title -->
-			<div class="titleAndSubtitle content">
-				<!-- title -->
-				<h1>HELLO MEDIA</h1>
-				<!-- subtitle -->
-				<p class="subTitle">Revue de presse écrite et audio</p>
-			</div>
-			<!-- live infos panel-->
-			<div class="flashInfos content">
-				<p>Contenu de l'info</p>
-			</div>
-			<!-- nav and search form -->
-			<div class="navParent content">
-				<div class="menuBtnMobile">
-					<i class="fa fa-bars hamburger" id="hamburger"></i>
-					<!-- search form -->
-					<form class="searchMobile hide input-group mb-3" id="searchMobile" action="">
-						<input class="form-control-sm" type="text" placeholder="rechercher">
-						<div class="input-group-append btn-search">
-							<input type="submit" class="btn-primary btn-sm"  value="Ok"/>
-						</div>
-					</form>
-					<i class="fa fa-search loop" id="loop" aria-hidden="true"></i>
+		</div>
+			<div class="title_and_nav">
+				<!-- page title mobile -->
+				<div class="titleAndSubtitleMobile content">
+					<h1>HELLO MEDIA</h1>
+					<p class="subTitle">Revue de presse écrite et audio</p>
 				</div>
-				<!-- nav -->
-				<nav class="nav-mobile">
-					<ul class="hide">
-						<li class="nav-item">
-							<a class="nav-link" href="<?= base_url('/') ?>"><i class="fa fa-home" aria-hidden="true"></i></a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="<?= base_url('politique') ?>">Politique</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="<?= base_url('economie') ?>">Economie</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="<?= base_url('sport') ?>" >Sport</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="<?= base_url('culture') ?>">Culture</a>
-						</li>
-						<li class="">
-							<a class="" href="<?= base_url('debat') ?>">Le débat</a>
-						</li>
-					</ul>
-				</nav>
-				<!-- nav -->
-				<nav class="nav-pc">
-					<ul>
-						<li class="">
-							<a class="" href="<?= base_url('/') ?>"><i class="fa fa-home" aria-hidden="true"></i></a>
-						</li>
-						<li class="">
-							<a class="" href="<?= base_url('politique') ?>">Politique</a>
-						</li>
-						<li class="">
-							<a class="" href="<?= base_url('economie') ?>">Economie</a>
-						</li>
-						<li class="">
-							<a class="" href="<?= base_url('sport') ?>" >Sport</a>
-						</li>
-						<li class="">
-							<a class="" href="<?= base_url('culture') ?>">Culture</a>
-						</li>
-						<li class="">
-							<a class="" href="<?= base_url('debat') ?>">Le débat</a>
-						</li>
-					</ul>
-					<!-- search form -->
-					<form class="search input-group mb-3" action="">
-						<div class="input-group-append btn-search">
-							<input class="form-control-sm-lg search-input" type="text" placeholder="rechercher">
-							<input class="btn-primary btn-lg btn-sm  submit" type="submit" value="Ok" name="button">
-						</div>
-					</form>
-				</nav>
+				<!-- nav and search form -->
+				<div class="navParent">
+					<div class="menuBtnMobile">
+						<i class="fa fa-bars hamburger" id="hamburger"></i>
+						<!-- search form -->
+						<form class="searchMobile hide input-group mb-3" id="searchMobile" action="">
+							<input class="form-control-sm" type="text" placeholder="rechercher">
+							<div class="input-group-append btn-search">
+								<input type="submit" class="btn-primary btn-sm"  value="Ok"/>
+							</div>
+						</form>
+						<i class="fa fa-search loop" id="loop" aria-hidden="true"></i>
+					</div>
+					<!-- nav -->
+					<nav class="nav-mobile">
+						<ul class="hide">
+							<li class="nav-item">
+								<a class="nav-link" href="<?= base_url('/') ?>"><i class="fa fa-home" aria-hidden="true"></i></a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="<?= base_url('politique') ?>">Politique</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="<?= base_url('economie') ?>">Economie</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="<?= base_url('sport') ?>" >Sport</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="<?= base_url('culture') ?>">Culture</a>
+							</li>
+							<li class="">
+								<a class="" href="<?= base_url('debat') ?>">Le débat</a>
+							</li>
+						</ul>
+					</nav>
+					<!-- nav -->
+					<nav class="nav-pc">
+						<ul>
+							<li class="">
+								<a class="" href="<?= base_url('/') ?>"><i class="fa fa-home" aria-hidden="true"></i></a>
+							</li>
+							<li class="">
+								<a class="" href="<?= base_url('politique') ?>">Politique</a>
+							</li>
+							<li class="">
+								<a class="" href="<?= base_url('economie') ?>">Economie</a>
+							</li>
+							<li class="">
+								<a class="" href="<?= base_url('sport') ?>" >Sport</a>
+							</li>
+							<li class="">
+								<a class="" href="<?= base_url('culture') ?>">Culture</a>
+							</li>
+							<li class="">
+								<a class="" href="<?= base_url('debat') ?>">Le débat</a>
+							</li>
+						</ul>
+						<!-- search form -->
+						<form class="search input-group mb-3" action="">
+							<div class="input-group-append btn-search">
+								<input class="form-control-lg search-input" type="text" placeholder="rechercher">
+								<input class="btn-primary btn-lg  submit" type="submit" value="Ok" name="button">
+							</div>
+						</form>
+					</nav>
+				</div>
 			</div>
 		</header>
