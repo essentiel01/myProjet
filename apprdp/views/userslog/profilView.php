@@ -1,5 +1,5 @@
 <div class="content">
-	<!--breadcrumb --> 
+	<!--breadcrumb -->
 	<nav class="breadcrumb-nav" aria-label="breadcrumb">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="<?= base_url('/') ?>">Accueil</a></li>
@@ -13,21 +13,20 @@
 			<div class="avatar-container" id="user-avatar">
 				<img src="/myprojet/webroot/images/usersAvatar/<?= $_SESSION['userData']->userAvatar ?>" alt="avatar">
 				<i  id="icon-edit-img" class="icon-edit-img far fa-edit"></i>
-
-				<!-- fomulaire photo profil -->
-				<form id="file-form" class="hide row" action="<?= base_url('profil/m-a-j-photo-de-profil')?>" method="post" enctype="multipart/form-data">
-					<input type="file" class="form-control col-sm-8" name="userfile"  size="20" value="">
-					<input type="submit" class="btn btn-lg btn-primary col-sm-2" name="" value="Téléchager">
-				</form>
-
-				<!-- erreur an cas déchec du upload -->
-				<div class="flashbag-error">
-					<span><?php if ( isset($_SESSION['uploading_error']) ) { echo $_SESSION['uploading_error'] ; } ?></span>
-				</div>
-
 				<!-- Button trigger modal -->
 				<i id="icon-delete-img" class="icon-delete-img far fa-trash-alt" data-toggle="modal" data-target="#deleteAvatarModal"></i>
 			</div>
+			<!-- fomulaire photo profil -->
+			<form id="file-form" class="hide row" action="<?= base_url('profil/m-a-j-photo-de-profil')?>" method="post" enctype="multipart/form-data">
+				<input type="file" class="form-control col-sm-8" name="userfile"  size="20" value="">
+				<input type="submit" class="btn btn-lg btn-primary col-sm-2" name="" value="Téléchager">
+			</form>
+
+			<!-- erreur an cas déchec du upload -->
+			<div class="flashbag-error">
+				<span><?php if ( isset($_SESSION['uploading_error']) ) { echo $_SESSION['uploading_error'] ; } ?></span>
+			</div>
+
 		</div>
 
 		<!-- erreur echec de mise à jour profil -->
@@ -106,7 +105,7 @@
 						<span class="formError"><?php if ( isset(  $password_error ) ) { echo  $password_error; } ?></span>
 					</div>
 				</div>
-				
+
 
 				<div class="row form-group">
 					<label for="new-password" class="col-form-label col-sm-5 col-12">Nouveau mot de passe</label>
@@ -115,7 +114,7 @@
 						<span class="formError"><?= form_error('password'); ?></span>
 					</div>
 				</div>
-				
+
 				<div class="row form-group">
 					<label for="new-password-confirmation" class="col-form-label col-sm-5 col-12">Confirmer le mot de passe</label>
 					<div class="col-sm-7 col-12">
@@ -123,7 +122,7 @@
 						<span class="formError"><?= form_error('password_confirm'); ?></span>
 					</div>
 				</div>
-				
+
 
 				<div class="row">
 					<div class="btn-submit col-sm-4 offset-sm-8 col-12">
