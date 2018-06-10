@@ -42,7 +42,7 @@ class Debat extends CI_Controller
 		// initialisation de la pagination
 		$this->pagination->initialize($config);
 
-		$debats = $this->posts_model->getDebatsInfos($limit, $offset)->result();
+		$debats = $this->posts_model->getDebatsInfos($limit, $offset, 1)->result();
 		//$debats = null;
 		$data = array(
 			'headerTitle' => 'Débat',
