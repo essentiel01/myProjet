@@ -1,5 +1,5 @@
 <div class="content">
-	<!--breadcrumb --> 
+	<!--breadcrumb -->
 	<nav class="breadcrumb-nav" aria-label="breadcrumb">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="<?= base_url('/') ?>">Accueil</a></li>
@@ -12,7 +12,7 @@
 	<main class="main main-post">
 		<!-- Button trigger favorisModal -->
 		<div class="favoris">
-			<button type="button" class="btn btn-lg btn-sm btn-favoris" data-toggle="modal" data-target="#favorisModal<?= $post->postId ?>">
+			<button type="button" class="btn btn-lg  btn-favoris" data-toggle="modal" data-target="#favorisModal<?= $post->postId ?>">
 				Favoris
 			</button>
 		</div>
@@ -54,13 +54,13 @@
 			</h1>
 			<p><?= strtoupper($post->countryName) ?> - <?= $post->categoryName ?></p>
 			<p>Publié le <?= $post->postDate ?></p>
-			<img src="/myProjet/webroot/images/web_medias/<?= $post->image ?>" alt="post image">
-
-			<p class="postContent"><?= $post->postContent ?></p>
+			<!-- <?= $post->image ?> -->
 			<div class="auteur">
 				<img class="avatar"  src=<?= '/myProjet/webroot/images/usersAvatar/' . $post->userAvatar ?> alt="avatar">
 				<p><?= $post->userFirstName." ".$post->userLastName ?></p>
 			</div>
+			<div class="postContent"><?= $post->postContent ?></div>
+
 			<div class="source">
 				<h2>Sources de la revue</h2>
 				<p class="sourceItems"><?= $post->postSource ?></p>
