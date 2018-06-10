@@ -48,17 +48,18 @@ class Posts_Controller extends CI_Controller
 		$this->pagination->initialize($config);
 
 		//les variables à transmettre à la vue
-		$chronic = $this->posts_model->getOneChronic(array('categoryName' => $this->page))->row();
+		$chronic = $this->posts_model->getOneChronic('categoryName', $this->page)->row();
 		$posts = $this->posts_model->getPosts($this->page, $limit, $offset)->result();
 		$headerTitle = 'Rubrique ' . $this->page;
 		$main_title = 'Nos dernières revues publiées dans la rubrique ' . $this->page;
 		$slides = $this->posts_model->getCarousel()->result();
-		$decodage_actu = $this->posts_model->decodageActu(5)->result();
+		$decodage_actu = $this->posts_model->getDecodageActus(5)->result();
 		//$posts = null;
 		//$slides = null;
 		//$chronic = null;
 		$data = array(
 			'headerTitle' => $headerTitle,
+			'breadcrumb_current_page' => $this->page,
 			'mainTitle'=> $main_title,
 			'posts'=>  $posts,
 			'emptyData' => 'Désolé ! aucun articles disponible pour le moment.',
@@ -265,7 +266,7 @@ class Posts_Controller extends CI_Controller
 		// variables à transmettre à la vue
 		$post = $this->posts_model->getOnePost($slug)->row();
 		if ($post != null) {
-			$_SESSION['post']['post_id'] = $post->postId;
+			$_SESSION['post_id'] = $post->postId;
 		}
 		$headerTitle = $uriSegment[3] . ' / Rubrique ' . $this->page;
 
@@ -318,9 +319,9 @@ class Posts_Controller extends CI_Controller
 			$slug = $uriSegment[3];
 		}
 		//variables à transmetre à la vue
-		$chronic = $this->posts_model->getOneChronic(array( 'chronicSlug' => $slug ))->row();
+		$chronic = $this->posts_model->getOneChronic('chronicSlug', $slug)->row();
 		if ($chronic != null) {
-			$_SESSION['post']['chronic_id'] = $chronic->chronicId;
+			$_SESSION['chronic_id'] = $chronic->chronicId;
 		}
 		$headerTitle = $uriSegment[3] . ' / Rubrique ' . $this->page;
 
