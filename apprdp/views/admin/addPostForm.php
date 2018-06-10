@@ -54,7 +54,7 @@
 					</div>
 				</div>
 			</div>
-			<textarea id="admin-textarea" name="postContent" rows="20"></textarea>
+			<textarea id="revue-de-presse-textarea" name="postContent" class="form-control" rows="20"></textarea>
 			<div class="form-group">
 				<label for="sources">Sources de la revue de presse</label>
 				<textarea class="form-control" id="sources" rows="3" name="postSources"></textarea>
