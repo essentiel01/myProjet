@@ -99,31 +99,42 @@ function addChronicComment(e)
 
 /**
  * affiche les commentaires des revues de presse
+ * @param  Event e [description]
  * @return {[type]} [description]
  */
- function getPostComments()
+ var page = 1;
+ function getPostComments(e)
  {
-	 $.ajax(
+	
+	$.ajax(
  		   {
  			   "url": "/myProjet/comments/postComments",
- 			   "type": "GET",
+ 			   "type": "POST",
+				"data": {page: page},
  			   "dataType": "json"
  		   }
  	).done(function (data)
  	   {
-			   console.log(data);
-			   var output = '<div id="postCommentsBlock" class="commentsBlock">';
-	   		$.each(data, function(i, value){
-	   			 output +=  ' <img class="avatar-mini-comment" src="/myProjet/webroot/images/usersAvatar/' + value.userAvatar + ' " alt="avatar"> <div class="eachComment"> <div> <div class="auteur"> ' + value.userFirstName + ' ' + value.userLastName + ' le ' + value.commentDate + '</div> <div class="commentContent">' + value.commentContent + '</div></div></div> <div class="btnReply" > <button type="button" class="reply btn btn-lg btn-primary" data-commentId=' + value.commentId + '>Répondre</button></div>';
-	   			 if (value.children != null)
-	   			 {
-	   				 $.each(value.children, function(i, value){
-	   					  output +=  ' <div class="eachReply"> <div> <div class="auteur"> ' + value.userFirstName + ' ' + value.userLastName + ' le ' + value.commentDate + '</div> <div class="commentContent">' + value.commentContent + '</div></div></div><img class="avatar-mini-comment" src="/myProjet/webroot/images/usersAvatar/' + value.userAvatar + ' " alt="avatar"> ';
-	   				 });
-	   			 }
-	   		});
-	   		output += '</div><div id="moreComments" class="moreComments"><a id="morePostComments" href="#">Plus de commentaires</a></div>';
-	   		$('#displayPostComments').append(output);
+			console.log(data);
+			if (jQuery.isEmptyObject(data) === false)
+			{
+				
+				var output = '';
+				$.each(data, function(i, value){
+					 output +=  '<div class="comment-and-reply"> <div class="comment-block"> <img class="avatar-mini-comment" src="/myProjet/webroot/images/usersAvatar/' + value.userAvatar + ' " alt="avatar"> <div class="eachComment"> <div> <div class="auteur"> ' + value.userFirstName + ' ' + value.userLastName + ' le ' + value.commentDate + '</div> <div class="commentContent">' + value.commentContent + '</div></div></div> <div class="btnReply" > <button type="button" class="reply btn btn-lg btn-primary" data-commentId=' + value.commentId + '>Répondre</button></div></div>';
+					 if (value.children != null)
+					 {
+						 $.each(value.children, function(i, value){
+							  output +=  ' <div class="comment-block reply-block"> <img class="avatar-mini-comment" src="/myProjet/webroot/images/usersAvatar/' + value.userAvatar + ' " alt="avatar"><div class="eachReply"><div class="auteur"> ' + value.userFirstName + ' ' + value.userLastName + ' le ' + value.commentDate + '</div> <div class="commentContent">' + value.commentContent + '</div></div></div>';
+						 });
+					 }
+				});
+				output += '</div>';
+				$('#displayPostComments').append(output);
+				$('#morePostComments').show();
+			} else {
+				$('#morePostComments').hide();
+			}
  	   }
     ).fail(function (error)
  	   {
@@ -132,42 +143,8 @@ function addChronicComment(e)
     );
  }
 
-/**
- * affiche les commentaires suivants
- * @param  {[type]} e [description]
- * @return {[type]}   [description]
- */
- function showMorePostComments(e)
- {
-	 e.preventDefault();
-	 $.ajax(
-		 	{
-				"url": "/myProjet/comments/morePostComments",
-				"type": "GET",
-				"dataType": "json"
-			}
-	 ).done(function (data)
-	 	{
-			console.log(data);
-			var output = '<div  class="commentsBlock">';
-			$.each(data, function(i, value){
-				 output +=  ' <img class="avatar-mini-comment" src="/myProjet/webroot/images/usersAvatar/' + value.userAvatar + ' " alt="avatar"> <div class="eachComment"> <div> <div class="auteur"> ' + value.userFirstName + ' ' + value.userLastName + ' le ' + value.commentDate + '</div> <div class="commentContent">' + value.commentContent + '</div></div></div> <div class="btnReply" > <button type="button" class="reply btn btn-lg btn-primary" data-commentId=' + value.commentId + '>Répondre</button></div>';
-				 if (value.children != null)
-				 {
-					 $.each(value.children, function(i, value){
-						  output +=  ' <div class="eachReply"> <div> <div class="auteur"> ' + value.userFirstName + ' ' + value.userLastName + ' le ' + value.commentDate + '</div> <div class="commentContent">' + value.commentContent + '</div></div></div><img class="avatar-mini-comment" src="/myProjet/webroot/images/usersAvatar/' + value.userAvatar + ' " alt="avatar"> ';
-					 });
-				 }
-			});
-			output +='</div>';
-		$('#moreComments').before(output);
-		}
-	).fail(function(error)
-		{
-			console.log(error);// TODO: penser à gererles erreurs avant la mise en prod
-		}
-	);
- }
+
+
 
 /**
  * affiche les commentaires des chroniques
@@ -178,24 +155,31 @@ function getChronicComments()
 	$.ajax(
 		   {
 			   "url": "/myProjet/comments/chronicComments",
-			   "type": "GET",
+			   "type": "POST",
+			   "data": {page: page},
 			   "dataType": "json"
 		   }
 	).done(function (data)
 	   {
-			   console.log(data);
-			   var output = '<div id="chronicCommentsBlock" class="commentsBlock">';
- 	  		$.each(data, function(i, value){
- 	  			 output +=  ' <img class="avatar-mini-comment" src="/myProjet/webroot/images/usersAvatar/' + value.userAvatar + ' " alt="avatar"> <div class="eachComment"> <div> <div class="auteur"> ' + value.userFirstName + ' ' + value.userLastName + ' le ' + value.commentDate + '</div> <div class="commentContent">' + value.commentContent + '</div></div></div> <div class="btnReply" > <button type="button" class="reply btn btn-lg btn-primary" data-commentId=' + value.commentId + '>Répondre</button></div>';
- 	  			 if (value.children != null)
- 	  			 {
- 	  				 $.each(value.children, function(i, value){
- 	  					  output +=  ' <div class="eachReply"> <div> <div class="auteur"> ' + value.userFirstName + ' ' + value.userLastName + ' le ' + value.commentDate + '</div> <div class="commentContent">' + value.commentContent + '</div></div></div><img class="avatar-mini-comment" src="/myProjet/webroot/images/usersAvatar/' + value.userAvatar + ' " alt="avatar"> ';
- 	  				 });
- 	  			 }
- 	  		});
- 	  		output += '</div><div id="moreComments" class="moreComments"><a id="moreChronicComments" href="#">Plus de commentaires</a></div>';
- 	  		$('#displayChronicComments').append(output);
+			console.log(data);
+			if (jQuery.isEmptyObject(data) === false)
+			{
+				var output = '';
+				$.each(data, function(i, value){
+					 output +=  '<div class="comment-and-reply"><div class="comment-block"><img class="avatar-mini-comment" src="/myProjet/webroot/images/usersAvatar/' + value.userAvatar + ' " alt="avatar"> <div class="eachComment"> <div> <div class="auteur"> ' + value.userFirstName + ' ' + value.userLastName + ' le ' + value.commentDate + '</div> <div class="commentContent">' + value.commentContent + '</div></div></div> <div class="btnReply" > <button type="button" class="reply btn btn-lg btn-primary" data-commentId=' + value.commentId + '>Répondre</button></div></div>';
+					 if (value.children != null)
+					 {
+						 $.each(value.children, function(i, value){
+							  output +=  ' <div class="comment-block reply-block"> <img class="avatar-mini-comment" src="/myProjet/webroot/images/usersAvatar/' + value.userAvatar + ' " alt="avatar"> <div class="eachReply"> <div class="auteur"> ' + value.userFirstName + ' ' + value.userLastName + ' le ' + value.commentDate + '</div> <div class="commentContent">' + value.commentContent + '</div></div></div>';
+						 });
+					 }
+				});
+				output += '</div>';
+				$('#displayChronicComments').append(output);
+				$('#moreChronicComments').show();
+			} else {
+				$('#moreChronicComments').hide();
+			}
 	   }
    ).fail(function (error)
 	   {
@@ -204,42 +188,6 @@ function getChronicComments()
    );
 }
 
-/**
- * affiche les commentaires suivants
- * @param  {[type]} e [description]
- * @return {[type]}   [description]
- */
-function showMoreChronicComments(e)
-{
-	e.preventDefault();
-	$.ajax(
-		   {
-			   "url": "/myProjet/comments/moreChronicComments",
-			   "type": "GET",
-			   "dataType": "json"
-		   }
-	).done(function (data)
-	   {
-			   console.log(data);
-			   var output = '<div  class="commentsBlock">';;
-			   $.each(data, function(i, value){
-					output +=  ' <img class="avatar-mini-comment" src="/myProjet/webroot/images/usersAvatar/' + value.userAvatar + ' " alt="avatar"> <div class="eachComment"> <div> <div class="auteur"> ' + value.userFirstName + ' ' + value.userLastName + ' le ' + value.commentDate + '</div> <div class="commentContent">' + value.commentContent + '</div></div></div> <div class="btnReply" > <button type="button" class="reply btn btn-lg btn-primary" data-commentId=' + value.commentId + '>Répondre</button></div>';
-					if (value.children != null)
-					{
-						$.each(value.children, function(i, value){
-							 output +=  ' <div class="eachReply"> <div> <div class="auteur"> ' + value.userFirstName + ' ' + value.userLastName + ' le ' + value.commentDate + '</div> <div class="commentContent">' + value.commentContent + '</div></div></div><img class="avatar-mini-comment" src="/myProjet/webroot/images/usersAvatar/' + value.userAvatar + ' " alt="avatar"> ';
-						});
-					}
-			   });
-			   output +='</div>';
-		   $('#moreChronicComments').before(output);
-	   }
-   ).fail(function (error)
-	   {
-		   console.log(error);// TODO: penser à gererles erreurs avant la mise en prod
-	   }
-   );
-}
 
 /**
  * permet de répondre à un commentaire
@@ -284,7 +232,7 @@ function showSearch()
 function editProfil(e)
 {
 	e.preventDefault();
-	$('.input').removeAttr("disabled");
+	$('.profil-form input').removeAttr("disabled");
 	$('#submit').removeAttr("disabled");
 	$('#cancel').removeClass("disabled");
 }
