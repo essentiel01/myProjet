@@ -89,7 +89,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</nav>
 
 				<!-- nav -->
-				<nav class="nav-pc row">
+				<nav class="nav-pc row content">
 					<ul>
 						<li class="">
 							<a class="" href="<?= base_url('/') ?>"><i class="fa fa-home" aria-hidden="true"></i></a>
@@ -117,7 +117,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<input class="btn-primary btn-lg  submit" type="submit" value="Ok" name="button">
 						</div>
 					</form>
-					
+
 				</nav>
 			</div>
 		</div>
