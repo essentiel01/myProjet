@@ -11,13 +11,13 @@ class Home extends CI_Controller
 
 	public function index()
 	{
-		$welcome = "La revue de presse en quelques lignes";
+		$welcome = "Toute l'actualité en quelques lignes";
 		$home_1 = $this->posts_model->getHome("la revue de presse")->row();
 		$home_2 = $this->posts_model->getHome("le décodage de l'actualité")->row();
 		$home_3 = $this->posts_model->getHome("Le débat")->row();
 		$slides = $this->posts_model->getCarousel()->result();
 		$posts = $this->posts_model->recentPosts(4)->result();
-		$decodage_actu = $this->posts_model->decodageActu(5)->result();
+		$decodage_actu = $this->posts_model->getDecodageActus(5)->result();
 
 		$data = array(
 			"headerTitle" => "Accueil",
@@ -118,7 +118,7 @@ class Home extends CI_Controller
 	 */
 	public function team()
 	{
-		$teams = $this->users_model->getWriters()->result();
+		$teams = $this->users_model->getUser('users', array('role' => 'team'))->result();
 
 		$data = array(
 			"headerTitle" => "Notre équipe",
