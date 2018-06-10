@@ -27,103 +27,98 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" />
 	<!-- feuille de style -->
 	<link rel="stylesheet" href="/myProjet/webroot/css/style.css"/><?php // TODO: Modifier ls chemin absolu quand le site sera mis en ligne ?>
-	<script>document.write('<script  src="/myProjet/webroot/js/functions.js?dev=' + Math.floor(Math.random()*69) + '"/><\/script>');</script>
-	<script>document.write('<script  src="/myProjet/webroot/js/main.js?dev=' + Math.floor(Math.random()*69) + '"/><\/script>');</script>
+
 </head>
 <body>
 	<header>
 		<!-- top pannel -->
 		<div class="topBar">
-			<!-- social icons -->
-			<div class="socialIcons">
-				<i class="fa fa-twitter-square twitter" aria-hidden="true"></i>
-				<i class="fa fa-facebook-official facebook" aria-hidden="true"></i>
-				<i class="fa fa-envelope enveloppe" aria-hidden="true"></i>
+			<!-- page title pc -->
+			<div class="titleAndSubtitlePc">
+				<h1>HELLO MEDIA</h1>
+				<p class="subTitle">Revue de presse écrite et audio</p>
 			</div>
 			<!-- suscribe and sign in buttons -->
 			<div class="buttons">
-				<a href=<?= base_url('inscription/formulaire'); ?> class="btn">S'inscrire</a>
-				<a href=<?= base_url('connexion/formulaire'); ?> class="btn">Se connecter</a>
+				<a href=<?= base_url('inscription/formulaire'); ?> class="btn btn-lg">S'inscrire</a>
+				<a href=<?= base_url('connexion/formulaire'); ?> class="btn btn-lg">Se connecter</a>
 			</div>
 		</div>
-		<!-- page title -->
-		<div class="titleAndSubtitle content">
-			<!-- title -->
-			<h1>HELLO MEDIA</h1>
-			<!-- subtitle -->
-			<p class="subTitle">Revue de presse écrite et audio</p>
-		</div>
-		<!-- live infos panel-->
-		<div class="flashInfos content">
-			<p>Contenu de l'info</p>
-		</div>
-		<!-- nav and search form -->
-		<div class="navParent content">
-
-			<div class="menuBtnMobile">
-				<i class="fa fa-bars hamburger" id="hamburger"></i>
-				<!-- search form -->
-				<form class="searchMobile hide input-group mb-3" id="searchMobile" action="">
-					<input class="form-control-sm" type="text" placeholder="rechercher">
-					<div class="input-group-append btn-search">
-						<input type="submit" class="btn-primary btn-sm"  value="Ok"/>
-					</div>
-				</form>
-				<i class="fa fa-search loop" id="loop" aria-hidden="true"></i>
+		<div class="title_and_nav">
+			<!-- page title mobile -->
+			<div class="titleAndSubtitleMobile content">
+				<h1>HELLO MEDIA</h1>
+				<p class="subTitle">Revue de presse écrite et audio</p>
 			</div>
-			<!-- nav -->
-			<nav class="nav-mobile">
-				<ul class="hide">
-					<li class="">
-						<a class="" href="<?= base_url('/') ?>"><i class="fa fa-home" aria-hidden="true"></i></a>
-					</li>
-					<li class="">
-						<a class="" href="<?= base_url('politique') ?>">Politique</a>
-					</li>
-					<li class="">
-						<a class="" href="<?= base_url('economie') ?>">Economie</a>
-					</li>
-					<li class="">
-						<a class="" href="<?= base_url('sport') ?>" >Sport</a>
-					</li>
-					<li class="">
-						<a class="" href="<?= base_url('culture') ?>">Culture</a>
-					</li>
-					<li class="">
-						<a class="" href="<?= base_url('debat') ?>">Le débat</a>
-					</li>
-				</ul>
-			</nav>
+			<!-- nav and search form -->
+			<div class="navParent ">
 
-			<!-- nav -->
-			<nav class="nav-pc">
-				<ul>
-					<li class="">
-						<a class="" href="<?= base_url('/') ?>"><i class="fa fa-home" aria-hidden="true"></i></a>
-					</li>
-					<li class="">
-						<a class="" href="<?= base_url('politique') ?>">Politique</a>
-					</li>
-					<li class="">
-						<a class="" href="<?= base_url('economie') ?>">Economie</a>
-					</li>
-					<li class="">
-						<a class="" href="<?= base_url('sport') ?>" >Sport</a>
-					</li>
-					<li class="">
-						<a class="" href="<?= base_url('culture') ?>">Culture</a>
-					</li>
-					<li class="">
-						<a class="" href="<?= base_url('debat') ?>">Le débat</a>
-					</li>
-				</ul>
-				<!-- search form -->
-				<form class="search input-group mb-3" action="">
-					<div class="input-group-append btn-search">
-						<input class="form-control-sm-lg search-input" type="text" placeholder="rechercher">
-						<input class="btn-primary btn-lg btn-sm  submit" type="submit" value="Ok" name="button">
-					</div>
-				</form>
-			</nav>
+				<div class="menuBtnMobile">
+					<i class="fa fa-bars hamburger" id="hamburger"></i>
+					<!-- search form -->
+					<form class="searchMobile hide input-group mb-3" id="searchMobile" action="">
+						<input class="form-control-sm" type="text" placeholder="rechercher">
+						<div class="input-group-append btn-search">
+							<input type="submit" class="btn-primary btn-sm"  value="Ok"/>
+						</div>
+					</form>
+					<i class="fa fa-search loop" id="loop" aria-hidden="true"></i>
+				</div>
+				<!-- nav -->
+				<nav class="nav-mobile">
+					<ul class="hide">
+						<li class="">
+							<a class="" href="<?= base_url('/') ?>"><i class="fa fa-home" aria-hidden="true"></i></a>
+						</li>
+						<li class="">
+							<a class="" href="<?= base_url('politique') ?>">Politique</a>
+						</li>
+						<li class="">
+							<a class="" href="<?= base_url('economie') ?>">Economie</a>
+						</li>
+						<li class="">
+							<a class="" href="<?= base_url('sport') ?>" >Sport</a>
+						</li>
+						<li class="">
+							<a class="" href="<?= base_url('culture') ?>">Culture</a>
+						</li>
+						<li class="">
+							<a class="" href="<?= base_url('debat') ?>">Le débat</a>
+						</li>
+					</ul>
+				</nav>
+
+				<!-- nav -->
+				<nav class="nav-pc row">
+					<ul>
+						<li class="">
+							<a class="" href="<?= base_url('/') ?>"><i class="fa fa-home" aria-hidden="true"></i></a>
+						</li>
+						<li class="">
+							<a class="" href="<?= base_url('politique') ?>">Politique</a>
+						</li>
+						<li class="">
+							<a class="" href="<?= base_url('economie') ?>">Economie</a>
+						</li>
+						<li class="">
+							<a class="" href="<?= base_url('sport') ?>" >Sport</a>
+						</li>
+						<li class="">
+							<a class="" href="<?= base_url('culture') ?>">Culture</a>
+						</li>
+						<li class="">
+							<a class="" href="<?= base_url('debat') ?>">Le débat</a>
+						</li>
+					</ul>
+					<!-- search form -->
+					<form class="search input-group mb-3" action="">
+						<div class="input-group-append btn-search">
+							<input class="form-control-lg search-input" type="text" placeholder="rechercher">
+							<input class="btn-primary btn-lg  submit" type="submit" value="Ok" name="button">
+						</div>
+					</form>
+					
+				</nav>
+			</div>
 		</div>
 	</header>
