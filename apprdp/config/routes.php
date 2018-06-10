@@ -49,6 +49,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
+//admin
+$route['inside/team/dashboard'] = 'admin/teamDashboard';
+$route['inside/team/revue-de-presse/ajouter'] = 'admin/addPostForm';
+$route['inside/team/chronique/ajouter'] = 'admin/addChronicForm';
+$route['inside/team/analyse-actualite/ajouter'] = 'admin/addDecodageActuForm';
+$route['inside/team/debat/ajouter'] = 'admin/addDebatForm';
+$route['inside/team/debat/debats-en-attente'] = 'admin/debatsOffLine';
+$route['inside/team/debat/debats-en-attente/(:num)/ajout-de-contenu'] = 'admin/addQuestionsAnswersForm/$1';
+$route['inside/images'] = 'galery/showImages';
+$route['inside/audios'] = 'galery/showAudios';
+
 // la page comment ça marche
 $route['comment-ca-marche'] = 'home/howItWork';
 // la page de l'équipe
@@ -76,7 +87,8 @@ $route['actualites/(:any)'] = 'culture/decodageActualite/$1';
 $route['inscription/formulaire'] = 'users/formRegister';
 //page de succès pour création de compte
 $route['inscription/succes'] = 'users/register';
-
+//mot de passe oublié
+$route['mot-de-passe-oublie'] = 'users/forgottenPassword';
 // formulaire de connexion
 $route['connexion/formulaire'] = 'users/loginForm';
 // affiche l'accueil de l'espace personnel après une connexion réussie
@@ -89,7 +101,7 @@ $route['chroniques/archive'] = 'culture/chronicsArchive';
 $route['chroniques/archive/(:num)'] = 'culture/chronicsArchive/$1';
 
 //affiche l'accueil de l'espace personnel depuis le user menu
-$route['espace-personnel'] = 'users/profil';
+$route['espace-personnel/profil'] = 'users/profil';
 $route['profil/mise-a-jour'] = 'users/updateProfil';
 $route['profil/m-a-j-photo-de-profil'] = 'users/do_upload';
 //affiche la page index des favoris
@@ -107,6 +119,10 @@ $route['espace-personnel/mes-chroniques-favoris/(:num)'] = 'favorites/chronicsfa
 
 // article seul
 $route['culture/publication/(:num)/(:any)'] = 'culture/singleView/$1/$2';
+$route['politique/publication/(:num)/(:any)'] = 'politique/singleView/$1/$2';
+$route['economie/publication/(:num)/(:any)'] = 'economie/singleView/$1/$2';
+$route['sport/publication/(:num)/(:any)'] = 'sport/singleView/$1/$2';
+
 //chronic seul
 $route['culture/chronique/(:num)/(:any)'] = 'culture/chronicView/$1/$2';
 
