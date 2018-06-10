@@ -15,7 +15,7 @@
 					<input type="text" class="form-control form-control-sm" name="slug" id="slug" value="">
 				</div>
 			</div>
-			<textarea id="admin-textarea" name="content" rows="20"></textarea>
+			<textarea id="admin-textarea" name="content" class="form-control" rows="20"></textarea>
 			<input type="hidden" name="user_id" value="<?php if (isset($_SESSION['userData'])){echo $_SESSION['userData']->userId;} ?>">
 			<div class="">
 				<input type="submit" class="btn btn-primary btn-lg" name="" value="Enregistrer">
