@@ -80,13 +80,13 @@
 	tinyMCE.init({
 		selector: '#revue-de-presse-textarea',
 		language: 'fr_FR',
-		plugins: 'image, link, lists, preview',
-		toolbar: 'newdocument, bold, italic, underline, strikethrough, alignleft, aligncenter, alignright, alignjustify, styleselect, formatselect,  fontsizeselect, cut, copy, paste, bullist, numlist, outdent, indent, blockquote, undo, redo, removeformat, subscript, superscript, searchreplace ',
+		plugins: 'image, link, lists, preview, searchreplace',
+		toolbar: 'newdocument, bold, italic, underline, strikethrough, alignleft, aligncenter, alignright, alignjustify, styleselect, formatselect,  fontsizeselect, cut, copy, paste, bullist, numlist, outdent, indent, blockquote, undo, redo, removeformat, subscript, superscript, searchreplace, image ',
 		image_advtab: true,
 		relative_urls: false,
 		file_browser_callback: function(field_name, url, type, win) {
 			tinyMCE.activeEditor.windowManager.open({
-				file: '/myProjet/inside/audios',
+				file: '/myProjet/inside/images',
 				title: 'Galerie d\'éléments audio',
 				resizable: 'yes',
 				width: 800,
@@ -103,6 +103,9 @@
 </head>
 <body>
 	<header>
+		<div>
+			<a href="<?= base_url('/') ?>">Voir le site</a>
+		</div>
 		<div class="accordion" id="accordeon-team-dashboard">
 			<!-- revue de presse -->
 			<div class="card">
@@ -117,8 +120,8 @@
 					<div class="card-body">
 						<ul>
 							<li><a href="<?= base_url('inside/team/revue-de-presse/ajouter')?>">Ajouter</a></li>
-							<li><a href="">En attente de publication</a></li>
-							<li><a href="">Publiée</a></li>
+							<li><a href="<?= base_url('inside/team/revue-de-presse/en-attente-de-publication')?>">En attente de publication</a></li>
+							<li><a href="<?= base_url('inside/team/revue-de-presse/publiee')?>">Publiée</a></li>
 						</ul>
 					</div>
 				</div>
@@ -135,9 +138,15 @@
 				<div id="chronique-collapse" class="collapse" aria-labelledby="chronique-heading" data-parent="#accordeon-team-dashboard">
 					<div class="card-body">
 						<ul>
-							<li><a href="<?= base_url('inside/team/chronique/ajouter')?>">Ajouter</a></li>
-							<li><a href="">En attente de publication</a></li>
-							<li><a href="">Publiée</a></li>
+							<li>
+								<a href="<?= base_url('inside/team/chronique/ajouter')?>">Ajouter</a>
+							</li>
+							<li>
+								<a href="<?= base_url('inside/team/chronique/en-attente-de-publication')?>">En attente de publication</a>
+							</li>
+							<li>
+								<a href="<?= base_url('inside/team/chronique/publiee')?>">Publiée</a>
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -155,7 +164,7 @@
 					<div class="card-body">
 						<ul>
 							<li><a href="<?= base_url('inside/team/debat/ajouter')?>">Ajouter</a></li>
-							<li><a href="<?= base_url('inside/team/debat/debats-en-attente')?>">En attente de publication</a></li>
+							<li><a href="<?= base_url('inside/team/debat/en-attente')?>">En attente de publication</a></li>
 							<li><a href="">Publiée</a></li>
 						</ul>
 					</div>
