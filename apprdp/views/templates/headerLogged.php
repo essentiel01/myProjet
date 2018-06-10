@@ -57,6 +57,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			  <div class="dropdown-menu userMenuItems" style="left:-5px;" aria-labelledby="dropdownMenuLink">
 			    <a class="dropdown-item" href="<?= base_url('espace-personnel/profil') ?>">Mon compte</a>
 			    <a class="dropdown-item" href="<?= base_url('espace-personnel/mes-favoris') ?>">Mes favoris</a>
+			    <?php if (isset($_SESSION['userData']) AND $_SESSION['userData']->role == 'team'): ?>
+				    <a class="dropdown-item" href="<?= base_url('inside/team/dashboard') ?>">Espace admin</a>
+			    <?php endIf ?>
 			    <a class="dropdown-item" href="<?= base_url('deconnexion') ?>">Déconnexion</a>
 			  </div>
 			</div>
@@ -104,7 +107,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</ul>
 					</nav>
 					<!-- nav -->
-					<nav class="nav-pc">
+					<nav class="nav-pc content">
 						<ul>
 							<li class="">
 								<a class="" href="<?= base_url('/') ?>"><i class="fa fa-home" aria-hidden="true"></i></a>
