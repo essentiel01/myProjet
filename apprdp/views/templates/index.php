@@ -1,81 +1,90 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+?>
 <div class="content">
+	<!--breadcrumb --> 
+	<nav class="breadcrumb-nav" aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="<?= base_url('/') ?>">Accueil</a></li>
+			<li class="breadcrumb-item active" aria-current="page">
+				<?= $breadcrumb_current_page ?>
+			</li>
+		</ol>
+	</nav>
 	<!-- main -->
 	<main  class="main main-index">
+		<!-- titre de la section -->
+		<h2 class="title-2"><?php if (isset($mainTitle)) {echo $mainTitle;} ?></h2>
 		<section class="posts">
-			<!-- titre de la section -->
-			<h2><?php if (isset($mainTitle)) {echo $mainTitle;} ?></h2>
 			<?php if ($posts != null)
 			{
 				 foreach ($posts as $row):?>
-					<!-- infos de chaque post -->
-					<div class="post">
-						<p><?= $row->countryName ?></p>
-						<!-- <p>Rubrique: <?= $row->categoryName ?></p> -->
-						<!-- icone favoris -->
-						<h3><?= $row->postTitle ?>
-							<?php if (isset($favoritesList)) {
-								foreach ($favoritesList as $row1):
-									if ($row->postId == $row1->postId) : ?>
-									<i class="fa fa-heart fa-coeur"></i>
-									<?php endIf; ?>
-								<?php endforeach;
-							} ?>
-						</h3>
+				 	<div class="post">
+						 <!-- infos de chaque post -->
+						 <div class="post-infos">
+							<h3><?= strtoupper($row->countryName) ?> : <?= $row->postTitle ?>
+								<!-- icone favoris -->
+								<?php if (isset($favoritesList)) {
+									foreach ($favoritesList as $row1):
+										if ($row->postId == $row1->postId) : ?>
+										<i class="fa fa-heart coeur"></i>
+										<?php endIf; ?>
+									<?php endforeach;
+								} ?>
+							</h3>
+							<?= $row->image ?>
+							<!--<p><?= substr($row->postContent, 0, 300) ?></p>-->
+							<p class="auteur">Par: <?= $row->userFirstName . " " . $row->userLastName ?> le <?= $row->postDate ?></p>
+							<div class="btnLecture">
+								<a href=<?= base_url(strtolower($row->categoryName) . '/publication/' . $row->postId . '/' . $row->postSlug); ?> class="btn btn-success btn-lg" role="button" aria-pressed="true">Lire</a>
+								<!-- Button trigger audioModal -->
+								<a href="#" class="btn btn-success btn-lg" role="button" data-toggle="modal" data-target="#audioModal<?= $row->postId ?>" aria-pressed="true">Ecouter</a>
+							</div>
 
-						<p class="auteur"><strong>Par:</strong> <?= $row->writerFirstName . " " . $row->writerLastName ?> <strong>le</strong> <?= $row->postDate ?></p>
-						<!-- <div class="auteur"> -->
-							<!-- <img width="8%" src="<?= base_url('webroot/images/usersAvatar/' . $row->writerAvatar) ?>"  alt="avatar"> -->
-						<!-- </div> -->
-						<div class="btnLecture">
-							<a href=<?= base_url('culture/publication/' . $row->postId . '/' . $row->postSlug); ?> class="btn btn-success btn-lg" role="button" aria-pressed="true">Lire</a>
-							<!-- Button trigger audioModal -->
-							<a href="#" class="btn btn-success btn-lg" role="button" data-toggle="modal" data-target="#audioModal<?= $row->postId ?>" aria-pressed="true">Ecouter</a>
-						</div>
-
-
-						<!-- audioModal -->
-						<div class="modal fade aModal" id="audioModal<?= $row->postId ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-							<div class="modal-dialog" role="document">
-								<div class="modal-content">
-									<div class="modal-header header">
-										<h5 class="modal-title" id="exampleModalLabel">Ecouter la revue</h5>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
+							<!-- audioModal -->
+							<div class="modal fade aModal" id="audioModal<?= $row->postId ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header header">
+											<h5 class="modal-title" id="exampleModalLabel">Ecouter la revue</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body body">
+											<audio controls preload="metadata" src="<?= base_url('webroot/audio/' . $row->postAudio); ?>"></audio>
+										</div>
+										<div class="modal-footer footer">
+											<button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal">Fermer</button>
+											<a <?php if(!isset($_SESSION['userData']->userId)) {
+												echo 'href=' . base_url('connexion/formulaire');
+											} else {
+												echo 'href=' . base_url('webroot/audio/' . $row->postAudio . '.ogg') . ' download=' . $row->postAudio;
+											}
+											?> role="button" class="btn btn-primary btn-lg" >
+											Télécharger
+										</a>
 									</div>
-									<div class="modal-body body">
-										<audio controls preload="metadata" src="<?= base_url('webroot/audio/' . $row->postAudio . '.ogg'); ?>"></audio>
-									</div>
-									<div class="modal-footer footer">
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-										<a <?php if(!isset($_SESSION['userData']->userId)) {
-											echo 'href=' . base_url('connexion/formulaire');
-										} else {
-											echo 'href=' . base_url('webroot/audio/' . $row->postAudio . '.ogg') . ' download=' . $row->postAudio;
-										}
-										?> role="button" class="btn btn-primary btn-lg" >
-										Télécharger
-									</a>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				 </div>
 				<!-- /infos de chaque post -->
 			<?php endforeach;
-			// pagination
-			$this->pagination->create_links();
 			 } else {
 				echo '<p>' . $emptyData . '</p>';
-			}?>
+			}
+			// pagination
+			echo $this->pagination->create_links(); ?>
 	</section>
 </main><!--
 --><aside class="aside">
 <!-- chronique -->
 <?php if ($chronic != null) {?>
 <section class="chronic">
-			<h2><?= $chronic->countryName ?>: <?= $chronic->chronicTitle ?></h2>
-			<p class="auteur"><strong>Par:</strong> <?= $chronic->writerFirstName. ' ' .$chronic->writerLastName ?> <strong>le</strong> <?= $chronic->chronicDate ?></p>
+			<h2 class="title-2-white-line"><?= $chronic->countryName ?>: <?= $chronic->chronicTitle ?></h2>
+			<p class="auteur"><strong>Par:</strong> <?= $chronic->userFirstName. ' ' .$chronic->userLastName ?> <strong>le</strong> <?= $chronic->chronicDate ?></p>
 			<p class="chronicContent"><?= substr($chronic->chronicContent, 0, 300); ?>...<a class="readMore btn btn-success btn-lg" href=<?= base_url('culture/chronique/' . $chronic->chronicId . '/' . $chronic->chronicSlug) ?>>Lire plus</a></p>
 </section>
 <?php } else {
@@ -121,7 +130,7 @@
 <!-- archive -->
 <section>
 	<div class="archive">
-		<h2>Nos archives</h2>
+		<h2 class="title-2">Nos archives</h2>
 		<ul class="list-group">
 			<a href="<?= base_url('revues-de-presse/archive') ?>">
 				<li class="list-group-item d-flex justify-content-between align-items-center">
@@ -141,7 +150,7 @@
 <!-- decodage actualité -->
 <section>
 	<div class="decodeur">
-		<h2>Les décodeurs de l'actu</h2>
+		<h2 class="title-2">Les décodeurs de l'actu</h2>
 		<?php if ($decodage_actu != null) { ?>
 		<ul class="list-group">
 				<?php foreach ($decodage_actu as $row) : ?>
