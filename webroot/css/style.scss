@@ -12,6 +12,7 @@ $headerColor: #9c031f;
 //couleur de fonds pour auteur, sources etc
 $gray: #EBF0EC;
 
+
 //les mixins
 //style des titres h2
 @mixin h2Style($color) {
@@ -70,6 +71,7 @@ img {
 ul {
 	padding: 0;
 }
+
 body {
 	font-family: $body-font;
 	font-size: 1.6rem;
@@ -79,12 +81,13 @@ body {
 	width: 80%;
 	margin: auto;
 }
+.breadcrumb-nav {
+	margin-top: 7rem;
+}
+
 // masquer un élément
 .hide {
 	display: none;
-}
-.show {
-	display: inline-block;
 }
 // style pour le nom de l'auteur et la date de publication
 .auteur {
@@ -92,10 +95,17 @@ body {
 	font-size: 1.2rem;
 }
 // icone favoris
-.fa-coeur {
-	color: green;
+.coeur {
+	color: #47eb44;
+	font-size: 1.8rem;
 }
 
+.title-2 {
+	@include h2Style(#000);
+}
+.title-2-white-line {
+	@include h2Style(#fff);
+}
 
 
 // header
@@ -109,15 +119,9 @@ header {
 	.topBar {
 		background-color: $footerColor;
 		display: flex;
-		justify-content: space-between;
+		justify-content: space-around;
 		align-items: center;
 		padding: 1rem 0;
-		//social icons size
-		.socialIcons .fa {
-			font-size: 1.6rem;
-			margin: 0 1rem;
-			color: #ffffff;
-		}
 		// suscribe and sign in buttons
 		.buttons > a {
 			margin: 0 1rem;
@@ -148,12 +152,10 @@ header {
 			.userMenuItems {
 				width: 25rem;
 				background-color: $footerColor;
-				//chaque item du userMenu
-				li {
-					border-bottom: 1px solid rgba(255,255,255,0.1);
-					padding: 1rem;
 					//chaque link du ser menu
 					a {
+						border-bottom: 1px solid rgba(255,255,255,0.1);
+						padding: 1rem;
 						display: inline-block;
 						vertical-align: middle;
 						width: 100%;
@@ -163,17 +165,20 @@ header {
 					//effet au survole des liens
 					a:hover {
 						text-decoration: none;
+						color: $footerColor;
 					}
 					//effet au click des liens
 					a:active {
 						background-color: #fff;
 					}
-				}
 			}
 		}
 	}
 	//titre h1 du site et le sous titre
-	.titleAndSubtitle {
+	.titleAndSubtitlePc {
+		display: none;
+	}
+	.titleAndSubtitleMobile {
 		background-color: #fff;
 		color: #000;
 		//h1 font-style
@@ -190,15 +195,6 @@ header {
 		.subTitle {
 			font-style: italic;
 			margin-bottom: 0;
-		}
-	}
-	//live infos panel
-	.flashInfos {
-		background-color: $footerColor;
-		color: #fff;
-		padding: 0.5rem;
-		p {
-			margin: 0;
 		}
 	}
 	//nav
@@ -286,20 +282,18 @@ header {
 	}
 }
 
-/*main page index*/
-// .main {
-// 	display: inline-block;
-// 	width: 63%;
-// 	vertical-align: top;
-// 	margin: 0 1%;
-// }
-// /*aside*/
-// .aside {
-// 	display: inline-block;
-// 	width: 33%;
-// 	vertical-align: top;
-// 	margin: 0 1%;
-// }
+/*home page */
+.main-home {
+	.home-revue-de-presse {
+		margin-bottom: 8rem;
+	}
+	.home-deco-actu {
+		margin-bottom: 8rem;
+	}
+	.home-debat {
+		margin-bottom: 8rem;
+	}
+}
 
 // button favoris
 .favoris {
@@ -315,29 +309,40 @@ header {
 }
 //erreur de validation de formulaire
 .formError {
-	font-size: 1rem;
+	font-size: 1.6rem;
 	color: rgb(255, 0, 122);
+	//text-align: right;
+
 	//error message
 	p {
 		margin-left: 1.5rem;
 	}
 }
+/*page index de chaque rubrique*/
 .main {
-	//background-color: #fff;
-	//liste des revues de presse
 	.posts {
-		h2 {
-			@include h2Style(#000);
+		.post{
+			margin-top: 2rem;
+			margin-bottom: 2rem;
 		}
 		// chaque revue de presse de la lsite
-		.post {
-			padding: 4rem;
-			background-color: rgba(184, 15, 30, 0.43);
+		.post-infos {
+			padding: 1rem;
 			margin: 1rem 0;
+			width: 100%;
+			h3 {
+				font-size: 1.8rem;
+				margin: 0
+			}
+			.post-image {
+				width: 100%;
+			}
+			
 			.btnLecture {
 				text-align: right;
 			}
 		}
+
 		// pagination
 		.pagination {
 			justify-content: center;
@@ -347,19 +352,14 @@ header {
 }
 //main page archives
 .main {
-	margin: 2rem 0;
 	.archive {
-		h2 {
-			@include h2Style(#000);
-		}
 		table {
 			margin: auto;
 			width: 100%;
 			td {
 				padding: 1rem;
-			}
-			tr:nth-of-type(2n) {
-				background-color: #dadada;
+				border-top: solid 1px #ccc;
+				border-bottom: solid 1px #ccc;
 			}
 		}
 	}
@@ -373,10 +373,6 @@ header {
 		margin: 4rem 0;
 		background-color: #93FAAB;
 		color: #000;
-		// titre de la chronique
-		h2 {
-			@include h2Style(#fff);
-		}
 		// le corps de la chronique
 		.chronicContent {
     		line-height: 2;
@@ -389,17 +385,36 @@ header {
 	.slider {
 		display: none;
 	}
+	//dernièrespublications
+	.recent-posts {
+		margin-bottom: 4rem ;
+		li {
+			list-style: none;
+		}
+	}
 	// archives
 	.archive {
-		h2 {
-			@include h2Style(#000);
-		}
+		margin-bottom: 4rem ;
 	}
 	// décodeurs
 	.decodeur {
-		margin-top: 4rem;
-		h2 {
-			@include h2Style(#000);
+		margin-bottom: 4rem ;
+		li {
+			list-style: none;
+		}
+	}
+	.newsletter {
+		margin-bottom: 4rem ;
+	}
+	.reseaux-sociaux {
+		margin-bottom: 4rem ;
+		.twitter {
+			color: #1da1f2;
+			font-size: 3.6rem;
+		}
+		.facebook {
+			color: #4867aa;
+			font-size: 3.6rem;
 		}
 	}
 }
@@ -409,10 +424,10 @@ header {
 	@include modal ;
 }
 .singlePost {
-	h2 {
-		@include h2Style(#000);
-	}
 	.auteur {
+		img {
+			width: 10%;
+		}
 		background-color: $gray;
 		padding: 0.5rem;
 	}
@@ -465,46 +480,48 @@ header {
 .commentContent {
 	background-color: #fff;
 	padding: 1rem;
-	border-radius: 1rem;
 }
 .displayComments {
 	margin: 2rem 0;
-	.commentsBlock {
-		background-color: #ececec;
-		padding: 1rem;
-		//commentaire parent
-		.eachComment {
-			padding: 0.5rem;
-			margin: 1rem 1rem 0 1rem;
-			border-radius: 1rem;
-			display: inline-block;
-			width: 75%;
-			vertical-align: top;
-		}
-		//button répondre
-		.btnReply {
-			text-align: right;
-			margin-right: 3rem;
-			margin-bottom: 2rem;
+	.comment-and-reply {
+		.comment-block {
+			background-color: #ececec;
+			padding: 1rem;
+			//commentaire parent
+			.eachComment {
+				border-top: solid 0.1rem #dadada;
+				padding: 0.5rem;
+				margin: 1rem 1rem 0 1rem;
+				display: inline-block;
+				width: 75%;
+				vertical-align: top;
+			}
+			//button répondre
+			.btnReply {
+				text-align: right;
+				margin-right: 3rem;
+				margin-bottom: 2rem;
+			}
+			
 		}
 		//commentaire réponse
-		.eachReply {
-			padding: 0.5rem;
-			margin: 1rem;
-			border-radius: 1rem;
-			display: inline-block;
-			width: 75%;
-			vertical-align: top;
+		.reply-block {
+			padding-left: 5rem;
+			//margin-bottom: 2rem;
+			.eachReply {
+				padding: 0.5rem;
+				margin: 1rem;
+				display: inline-block;
+				width: 75%;
+				vertical-align: top;
 			}
 		}
 	}
+}
 
 
 //main page chronicView
 .singleChronic {
-	h2 {
-		@include h2Style(#000);
-	}
 	.auteur {
 		background-color: $gray;
 		padding: 0.5rem;
@@ -514,20 +531,40 @@ header {
 	}
 }
 //main page registerView et loginView
+.reset-password-fieldset {
+	width: 100%;
+	margin: 4rem auto;
+	legend {
+		font-size: 1.6rem;
+		width: 100%;
+		text-align: center;
+	}
+	/*.btn-submit {
+		text-align: right;
+		margin: 2rem auto;
+	}*/
+	/*.div-error {
+		text-align: right;
+	}*/
+}
 .form {
 	background-color: #dadada;
 	padding: 1rem;
 	margin: 2rem 0;
-	border-radius: 1rem;
-	.label {
+	/*.label {
 		width: 100%;
-	}
-	.btnRegister {
+	}*/
+	/*.btnRegister {
 		text-align: right;
 		margin-top: 1rem;
-	}
+	}*/
 }
-// formulaire de profil espace espacePersonnelView
+// met les labels et input sur la même ligne
+/*.label-input {
+	display: flex;
+	justify-content: space-between;
+}*/
+// formulaire de profil espace profilView
 .profil-form {
 	background-color: #fff;
 	width: 100%;
@@ -543,47 +580,45 @@ header {
 	//alignement
 	.btn-edit-delete {
 		text-align: right;
-		margin: auto;
+		margin: 2rem auto;
+		padding: 1rem;
 		width: 100%;
-		//affichage
-		// .icon-edit, .icon-delete {
-		// 	display: inline-block;
-		// }
 		//masquer
 		.edit-profil, .delete-profil {
 			display: none;
 		}
 	}
 	//couler de fonds des inputs
-	.input {
+	/*.input {
 		background-color: #fff;
 		border: none;
 		font-size: 1.6rem;
-	}
+		width: 50%;
+	}*/
 }
 //image de profil
 .profil-avatar {
 	//positionnement des icons sur l'image de profil
 	.avatar-container {
-		width: 20rem;
+		//width: 20rem;
 		padding: 2rem;
 		position: relative;
 		.icon-edit-img {
 			position: absolute;
-			top: 2;
+			top: 2rem;
 			left: 13rem;
 		}
 		.icon-delete-img {
 			position: absolute;
-			top: 2;
+			top: 2rem;
 			left: 17rem;
 		}
 	}
 }
 //titre du formulaire
-.formTitle {
+/*.formTitle {
 	@include h2Style(#000);
-}
+}*/
 //les liens mot de passe oublié et j'ai deja un compte
 .formLink {
 	font-size: 1.2rem;
@@ -595,28 +630,14 @@ header {
 //main page de success
 .message {
 	margin: 2rem 0;
-	h2 {
-		@include h2Style(#000);
-		border-bottom: none;
-	}
+	
 	//texte du message
 	div {
 		background-color: #dadada;
 		padding: 1rem;
 	}
 }
-//main page espacePersonnelView
-.espace {
-	margin: 2rem 0;
-	text-align: center;
-	h2 {
-		@include h2Style(#000);
-		border-bottom: none;
-	}
-	a {
-		@include linkEspacePersonnel();
-	}
-}
+
 //main page index de favoris
 .indexFavoris {
 	margin: 2rem 0;
@@ -629,18 +650,166 @@ header {
 .aModal {
 	@include modal ;
 }
+/*page debatIndex*/
+.debat {
+	.person {
+		display: none;
+	}
+}
+/*page singleDebatView */
+.debat-infos {
+	
+	.debat-description {
+		text-align: left;
+		font-style: italic;
+		font-weight: 500;
+	}
+}
+.questions-answers {
+	margin-bottom: 4rem;
+	.question {
+		margin-bottom: 2rem;
+		border-top: solid 1px black;
+		font-weight: bold;
+		text-align: left;
+	}
+	.person-1 {
+		margin: 1rem 0;
+		.person-1-infos {
+			width: 20%;
+			text-align: center;
+			display: inline-block;
+			vertical-align: top;
+			img {
+				border-radius: 50%;
+				width: 100%;
+			}
+			p {
+				display: none;
+			}
+		}
+		.answer-1 {
+			width: 75%;
+			background-color: lightblue;
+			border-radius: 1rem;
+			padding: 1rem;
+			display: inline-block;
+			vertical-align: top;
+		}
+	}
+	.person-2 {
+		margin: 1rem 0;
+		.person-2-infos {
+			width: 20%;
+			text-align: center;
+			display: inline-block;
+			vertical-align: top;
+			img {
+				border-radius: 50%;
+				width: 100%;
+			}
+			p {
+				display: none;
+			}
+		}
+		.answer-2 {
+			width: 75%;
+			background-color: lightgreen;
+			border-radius: 1rem;
+			padding: 1rem;
+			display: inline-block;
+			vertical-align: top;
+		}
+	}
+}
+
 /*footer*/
 footer {
-	background-color: #907e7e;
+	background-color: $footerColor;
 	color: #fff;
 	text-align: center;
+	margin-top: 2rem;
+	padding: 2rem;
+	.a-propos {
+		h3 {
+			text-align: left;
+		}
+		p {
+			text-align: justify;
+			color: rgba(255,255,255,0.7);
+		}
+	}
+	.nav-footer {
+		margin: 4rem 0;
+		h3 {
+			text-align: left;
+		}
+		ul > li {
+			text-align: left;
+			list-style: none;
+			a {
+				color: rgba(255,255,255,0.7);
+			}
+		}
+	}
+	.copyright {
+		p {
+			font-size: 1.2rem;
+			a {
+				color: rgba(255,255,255,0.6);
+			}
+		}
+	}
 }
+
+/* admin indexImage galery */
+
+.image-galery {
+	width: 10rem;
+	display: inline-block;
+	vertical-align: top;
+	margin: 2rem 3%;
+	a {
+		text-decoration: none;
+		img {
+			width: 100%;
+		}
+		p {
+			margin: 0;
+		}
+	}
+}
+
 ///////////////desktop et ecranlarge////
 @media screen and (min-width: 800px) {
 	//header
 	header {
-		.flashInfos {
-			background-color: black;
+		background-image: url('/myProjet/webroot/images/web_medias/journaux-entete.jpg');
+		background-position: 0 10%;
+		background-repeat: no-repeat;
+		background-size: cover;
+		min-height: 315px;
+		.topBar {
+			justify-content: space-between;
+		}
+		.title_and_nav {
+			position: absolute;
+			bottom: -55px;
+			width: 100%;
+		}
+		.titleAndSubtitleMobile {
+			display: none;
+		}
+		.titleAndSubtitlePc {
+			display: block;
+		    width: 20%;
+		    min-width: 254px;
+		    background-color: lightblue;
+		    padding: 0 1rem;
+		    margin-left: 1rem;
+			h1 {
+				margin: 0;
+			}
 		}
 		.navParent {
 			.menuBtnMobile {
@@ -649,6 +818,7 @@ footer {
 			//barre de navigation
 			.nav-pc {
 				display: block;
+				margin: auto;
 				width: 100%;
 				text-align: left;
 				background-color: $footerColor;
@@ -659,6 +829,7 @@ footer {
 					list-style: none;
 					text-align: left;
 					display: inline-block;
+					vertical-align: middle;
 					z-index: 0;
 					//items de la liste du menu
 					li {
@@ -688,6 +859,7 @@ footer {
 				padding-left: 2rem;
 				display: inline-block;
 				width: 25%;
+				vertical-align: middle;
 				//parent de l'input submit
 				div {
 					margin-top: .2rem;
@@ -710,7 +882,68 @@ footer {
 			}
 		}
 	}
-	//main page index
+	.main {
+		margin-top: 3rem;
+	}
+	/*home page */
+	.main-home {
+		display: inline-block;
+		vertical-align: top;
+		width: 65%;
+		margin-right: 1%;
+		.home-revue-de-presse {
+			p {
+				float: right;
+				width: 60%;
+			}
+			img {
+				width: 37%;
+				margin-right: 2%;
+			}
+		}
+		.home-deco-actu {
+			clear: both;
+			p {
+				float: right;
+				width: 60%;
+			}
+			img {
+				width: 37%;
+				margin-right: 2%;
+			}
+		}
+		.home-debat {
+			clear: both;
+			p {
+				float: right;
+				width: 60%;
+			}
+			img {
+				width: 37%;
+				margin-right: 2%;
+			}
+		}
+	}
+
+	//main page index de chaque rubrique
+	.main {
+		.posts {
+			text-align: left;
+			.post{
+				.post-image {
+					width: 76.5%;
+					height: 300px;
+				}
+			}
+			// chaque revue de presse de la lsite
+			.post-infos {
+				h3 {
+					font-size: 3.4rem;
+				}
+			}
+			
+		}
+	}
 	.main-index {
 		display: inline-block;
 		vertical-align: top;
@@ -721,16 +954,18 @@ footer {
 		display: inline-block;
 		vertical-align: top;
 		width: 30%;
-		margin-left: 4%;
-		margin-top: 2%;
+		margin-left: 3%;
+		margin-top: 3rem;
 		.slider {
 			display: block;
+			margin: 4rem 0;
 		}
 	}
 	//main page singleView et chronicView
 	.main-post, .main-chronic {
 		width: 90%;
-		margin: auto;
+		margin-left: auto;
+		margin-right: auto;
 	}
 	//les avatars dans les commentaires
 	.avatar-mini-comment {
@@ -757,19 +992,25 @@ footer {
 		.moreComments {
 			text-align: right;
 		}
-		.commentsBlock {
-			margin: auto;
-			text-align: center;
-			.eachComment {
-				text-align: left;
+		.comment-and-reply {
+			.comment-block {
+				margin: auto;
+				text-align: center;
+				.eachComment {
+					text-align: left;
+				}
+				
+				//button répondre
+				.btnReply {
+					text-align: right;
+					margin-right: 10rem;
+				}
 			}
-			.eachReply {
-				text-align: right;
-			}
-			//button répondre
-			.btnReply {
-				text-align: right;
-				margin-right: 10rem;
+			.reply-block {
+				padding-left: 15rem;
+				.eachReply {
+					text-align: left;
+				}
 			}
 		}
 	}
@@ -778,7 +1019,7 @@ footer {
 	    margin: 2rem auto;
 	    width: 50%;
 	}
-	// formulaire de profil espace espacePersonnelView
+	// formulaire de profil espace profilView
 	.profil-form {
 		width: 50%;
 		.btn-edit-delete {
@@ -794,5 +1035,102 @@ footer {
 	.profil-avatar {
 		width: 50%;
 		margin: auto;
+	}
+	/* teamView et partnersView*/
+	.member, .partner {
+		display: inline-block;
+		width: 20%;
+		vertical-align: top;
+	}
+/*page contactForm*/
+.contact-form {
+	width: 60%;
+	margin: auto;
+}
+/*page registerView*/
+.reset-password-fieldset {
+	 width: 55%;
+	 legend {
+		width: 45%;
+		font-size: 1.8rem;
+	 }
+ }
+/*page debatIndex*/
+.debat {
+	margin: 3rem 0;
+	div {
+		text-align: center;
+	}
+	.person {
+		display: inline-block;
+		width: 15%;
+		vertical-align: top;
+		img {
+			border-radius: 50%;
+		}
+	}
+	.description {
+		display: inline-block;
+		width: 40%;
+		vertical-align: top;
+		p {
+			text-align: justify;
+		}
+	}
+}
+/*page singleDebatView*/
+.questions-answers {
+	margin-bottom: 4rem;
+	.question {
+		margin-bottom: 4rem;
+	}
+	.person-1 {
+		margin: 2rem 0;
+		.person-1-infos {
+			img {
+				width: 50%;
+			}
+			p {
+				display: block;
+			}
+		}
+	}
+	.person-2 {
+		margin: 2rem 0;
+		.person-2-infos {
+			img {
+				width: 50%;
+			}
+			p {
+				display: block;
+			}
+		}
+	}
+}
+	/*footer*/
+	footer {
+		.a-propos {
+			display: inline-block;
+			vertical-align: top;
+			width: 30%;
+			margin: 0 5%
+		}
+		.nav-footer {
+			display: inline-block;
+			vertical-align: top;
+			width: 30%;
+			margin: 0 5%;
+		}
+		.copyright {
+			margin-top: 4rem;
+		}
+		.copyright::before {
+			content: "";
+			display: block;
+			width: 80%;
+			height: 1px;
+			margin: 1rem auto;
+			background-color:  rgba(255,255,255,0.3);
+		}
 	}
 }
