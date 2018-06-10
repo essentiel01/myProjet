@@ -54,11 +54,19 @@ $route['inside/team/dashboard'] = 'admin/teamDashboard';
 $route['inside/team/revue-de-presse/ajouter'] = 'admin/addPostForm';
 $route['inside/team/chronique/ajouter'] = 'admin/addChronicForm';
 $route['inside/team/analyse-actualite/ajouter'] = 'admin/addDecodageActuForm';
+
 $route['inside/team/debat/ajouter'] = 'admin/addDebatForm';
-$route['inside/team/debat/debats-en-attente'] = 'admin/debatsOffLine';
-$route['inside/team/debat/debats-en-attente/(:num)/ajout-de-contenu'] = 'admin/addQuestionsAnswersForm/$1';
+$route['inside/team/debat/en-attente'] = 'admin/debatsOffLine';
+$route['inside/team/debat/en-attente/(:any)/ajout-de-contenu'] = 'admin/addQuestionsAnswersForm/$1';
+
 $route['inside/images'] = 'galery/showImages';
 $route['inside/audios'] = 'galery/showAudios';
+
+$route['inside/team/revue-de-presse/en-attente-de-publication'] = 'admin/postsOffline';
+$route['inside/team/revue-de-presse/publiee'] = 'admin/postsOnline';
+
+$route['inside/team/chronique/en-attente-de-publication'] = 'admin/chronicsOffline';
+$route['inside/team/chronique/publiee'] = 'admin/chronicsOnline';
 
 // la page comment ça marche
 $route['comment-ca-marche'] = 'home/howItWork';
@@ -70,16 +78,26 @@ $route['nos-partenaires'] = 'home/partners';
 $route['nous-contacter'] = 'home/contactForm';
 // deconnexion
 $route['deconnexion'] = 'users/logout';
+
 // accueil de la page culture
  $route['culture'] = 'culture/index';
- // navigation entre les pages de la rubrique culture
  $route['culture/(:num)'] = 'culture/index/$1';
+
+ $route['politique'] = 'politique/index';
+ $route['politique/(:num)'] = 'politique/index/$1';
+
+ $route['economie'] = 'economie/index';
+ $route['economie/(:num)'] = 'economie/index/$1';
+
+ $route['sport'] = 'sport/index';
+ $route['sport/(:num)'] = 'sport/index/$1';
+
 //accueil de la page débat
 $route['debat'] = 'debat/index';
 $route['debat/[0-9]*'] = 'debat/index/$1';
 $route['debat/[a-zA-Z0-9-]+'] = 'debat/showDebat/$1';
 
-$route['politique'] = 'politique/index';
+
 //actualité
 $route['actualites/(:any)'] = 'culture/decodageActualite/$1';
 
