@@ -287,12 +287,12 @@ class Admin extends CI_Controller
 	{
 		if (isset($_SESSION['userData']) AND $_SESSION['userData']->role == 'team')
 		{
-			$debats_off_line = $this->posts_model->getDebatsInfos()->result();
+			$debats_offline = $this->posts_model->getDebatsInfos()->result();
 			$data = array(
-				'debats_off_line' => $debats_off_line
+				'debats_off_line' => $debats_offline
 			);
 			$this->load->view('admin/header.php');
-			$this->load->view('admin/debatsOffLine.php', $data);
+			$this->load->view('admin/debatsOfflineView.php', $data);
 			$this->load->view('admin/footer.php');
 		}
 		else
@@ -328,13 +328,140 @@ class Admin extends CI_Controller
 	 */
 	public function saveQuestionsAnswers()
 	{
-		$question_answer = array(
-			'question' => $_POST['question'],
-			'answer_1' => $_POST['answer_1'],
-			'answer_2' => $_POST['answer_2'],
-			'debat_id' => $_POST['debat_id']
-		);
-		$this->posts_model->saveNew($question_answer, 'questions_answers');
-		redirect('inside/team/debat/debats-en-attente/' . $question_answer['debat_id'] . '/ajout-de-contenu');
+		if (isset($_SESSION['userData']) AND $_SESSION['userData']->role == 'team')
+		{
+			$question_answer = array(
+				'question' => $_POST['question'],
+				'answer_1' => $_POST['answer_1'],
+				'answer_2' => $_POST['answer_2'],
+				'debat_id' => $_POST['debat_id']
+			);
+			$this->posts_model->saveNew($question_answer, 'questions_answers');
+			redirect('inside/team/debat/debats-en-attente/' . $question_answer['debat_id'] . '/ajout-de-contenu');
+		}
+	}
+
+	/**
+	 * affiche les revues de presse en attente de publication
+	 * @return [type] [description]
+	 */
+	public function postsOffline()
+	{
+		if  (isset($_SESSION['userData']) AND $_SESSION['userData']->role == 'team')
+		{
+			$posts_offline = $this->posts_model->getPostsOfflineOrOnline()->result();
+			$data = array(
+				'posts_offline' => $posts_offline
+			);
+
+			$this->load->view('admin/header.php', $data);
+			$this->load->view('admin/postsOfflineView.php', $data);
+			$this->load->view('admin/footer.php');
+		}
+	}
+
+	/**
+	 * affiche les chroniques en attente de publication
+	 * @return [type] [description]
+	 */
+	public function chronicsOffline()
+	{
+		if  (isset($_SESSION['userData']) AND $_SESSION['userData']->role == 'team')
+		{
+			$chronics_offline = $this->posts_model->getChronicsOfflineOrOnline()->result();
+			$data = array(
+				'chronics_offline' => $chronics_offline
+			);
+
+			$this->load->view('admin/header.php', $data);
+			$this->load->view('admin/chronicsOfflineView.php', $data);
+			$this->load->view('admin/footer.php');
+		}
+
+	}
+	/**
+	 * publie une revue de presse
+	 * @return [type] [description]
+	 */
+	public function publishPost()
+	{
+		if  (isset($_SESSION['userData']) AND $_SESSION['userData']->role == 'team')
+		{
+			if (isset($_POST))
+			{
+				$post_id = $_POST['postId'];
+				try
+				{
+					$this->posts_model->posted('posts', 1, array('postId' => $post_id));
+					redirect('inside/team/revue-de-presse/en-attente-de-publication');
+				}
+				catch(Exception $e)
+				{
+
+				}
+			}
+		}
+	}
+
+	/**
+	 * publie une chronique
+	 * @return [type] [description]
+	 */
+	public function publishChronic()
+	{
+		if  (isset($_SESSION['userData']) AND $_SESSION['userData']->role == 'team')
+		{
+			if (isset($_POST))
+			{
+				$chronic_id = $_POST['chronicId'];
+				try
+				{
+					$this->posts_model->posted('chronics', 1, array('chronicId' => $chronic_id));
+					redirect('inside/team/chronique/en-attente-de-publication');
+				}
+				catch(Exception $e)
+				{
+
+				}
+			}
+		}
+	}
+
+
+	/**
+	 * affiche les revues de presse publiées
+	 * @return [type] [description]
+	 */
+	public function postsOnline()
+	{
+		if  (isset($_SESSION['userData']) AND $_SESSION['userData']->role == 'team')
+		{
+			$posts_online = $this->posts_model->getPostsOfflineOrOnline(NULL, NULL, 1)->result();
+			$data = array(
+				'posts_online' => $posts_online
+			);
+
+			$this->load->view('admin/header.php', $data);
+			$this->load->view('admin/postsOnlineView.php', $data);
+			$this->load->view('admin/footer.php');
+		}
+	}
+	/**
+	 * affiche les chroniques publiées
+	 * @return [type] [description]
+	 */
+	public function chronicsOnline()
+	{
+		if  (isset($_SESSION['userData']) AND $_SESSION['userData']->role == 'team')
+		{
+			$chronics_online = $this->posts_model->getchronicsOfflineOrOnline(NULL, NULL, 1)->result();
+			$data = array(
+				'chronics_online' => $chronics_online
+			);
+
+			$this->load->view('admin/header.php', $data);
+			$this->load->view('admin/chronicsOnlineView.php', $data);
+			$this->load->view('admin/footer.php');
+		}
 	}
 }
