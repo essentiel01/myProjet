@@ -11,24 +11,35 @@ $(document).ready(function () {
 	//event click du boutton commenter
 	$('#addChronicComment').on('click', addChronicComment);
 
-	//permet d'afficher les commentaires d'un article et d'actualiser les données chaque seconde
+	//permet d'afficher les commentaires d'un article 
 	getPostComments();
-	$('#displayPostComments').on('click', '#morePostComments', showMorePostComments);
-	//permet d'afficher les commentaires d'une chronique et d'actualiser les données chaque seconde
+	//affiche plus de commentaires
+	$(document).on('click', '#morePostComments', function(e) {
+		e.preventDefault();
+		page++;
+		getPostComments();
+	});
+	//permet d'afficher les commentaires d'une chronique
 	getChronicComments();
-	$('#displayChronicComments').on('click', '#moreChronicComments', showMoreChronicComments);
+	//affiche plus de commentaires
+	$(document).on('click', '#moreChronicComments', function(e) {
+		e.preventDefault();
+		page++;
+		getChronicComments();
+	});
 
 	//met le focus sur le champ commentaire lorsqu'on clique sur repondre
 	$('main').on('click', '.reply', replyComment);
 
 	//event click pour afficher ou masquer la nav sur les mobiles et de changer l'icone hamburger en croix
-	$('#hamburger').on('click', showNav);
+	$(document).on('click', '#hamburger', showNav);
 
 	//event click pour afficher le formulaire de recherche sur les mobile
-	$('#loop').on('click', showSearch);
+	$(document).on('click', '#loop', showSearch);
 
 	//edit profil form
 	$("#edit-profil").on("click", editProfil);
+	
 	//edit le profil en version mobile
 	$("#icon-edit-profil").on("click", editProfil);
 
@@ -38,4 +49,7 @@ $(document).ready(function () {
 	});
 	//enregistre l'email pour la newsletter
 	$('#email-submit').on('click', setEmailForNewsletter);
+
+	/*---------------------------------------admin-------------------------------------------*/
+	
 });
