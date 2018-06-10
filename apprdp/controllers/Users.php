@@ -51,7 +51,7 @@ class Users extends CI_Controller
 				'userLogin' => $post['login'],
 				'userEmail' => $post['email'],
 				'userPassword' => password_hash($_POST['password'], PASSWORD_BCRYPT), // mot de passe hashé
-				'userCountry' => $post['country']
+				'country' => $post['country']
 			);
 
 			$this->users_model->saveNew('users', $user);
@@ -89,10 +89,10 @@ class Users extends CI_Controller
 		if ($this->form_validation->run() == FALSE)
 		{
 
-			$data['error'] = array(
+			$data = array(
 				'headerTitle' => 'Données incorrectes / formulaire de connexion' // titre du head
 			);
-			$this->load->view('templates/header', $data['error']);
+			$this->load->view('templates/header', $data);
 			$this->load->view('userslog/loginView');
 			$this->load->view('templates/footer');
 			// redirect('connexion/formulaire');
@@ -106,16 +106,15 @@ class Users extends CI_Controller
 
 			$params = array(
 				'where1' => array('userEmail' => $email),
-				'from' => 'users',
 				'password' => $password
 			);
 			// si la requête renvoie un objet on le stocke dans $_SESSION
 			if ($this->users_model->userExist($params))
 			{
-				$user = $this->users_model->userExist($params)->result();
-				foreach ($user as $row) {
-					$_SESSION['userData'] = $row;
-				}
+				$user = $this->users_model->userExist($params)->row();
+				// foreach ($user as $row) {
+					$_SESSION['userData'] = $user;
+				// }
 			}
 			else
 			{ // sinon on affiche le message d'erreur
@@ -123,7 +122,7 @@ class Users extends CI_Controller
 				redirect('connexion/formulaire');
 			}
 
-			if (isset($_SESSION['userData']))
+			if (isset($_SESSION['userData']) AND $_SESSION['userData']->role == 'user')
 			{
 				$data['user'] = array(
 					'headerTitle' => 'Connexion réussie'
@@ -141,6 +140,10 @@ class Users extends CI_Controller
 				}
 
 				$this->load->view('templates/footer');
+			}
+			elseif (isset($_SESSION['userData']) AND $_SESSION['userData']->role == 'team')
+			{
+				redirect('inside/team/dashboard');
 			}
 		}
 	}
@@ -168,7 +171,7 @@ class Users extends CI_Controller
 			);
 
 			$this->load->view('templates/headerLogged', $data['user']);
-			$this->load->view('userslog/espacePersonnelView');
+			$this->load->view('userslog/profilView');
 			$this->load->view('templates/footer');
 		}
 		else
@@ -216,7 +219,7 @@ class Users extends CI_Controller
 					'headerTitle' => 'Données incorrectes / formulaire d\'inscription'
 				);
 				$this->load->view('templates/headerLogged', $data['error']);
-				$this->load->view('userslog/espacePersonnelView');
+				$this->load->view('userslog/profilView');
 				$this->load->view('templates/footer');
 			}
 			else
@@ -228,7 +231,7 @@ class Users extends CI_Controller
 					'userLastName' => $post['lastName'],
 					'userLogin' => $post['login'],
 					'userEmail' => $post['email'],
-					'userCountry' => $post['country']
+					'country' => $post['country']
 				);
 
 				$userId = $_SESSION['userData']->userId;
@@ -246,13 +249,13 @@ class Users extends CI_Controller
 					$user = $this->users_model->getUser( 'users', array("userId" => $userId) )->row();
 					$_SESSION['userData'] = $user;
 
-					redirect("espace-personnel");
+					redirect("espace-personnel/profil");
 				}
 				else
 				{
 					$this->session->set_flashdata( 'updating_error', 'Cet email et(ou) ce login ne sont peuvent être utilisés. Veuillez réessayer!' );
 
-					redirect("espace-personnel");
+					redirect("espace-personnel/profil");
 				}
 			}
 		}
@@ -288,7 +291,7 @@ class Users extends CI_Controller
 				$data['head_title'] = array( 'headerTitle' => 'Données incorrectes' );
 
 				$this->load->view('templates/headerLogged', $data['head_title']);
-				$this->load->view('userslog/espacePersonnelView');
+				$this->load->view('userslog/profilView');
 				$this->load->view('templates/footer');
 			}
 			else
@@ -305,7 +308,7 @@ class Users extends CI_Controller
 				$user = $this->users_model->getUser( 'users', array("userId" => $userId) )->row();
 				$_SESSION['userData'] = $user;
 
-				redirect("espace-personnel");
+				redirect("espace-personnel/profil");
 			}
 		}
 		else
@@ -337,7 +340,7 @@ class Users extends CI_Controller
 			$user = $this->users_model->getUser( 'users', array("userId" => $userId) )->row();
 			$_SESSION['userData'] = $user;
 
-			redirect("espace-personnel");
+			redirect("espace-personnel/profil");
 		}
 		else
 		{
@@ -359,13 +362,13 @@ class Users extends CI_Controller
 
 			if ( password_verify( $old_password, $_SESSION[ "userData" ]->userPassword ) )
 			{
-				 if  ($this->form_validation->run() == FALSE) 
+				 if  ($this->form_validation->run() == FALSE)
 				{
 					$data['error'] = array(
 						'headerTitle' => 'Données incorrectes / formulaire d\'inscription'
 					);
 					$this->load->view('templates/headerLogged', $data['error']);
-					$this->load->view('userslog/espacePersonnelView');
+					$this->load->view('userslog/profilView');
 					$this->load->view('templates/footer');
 				}
 				else
@@ -377,7 +380,7 @@ class Users extends CI_Controller
 					$user = $this->users_model->getUser( 'users', array("userId" => $userId) )->row();
 					$_SESSION['userData'] = $user;
 
-					redirect("espace-personnel");
+					redirect("espace-personnel/profil");
 				}
 			}
 			else
@@ -389,7 +392,7 @@ class Users extends CI_Controller
 				 );
 
 				$this->load->view('templates/headerLogged', $data );
-				$this->load->view('userslog/espacePersonnelView', $data );
+				$this->load->view('userslog/profilView', $data );
 				$this->load->view('templates/footer');
 			}
 		}
@@ -427,6 +430,21 @@ class Users extends CI_Controller
 			show_404();
 		}
 	}
+
+
+	public function forgottenPassword()
+	{
+		$data = array(
+			'headerTitle' => 'Mot de passe oublié'
+		);
+		$this->load->view('templates/header.php', $data);
+		$this->load->view('usersLog/forgottenpasswordView.php');
+		$this->load->view('templates/footer.php');
+	}
+
+
+
 }
+
 
  ?>
