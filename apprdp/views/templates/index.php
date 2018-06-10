@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <div class="content">
-	<!--breadcrumb --> 
+	<!--breadcrumb -->
 	<nav class="breadcrumb-nav" aria-label="breadcrumb">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="<?= base_url('/') ?>">Accueil</a></li>
@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				 	<div class="post">
 						 <!-- infos de chaque post -->
 						 <div class="post-infos">
-							<h3><?= strtoupper($row->countryName) ?> : <?= $row->postTitle ?>
+							<h3> <?= $row->postTitle ?>
 								<!-- icone favoris -->
 								<?php if (isset($favoritesList)) {
 									foreach ($favoritesList as $row1):
@@ -32,6 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<?php endforeach;
 								} ?>
 							</h3>
+							<p>Pays: <?= strtoupper($row->countryName) ?></p>
 							<?= $row->image ?>
 							<!--<p><?= substr($row->postContent, 0, 300) ?></p>-->
 							<p class="auteur">Par: <?= $row->userFirstName . " " . $row->userLastName ?> le <?= $row->postDate ?></p>
@@ -52,7 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											</button>
 										</div>
 										<div class="modal-body body">
-											<audio controls preload="metadata" src="<?= base_url('webroot/audio/' . $row->postAudio); ?>"></audio>
+											<?= $row->postAudio ?>
 										</div>
 										<div class="modal-footer footer">
 											<button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal">Fermer</button>
