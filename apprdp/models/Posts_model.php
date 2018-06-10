@@ -31,6 +31,26 @@ class Posts_model extends CI_Model {
 		}
 
 		/**
+		 * sélectionne toutes les revues de presse en fonction de l'argument $posted. Si $posted vaut 0(valeur par défaut) alors les revues en attente de publication seront sélectionnées. Si au contraire il vaut 1 les revuesde presse publiées seront sélectionnées.
+		 * @param  Int  $limit  [description]
+		 * @param  Int  $offset [description]
+		 * @param  Integer $posted defini le statutde la revue de presse(publiée ou en attente)
+		 * @return [type]          [description]
+		 */
+		public function getPostsOfflineOrOnline($limit = NULL, $offset = NULL, $posted = 0)
+		{
+			$sql =
+						$this->db->select( 'postId, postTitle, postSlug, countryName, categoryName, postDate, postCreatingDate, userFirstName, userLastName, userAvatar' )
+						->join('categories', 'categories.categoryId = posts.postCategory', 'inner')
+						->join('countries', 'countries.countryId = posts.postCountry', 'inner')
+						->join('users', 'users.userId = posts.user_id', 'inner')
+						->where(array('posted' => $posted))
+						->order_by('categoryName ')
+						->get("posts", $limit, $offset);
+			return $sql;
+		}
+
+		/**
 		 * sélectionne les dernières revues de presses pubiées sur le site et renvoie le nombre de résultat spécifié en paramètre classé par ordre du plus récent au plus ancien. Si $posted vaut 0 alors la requête renverra les récentes revues d presse non encore publiées.
 		 * @param  Int $limit le nombre d'enregistrement retourné
 		 * @param  Boolean $posted defini si la revue est publiée ou non
@@ -130,6 +150,17 @@ class Posts_model extends CI_Model {
 		}
 
 		/**
+		 * publie un article en passant la valeur du champ posted de 0 à 1
+		 * @param  String $table le nom de la table
+		 * @param  Int $posted defini si l'article est publié ou non
+		 * @param  Array $where  clause where
+		 * @return [type]         [description]
+		 */
+		public function posted ( $table,  $posted, $where)
+		{
+			$this->db->update($table, array('posted' => $posted), $where);
+		}
+		/**
 		 * selectionne une chronique en function des critères passés en paramètre. Si aucune valeur n'est donnée à l'argument $posted le résultat de la requ^te sera une chronique en ligne. Si $posted vaut 0 le résultat sera une chronique hors ligne.
 		 * @param  String  $where_key   le nom du champ de a clause where
 		 * @param  String  $where_value  la valeur du champ de a clause where
@@ -146,6 +177,26 @@ class Posts_model extends CI_Model {
 						->limit(1)
 						->order_by('chronicDate DESC')
 						->get("chronics");
+			return $sql;
+		}
+
+		/**
+		 * sélectionne toutes les chroniques en fonction de l'argument $posted. Si $posted vaut 0(valeur par défaut) alors les chroniques en attente de publication seront sélectionnées. Si au contraire il vaut 1 les chroniques publiées seront sélectionnées.
+		 * @param  Int  $limit  [description]
+		 * @param  Int  $offset [description]
+		 * @param  Integer $posted defini le statut de la chronique(publiée ou en attente)
+		 * @return [type]          [description]
+		 */
+		public function getChronicsOfflineOrOnline($limit = NULL, $offset = NULL, $posted = 0)
+		{
+			$sql =
+						$this->db->select( 'chronicId, chronicTitle, chronicSlug, countryName, categoryName, chronicDate, posted_at, updated_at, userFirstName, userLastName, userAvatar' )
+						->join('categories', 'categories.categoryId = chronics.chronicCategory', 'inner')
+						->join('countries', 'countries.countryId = chronics.chronicCountry', 'inner')
+						->join('users', 'users.userId = chronics.user_id', 'inner')
+						->where(array('posted' => $posted))
+						->order_by('categoryName')
+						->get("chronics", $limit, $offset);
 			return $sql;
 		}
 
