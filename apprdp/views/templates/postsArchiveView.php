@@ -1,5 +1,5 @@
 <div class="content">
-	<!--breadcrumb --> 
+	<!--breadcrumb -->
 	<nav class="breadcrumb-nav" aria-label="breadcrumb">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="<?= base_url('/') ?>">Accueil</a></li>
