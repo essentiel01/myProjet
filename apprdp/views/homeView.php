@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <div class="content">
-	<!--breadcrumb --> 
+	<!--breadcrumb -->
 	<nav class="breadcrumb-nav" aria-label="breadcrumb">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item active" aria-current="page">Accueil</li>
@@ -131,11 +131,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<section  class="newsletter">
 			<form action="#" method="post">
 				<div class="">
-					<label for="email">Abonnez-vous à la newsletter</label>
-					<input type="text" class="form-control" id="email" name="email" value="" placeholder="exemple@xyz.com">
-					<span id="error" class="alert-danger"></span>
-					<span id="save-success" class="alert-success"></span>
-					<input type="submit" class="form-control btn btn-primary" id="email-submit"  value="Valider">
+					<div class="row">
+					</div>
+					<div class="row">
+						<input type="text" class="form-control form-control-lg col-sm-8 offset-sm-1 col-12" id="email" name="email" value="" placeholder="exemple@xyz.com">
+						<input type="submit" class="form-control form-control-lg col-sm-2 col-12 btn btn-primary" id="email-submit"  value="Valider">
+						<span id="error" class="alert-danger"></span>
+						<span id="save-success" class="alert-success"></span>
+					</div>
 				</div>
 			</form>
 		</section>
