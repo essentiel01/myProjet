@@ -31,7 +31,7 @@ class Users_model extends CI_Model {
 		 * @param  [type] $where  [description]
 		 * @return [type]         [description]
 		 */
-		public function updateData(string $table, array $params, $where)
+		public function updateData( $table,  $params, $where)
 		{
 			$this->db->update($table, $params, $where);
 		}
@@ -56,7 +56,7 @@ class Users_model extends CI_Model {
 		{
 			//requête sql. sélectionne toutes les infos correspondant à l'utilisateur l'email est saisi
 			$sql = $this->db->where($params['where1'])
-							->get($params['from']);
+							->get('users');
 
 			//vérifie si le résultat est supérieur ou égal à 1
 		 	if ($sql->result() != null)
@@ -84,14 +84,7 @@ class Users_model extends CI_Model {
 			return $this->db->delete($table, $id);
 		}
 
-		/**
-		 * selectionne la liste des membres de l'équipe
-		 * @return [type] [description]
-		 */
-		public function getWriters()
-		{
-			return $this->db->get("writers");
-		}
+
 
 		/**
 		 * selectionne tous les partners
