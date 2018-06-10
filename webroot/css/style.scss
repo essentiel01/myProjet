@@ -80,9 +80,13 @@ body {
 .content {
 	width: 80%;
 	margin: auto;
+	padding: 1.5rem;
+	-webkit-box-shadow: 13px 13px 112px -3px rgba(0,0,0,0.23);
+	-moz-box-shadow: 13px 13px 112px -3px rgba(0,0,0,0.23);
+	box-shadow: 13px 13px 112px -3px rgba(0,0,0,0.23);
 }
 .breadcrumb-nav {
-	margin-top: 7rem;
+	margin-top: 3rem;
 }
 
 // masquer un élément
@@ -105,6 +109,10 @@ body {
 }
 .title-2-white-line {
 	@include h2Style(#fff);
+}
+.pagination { // class bootstrap deja en display flex dans bootstrap
+	justify-content: center;
+	margin: 2rem 0;
 }
 
 
@@ -337,17 +345,18 @@ header {
 			.post-image {
 				width: 100%;
 			}
-			
+
 			.btnLecture {
 				text-align: right;
+				margin-right: 20%;
 			}
 		}
 
 		// pagination
-		.pagination {
-			justify-content: center;
-			align-items: center
-		}
+		// .pagination {
+		// 	justify-content: center;
+		// 	align-items: center
+		// }
 	}
 }
 //main page archives
@@ -425,11 +434,11 @@ header {
 }
 .singlePost {
 	.auteur {
+		background-color: $gray;
+		padding: 0.5rem;
 		img {
 			width: 10%;
 		}
-		background-color: $gray;
-		padding: 0.5rem;
 	}
 	p {
 		.avatar {
@@ -439,6 +448,7 @@ header {
 	//corps de l'article
 	.postContent {
 		line-height: 1.8;
+		margin: 4rem 0;
 	}
 	//les sources de la revue
 	.source {
@@ -502,7 +512,7 @@ header {
 				margin-right: 3rem;
 				margin-bottom: 2rem;
 			}
-			
+
 		}
 		//commentaire réponse
 		.reply-block {
@@ -603,6 +613,7 @@ header {
 		//width: 20rem;
 		padding: 2rem;
 		position: relative;
+		width: 50%;
 		.icon-edit-img {
 			position: absolute;
 			top: 2rem;
@@ -630,7 +641,7 @@ header {
 //main page de success
 .message {
 	margin: 2rem 0;
-	
+
 	//texte du message
 	div {
 		background-color: #dadada;
@@ -658,7 +669,7 @@ header {
 }
 /*page singleDebatView */
 .debat-infos {
-	
+
 	.debat-description {
 		text-align: left;
 		font-style: italic;
@@ -782,13 +793,16 @@ footer {
 
 ///////////////desktop et ecranlarge////
 @media screen and (min-width: 800px) {
+	.breadcrumb-nav {
+		margin-top: 7rem;
+	}
 	//header
 	header {
-		background-image: url('/myProjet/webroot/images/web_medias/journaux-entete.jpg');
+		background-image: url('/myProjet/webroot/images/web_medias/journaux_plies.jpg');
 		background-position: 0 10%;
 		background-repeat: no-repeat;
 		background-size: cover;
-		min-height: 315px;
+		min-height: 415px;
 		.topBar {
 			justify-content: space-between;
 		}
@@ -819,7 +833,7 @@ footer {
 			.nav-pc {
 				display: block;
 				margin: auto;
-				width: 100%;
+				//width: 100%;
 				text-align: left;
 				background-color: $footerColor;
 				//liste du menu
@@ -941,7 +955,7 @@ footer {
 					font-size: 3.4rem;
 				}
 			}
-			
+
 		}
 	}
 	.main-index {
@@ -999,7 +1013,7 @@ footer {
 				.eachComment {
 					text-align: left;
 				}
-				
+
 				//button répondre
 				.btnReply {
 					text-align: right;
@@ -1035,6 +1049,9 @@ footer {
 	.profil-avatar {
 		width: 50%;
 		margin: auto;
+		.avatar-container {
+			width:30%;
+		}
 	}
 	/* teamView et partnersView*/
 	.member, .partner {
